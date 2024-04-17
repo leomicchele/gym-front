@@ -7,8 +7,6 @@ import { getSessionStorage } from "./storage";
 
 const urlAmbientes = () => "https://gym-back-production.up.railway.app"
 // const urlAmbientes = () => config.PATH_API || "http://localhost:3000"
-// const urlAmbientes = () => "http://localhost:8081"
-// const urlAmbientes = () => config.REACT_APP_ECO_API_URL
 
 // export const urlAmbientesOpenId = () => config.REACT_APP_OPENID_API_URL
 
@@ -93,7 +91,7 @@ export const alumnoCreateFetch = async (usuario, idProfesor) => {
     diasSemanales: usuario.diasSemanales,
     deporte: usuario.deporte,
     profesor: idProfesor,
-    rutina: [{}],
+    rutina: [],
   }
 
   let requestOptions = {

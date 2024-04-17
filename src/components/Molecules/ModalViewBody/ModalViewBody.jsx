@@ -276,13 +276,13 @@ export const ModalViewBody = ({datosUsuario, setDatosUsuario, datosOrRutinas = "
                   )                  
                 })
               }
+                <Button msg={"Agregar Día"} functionHandle={handleAddDay}/>
               </>
 
               : 
 
               <></>
             }
-            <Button msg={"Agregar Día"} functionHandle={handleAddDay}/>
           </div>
   )
 }

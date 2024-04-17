@@ -1,6 +1,5 @@
 export const Pagination = ({items = 0}) => {
 
-    console.log({items})
   return (
     <div className="py-3">
         <nav aria-label="Page navigation example p-3">
