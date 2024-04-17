@@ -1,0 +1,33 @@
+
+.container-menu {
+    /* width: 95%; */
+    margin: 0 auto;
+}
+
+.container-menu > div{
+    display: flex;
+    justify-content: center;
+}
+
+@media (min-width: 993px) {
+    .container-menu {
+        width: 80%;
+    }
+}
+
+/* .container-menu__cards {
+    max-width: 90%;
+    margin: 0 auto;
+} */
+
+.container_cards {
+    /* width: fit-content; */
+    width: 100%;
+    border-radius: 20px;
+}
+
+/* .container_cards>div:hover {
+
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.2s ease;
+} */

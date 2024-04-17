@@ -1,0 +1,23 @@
+.modal__modal-error {
+    border-radius: 0.7rem;
+}
+
+.modal-dialog {
+    max-width: 600px;
+}
+
+.button-error {
+    background-color: #0aa4d5;
+    border-color: #0aa4d5;
+}
+
+.button-error:focus {
+    background-color: #08789a;
+}
+.button-error:hover {
+    background-color: #08789a;
+}
+
+.button-error-cancel {
+    color: #08789a;
+}

@@ -1,0 +1,21 @@
+.boton-check, .boton-no-check, .boton-rechazado {
+    width: 100%;
+    padding: 0;
+    cursor: auto;
+    line-height: none;
+    font-weight: 600;
+}
+
+.boton-check {
+    background-color: #e9f3e9;
+    border-color: #c5dec5;
+}
+.boton-no-check {
+    background-color: #fdf5e6;
+    border-color: #f5dca8;
+}
+.boton-rechazado {
+    background-color: #f9e7e7;
+    border-color: #eeb8b8;
+    color: #c51111;
+}

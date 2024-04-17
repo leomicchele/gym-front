@@ -1,0 +1,19 @@
+.rechazar {
+    background-color: #f9e7e7;
+    color: #c81e1e;
+    border-color: #c81e1e;
+    /* font-weight: 600;
+    padding: 5px 3rem; */
+}
+
+.aprobar {
+    background-color: #e9f3e9;
+    color: black;
+    border-color: #bedbbe;
+    /* font-weight: 600; */
+    /* padding: 5px 3rem; */
+}
+
+.actualizar:focus {
+    box-shadow: none;
+}

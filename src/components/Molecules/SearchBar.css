@@ -1,0 +1,23 @@
+.searchbar-container_button {
+    width: 100%;
+}
+
+
+.searchbar-container_button > button {
+    width: 100%;
+}
+
+.searchbar-container_input {    
+    width: 100%;
+}
+
+@media (min-width: 763px) {
+    .searchbar-container_button {
+        max-width: 150px;
+
+    }
+    .searchbar-container_input {
+        max-width: 500px;
+
+    }
+}

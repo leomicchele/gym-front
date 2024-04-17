@@ -1,0 +1,21 @@
+.container-card {
+    min-width: 150px;
+    min-height: 150px;
+    cursor: pointer;
+    transition: ease 0.8s linear;
+    
+
+}
+
+.card:hover {
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.2s ease;
+}
+
+.container-card img {
+    width: 100px;
+}
+
+.container_cards .card-text {
+    margin: 0;
+}
