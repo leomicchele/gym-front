@@ -109,7 +109,6 @@ export const ModalViewBody = ({datosUsuario, setDatosUsuario, datosOrRutinas = "
 
   const handleShowDias = (e) => {
     const divShow = document.querySelector(`#collapse${e.target.id}`)
-    console.log(divShow)
     divShow.classList.toggle("show")
   }
 
@@ -118,7 +117,6 @@ export const ModalViewBody = ({datosUsuario, setDatosUsuario, datosOrRutinas = "
       ejercicios: []
     }
     setDatosUsuario({...datosUsuario, rutina: [...datosUsuario.rutina, newDay]})
-    console.log(datosUsuario.rutina)
   }
 
   const handleAddEjercicio = (dia) => {
@@ -131,6 +129,11 @@ export const ModalViewBody = ({datosUsuario, setDatosUsuario, datosOrRutinas = "
       kilos: [],
       metodo: "",
       observaciones: ""
+    }
+    if (rutinas[dia].length === 0) {
+      rutinas[dia].ejercicios = [newEjercicio]
+      setDatosUsuario({...datosUsuario, rutina: rutinas})
+      return
     }
     rutinas[dia].ejercicios.push(newEjercicio)
     setDatosUsuario({...datosUsuario, rutina: rutinas})
