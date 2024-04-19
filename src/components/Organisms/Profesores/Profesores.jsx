@@ -3,15 +3,15 @@ import React, { useContext, useState } from "react"
 import { getSessionStorage } from "../../helpers/storage";
 import { LoginContext } from "../../../context/LoginContext";
 import TopBar from "../../Molecules/TopBar/TopBar";
-import "./Alumnos.css"
+import "./Profesores.css"
 import { SearchBar } from "../../Molecules/SearchBar";
-import { alumnoCreateFetch, alumnoDeleteFetch, alumnoUpdateFetch, getFetch } from "../../helpers/fetch";
+import { profesorDeleteFetch, profesorUpdateFetch, getFetch, getFetchProfesores, profesorCreateFetch } from "../../helpers/fetch";
 import { TableContainer } from "../../Molecules/TableContainer/TableContainer";
 import { Alert } from "../../Atoms/Alert/Alert";
 import { Modal } from "../../Molecules/Modal/Modal";
 import { Pagination } from "../../Molecules/Pagination/Pagination";
 
-export const Alumnos = () => {
+export const Profesores = () => {
 
     
     const [responseMsg, setResponseMsg] = useState("");
@@ -21,19 +21,12 @@ export const Alumnos = () => {
     const [inputSearch, setInputSearch] = useState("");
     const [usuariosAll, setUsuariosAll] = useState([]); // Guarda todos los usuarios
     const [usuariosState, setUsuariosState] = useState([]); // Usuarios filtrados por el input
-    const [datosAlumno, setDatosAlumno] = useState({
+    const [datosProfesor, setDatosProfesor] = useState({
       nombre: "",
       apellido: "",
-      edad: "",
       dni: "",
       password: "",
-      experiencia: "",
-      lesion: "",
-      patologia: "",
-      objetivo: "",
-      diasSemanales: "",
-      deporte: "",
-      rutina: []
+      email: ""
     });
 
     const {state, dispatch} = useContext(LoginContext)
@@ -44,11 +37,9 @@ export const Alumnos = () => {
     // TRAE TODOS LOS ALUMNOS
     const handlerUpdate = async() => {
       dispatch({type: "LOADING"})
-      const idProfesor  = rol === "PROFESOR_ROL" ? id : null
-      const idGimnasio  = rol === "GYM_ROL" ? id : null
       try {
-        const alumnoResponse = await getFetch(idProfesor, idGimnasio);  
-        const usuariosResponse = alumnoResponse.body.Usuarios        
+        const profesorResponse = await getFetchProfesores(id);  
+        const usuariosResponse = profesorResponse.body.Usuarios        
         setUsuariosAll(usuariosResponse)
         setUsuariosState(usuariosResponse)
         dispatch({type: "SUCCESS"})
@@ -71,11 +62,10 @@ export const Alumnos = () => {
 
     // ABRE MODAL NUEVO ALUMNO
     const handleModalCreateOpen = (isOpen) => {
-      console.log("adewntro")
       // Abre modal
       if (isOpen) {
         setModalCrate(true)
-        setDatosAlumno({...datosAlumno, nombre: "", apellido: "", edad: "", dni: "", password: "", experiencia: "", lesion: "", patologia: "", objetivo: "", diasSemanales: "", deporte: ""})
+        setDatosProfesor({...datosProfesor, nombre: "", apellido: "", dni: "", password: "", email: ""})
       } 
 
       // Cierra modal
@@ -86,27 +76,23 @@ export const Alumnos = () => {
     }
 
     // CREA ALUMNO
-    const handleNuevoAlumno = async() => {
+    const handleNuevoProfesor = async() => {
 
-
-      if (datosAlumno.nombre === "" || datosAlumno.apellido === "" || datosAlumno.dni === "" || datosAlumno.password === "") {
+      if (datosProfesor.nombre === "" || datosProfesor.apellido === "" || datosProfesor.dni === "" || datosProfesor.password === "" || datosProfesor.email === "") {
         dispatch({type: "FORM_ERROR"})
         return
       }
 
-      const idProfesor  = rol === "PROFESOR_ROL" ? id : null
-      const idGimnasio  = rol === "GYM_ROL" ? id : null
-
       dispatch({type: "LOADING"})
       try {
-        const response = await alumnoCreateFetch(datosAlumno, idProfesor, idGimnasio); 
+        const response = await profesorCreateFetch(datosProfesor, id); 
         if (response.error) {
           dispatch({type: "ERROR"})
           setResponseMsg(response.message)
         } else {         
           setResponseMsg(response.message)
           dispatch({type: "FORM_SUCCESS"})
-          setDatosAlumno({...datosAlumno, nombre: "", apellido: "", edad: "", dni: "", password: "", experiencia: "", lesion: "", patologia: "", objetivo: "", diasSemanales: "", deporte: ""})
+          setDatosProfesor({...datosProfesor, nombre: "", apellido: "", dni: "", password: "", email: ""})
         }
         
       } catch (error) {
@@ -115,12 +101,14 @@ export const Alumnos = () => {
       }
     }
 
-    // ABRE MODAL ALUMNO
-    const handleModalAlumnoOpen = (isOpen, id) => {
+    // ABRE MODAL Profesor
+    const handleModalProfesorOpen = (isOpen, id) => {
       const usuariosFilter = usuariosAll.filter(usuario => {
         return usuario._id === id     
       });
-      setDatosAlumno(usuariosFilter[0])
+      setDatosProfesor(usuariosFilter[0])
+      console.log(usuariosFilter[0])
+
 
       // Abre modal
       if (isOpen) {
@@ -134,17 +122,17 @@ export const Alumnos = () => {
       } 
     }
 
-    // ACTUALIZA ALUMNO
-    const handleUpdateAlumno = async() => {
+    // ACTUALIZA Profesor
+    const handleUpdateProfesor = async() => {
 
-      if (datosAlumno.nombre === "" || datosAlumno.apellido === "" || datosAlumno.dni === "" || datosAlumno.password === "") {
+      if (datosProfesor.nombre === "" || datosProfesor.apellido === "" || datosProfesor.dni === "" || datosProfesor.password === "" || datosProfesor.email === "") {
         dispatch({type: "FORM_ERROR"})
         return
       }
 
       dispatch({type: "LOADING"})
       try {
-        const response = await alumnoUpdateFetch(datosAlumno, id); 
+        const response = await profesorUpdateFetch(datosProfesor); 
         if (response.error) {
           dispatch({type: "ERROR"})
           setResponseMsg(response.message)
@@ -163,7 +151,7 @@ export const Alumnos = () => {
       const usuariosFilter = usuariosAll.filter(usuario => {
         return usuario._id === id     
       });
-      setDatosAlumno(usuariosFilter[0])
+      setDatosProfesor(usuariosFilter[0])
 
       // Abre modal
       if (isOpen) {
@@ -177,12 +165,12 @@ export const Alumnos = () => {
       } 
     }
 
-    // ELIMINAR ALUMNO
-    const handleDeleteAlumno = async() => {
+    // ELIMINAR Profesor
+    const handleDeleteProfesor = async() => {
       
       dispatch({type: "LOADING"})
       try {
-        const response = await alumnoDeleteFetch(datosAlumno._id); 
+        const response = await profesorDeleteFetch(datosProfesor._id); 
         if (response.error) {
           dispatch({type: "ERROR"})
           setResponseMsg(response.message)
@@ -190,7 +178,7 @@ export const Alumnos = () => {
           setResponseMsg(response.message)       
 
           usuariosAll.filter((usuario, index) => {
-            if (usuario._id === datosAlumno._id) {
+            if (usuario._id === datosProfesor._id) {
               usuariosAll.splice(index, 1)
             }
           })
@@ -207,10 +195,10 @@ export const Alumnos = () => {
 
   return (
     <div className="container container-alumno">
-      <TopBar titulo={"Alumnos"} />
+      <TopBar titulo={"Profesores"} />
 
       <SearchBar
-        usuario={"Alumno"}
+        usuario={"Profesor"}
         stateInput={inputSearch}
         setStateInput={setInputSearch}
         handlerUpdate={handlerUpdate}
@@ -219,33 +207,33 @@ export const Alumnos = () => {
         handleModalCreateOpen={handleModalCreateOpen}
       />
 
-      <TableContainer usuariosState={usuariosState} stateFetch={state} handleModalAlumnoOpen={handleModalAlumnoOpen} handleModalSeguroOpen={handleModalSeguroOpen}/>  
+      <TableContainer usuariosState={usuariosState} stateFetch={state} handleModalAlumnoOpen={handleModalProfesorOpen} handleModalSeguroOpen={handleModalSeguroOpen}/>  
 
       { state.error && <Alert type={"danger"} /> }
 
       {/* { modalCrate && <ModalCreate datosUsuario={datosAlumno} setDatosUsuario={setDatosAlumno} handleFetch={handleNuevoAlumno} handleModalCreateOpen={handleModalCreateOpen} /> } */}
       { modalCrate && <Modal
-        datosUsuario={datosAlumno} 
-        setDatosUsuario={setDatosAlumno} 
-        handleFunction={handleNuevoAlumno} 
+        datosUsuario={datosProfesor} 
+        setDatosUsuario={setDatosProfesor} 
+        handleFunction={handleNuevoProfesor} 
         handleIsOpen={handleModalCreateOpen}
-        title={`Nuevo Alumno`} 
+        title={`Nuevo Profesor`} 
         msg={responseMsg} 
-        tipoUsuario={"alumno"}  
+        tipoUsuario={"profesor"}  
         tipoModal={"crear"} /> 
       }
       {/* { modalView && <ModalView datosUsuario={datosAlumno} setDatosUsuario={setDatosAlumno} handleModalAlumnoOpen={handleModalAlumnoOpen} handleUpdateAlumno={handleUpdateAlumno} /> } */}
       { modalView && <Modal 
-        datosUsuario={datosAlumno} 
-        setDatosUsuario={setDatosAlumno} 
-        handleFunction={handleUpdateAlumno} 
-        handleIsOpen={handleModalAlumnoOpen} 
-        title={`${datosAlumno.nombre} ${datosAlumno.apellido}`} 
+        datosUsuario={datosProfesor} 
+        setDatosUsuario={setDatosProfesor} 
+        handleFunction={handleUpdateProfesor} 
+        handleIsOpen={handleModalProfesorOpen} 
+        title={`${datosProfesor.nombre} ${datosProfesor.apellido}`} 
         msg={responseMsg} 
-        tipoUsuario={"alumno"}  
+        tipoUsuario={"profesor"}  
         tipoModal={"editar"}/>
       }
-      { modalSeguro && <Modal handleFunction={handleDeleteAlumno} handleIsOpen={handleModalSeguroOpen} title={`¿Deseas eliminar a ${datosAlumno.nombre} ${datosAlumno.apellido}?`} msg={responseMsg} tipoModal={"eliminar"} tipoUsuario={"alumno"} /> }
+      { modalSeguro && <Modal handleFunction={handleDeleteProfesor} handleIsOpen={handleModalSeguroOpen} title={`¿Deseas eliminar a ${datosProfesor.nombre} ${datosProfesor.apellido}?`} msg={responseMsg} tipoModal={"eliminar"} tipoUsuario={"alumno"} /> }
 
       <Pagination items={usuariosAll.length} />
     </div>

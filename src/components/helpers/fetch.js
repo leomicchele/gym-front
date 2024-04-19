@@ -6,7 +6,7 @@ import { getSessionStorage } from "./storage";
 // export const CLIENT_ID = config.REACT_APP_CLIENT_ID;
 
 const urlAmbientes = () => "https://gym-back-production.up.railway.app"
-// const urlAmbientes = () => config.PATH_API || "http://localhost:3000"
+// const urlAmbientes = () => "http://localhost:3000"
 
 // export const urlAmbientesOpenId = () => config.REACT_APP_OPENID_API_URL
 
@@ -46,8 +46,13 @@ const postFetchLogin = async({userName, password}) => {
   }
 };
 
-export const getFetch = async (id) => {
+// ---------------- ALUMNOS ----------------
+
+export const getFetch = async (idProfesor, idGimnasio) => {
   const path = urlAmbientes();
+
+  const id = idProfesor || idGimnasio;
+  const usuario = idProfesor ? "profesor" : "gimnasio";
 
   var requestOptions = {
     method: 'GET',
@@ -59,7 +64,7 @@ export const getFetch = async (id) => {
     }
   };
   try {
-    const response = await fetch(`${path}/api/alumnos?limite=10&desde=0&profesor=${id}`, requestOptions);
+    const response = await fetch(`${path}/api/alumnos?limite=10&desde=0&${usuario}=${id}`, requestOptions);
     if (response.status == 401) {
       return false
     }
@@ -76,12 +81,11 @@ export const getFetch = async (id) => {
   }
 
 }
-export const alumnoCreateFetch = async (usuario, idProfesor) => {
+export const alumnoCreateFetch = async (usuario, idProfesor, idGimnasio) => {
   const path = urlAmbientes();
   let raw = {
     nombre: usuario.nombre,
     apellido: usuario.apellido,
-    edad: usuario.edad,
     dni: usuario.dni,
     password: usuario.password,
     experiencia: usuario.experiencia,
@@ -90,7 +94,8 @@ export const alumnoCreateFetch = async (usuario, idProfesor) => {
     objetivo: usuario.objetivo,
     diasSemanales: usuario.diasSemanales,
     deporte: usuario.deporte,
-    profesor: idProfesor,
+    profesor: idProfesor || null,
+    gimnasio: idGimnasio || usuario.gimnasio,
     rutina: [],
   }
 
@@ -124,7 +129,6 @@ export const alumnoUpdateFetch = async (usuario, idProfesor) => {
   const idUsuario = usuario._id;
   let raw = usuario; 
   delete raw.password;
-  console.log({raw})
 
   let requestOptions = {
     method: 'PUT',
@@ -183,5 +187,138 @@ export const alumnoDeleteFetch = async (id) => {
 }
 
 
+// ---------------- PROFESORES ----------------
+
+export const getFetchProfesores = async (id) => {
+  const path = urlAmbientes();
+
+  var requestOptions = {
+    method: 'GET',
+    // redirect: 'follow',
+    headers: {
+      'accept': 'application/json', 
+      // "Authorization": `Bearer ${user.token}`,
+      
+    }
+  };
+  try {
+    const response = await fetch(`${path}/api/profesores?limite=10&desde=0&gimnasio=${id}`, requestOptions);
+    if (response.status == 401) {
+      return false
+    }
+    const result = await response.json()
+
+    return {
+      status: response.status,
+      ok: response.ok,
+      body: result,
+    } 
+    
+  } catch (error) {
+    throw new Error ( `Failed to connect to api` );
+  }
+
+}
+
+export const profesorCreateFetch = async (usuario, idGimnasio) => {
+  const path = urlAmbientes();
+  let raw = {
+    nombre: usuario.nombre,
+    apellido: usuario.apellido,
+    dni: usuario.dni,
+    password: usuario.password,
+    email: usuario.email,
+    gimnasio: idGimnasio,
+  }
+
+  let requestOptions = {
+    method: 'POST',
+    // redirect: 'follow',
+    headers: { 
+      'Content-Type': 'application/json', 
+      // 'Cookie': 'BIGipServeres1WJ+wB3R4WLaaB2wky9A=rd5o00000000000000000000ffff0a090b38o80; c52247493d0c9071e1f49cc01c78fe68=0aeab0b30e77e504501d3a7eff6e7f40'
+    },
+    body: JSON.stringify(raw)
+  };
+  try {
+    const response = await fetch(`${path}/api/profesores`, requestOptions);
+    if (response.status === 401) return { message: "No autorizado", error: true};
+    if (response.status === 500) return { message: "Error en el servidor", error: true};
+    if (response.status === 404) return { message: "No encontrado", error: true};
+    if (response.status === 400) return { message: "Error en los datos", error: true};
+    if (response.ok === false) return { message: "Error en la peticion", error: true};
+    
+    if (response.ok === true) return { message: "Profesor Creado"};
+    
+  } catch (error) {
+    console.log({error})
+    throw new Error ( `Failed to connect to api` );
+  }
+
+}
+
+export const profesorUpdateFetch = async (usuario, idProfesor) => {
+  const path = urlAmbientes();
+  const idUsuario = usuario._id;
+  let raw = usuario; 
+  delete raw.password;
+
+  console.log(usuario._id)
+
+  let requestOptions = {
+    method: 'PUT',
+    // redirect: 'follow',
+    headers: { 
+      'Content-Type': 'application/json', 
+      // 'Cookie': 'BIGipServeres1WJ+wB3R4WLaaB2wky9A=rd5o00000000000000000000ffff0a090b38o80; c52247493d0c9071e1f49cc01c78fe68=0aeab0b30e77e504501d3a7eff6e7f40'
+    },
+    body: JSON.stringify(raw)
+  };
+  try {
+    const response = await fetch(`${path}/api/profesores/${idUsuario}`, requestOptions);
+
+    if (response.status === 401) return { message: "No autorizado", error: true};
+    if (response.status === 500) return { message: "Error en el servidor", error: true};
+    if (response.status === 404) return { message: "No encontrado", error: true};
+    if (response.status === 400) return { message: "Error en los datos", error: true};
+    if (response.ok === false) return { message: "Error en la peticion", error: true};
+
+    if (response.ok === true) return { message: "Profesor Actualizado", error: false};
+    
+  } catch (error) {
+    console.log({error})
+    throw new Error ( `Failed to connect to api` );
+  }
+
+}
+
+export const profesorDeleteFetch = async (id) => {
+  const path = urlAmbientes();
+  const {token} = getSessionStorage()
+  let requestOptions = {
+    method: 'DELETE',
+    // redirect: 'follow',
+    headers: { 
+      'Content-Type': 'application/json', 
+      'x-token': token,
+    },
+  };
+  try {
+    const response = await fetch(`${path}/api/profesores/${id}`, requestOptions);
+
+    if (response.status === 401) return { message: "No autorizado para eliminar", error: true};
+    if (response.status === 500) return { message: "Error en el servidor", error: true};
+    if (response.status === 404) return { message: "No encontrado", error: true};
+    if (response.status === 400) return { message: "Token Vencido", error: true};
+    if (response.ok === false) return { message: "Error en la peticion", error: true};
+
+    if (response.ok === true) return { message: "Alumno Eliminado", error: false};
+    
+  } catch (error) {
+    console.log({error})
+    throw new Error ( `Failed to connect to api` );
+  }
+
+}
 
 export default postFetchLogin;

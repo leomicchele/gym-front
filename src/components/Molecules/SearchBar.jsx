@@ -8,13 +8,13 @@ export const SearchBar = ({ usuario, stateInput, setStateInput, handlerUpdate, h
 
   const {state, dispatch} = useContext(LoginContext)
 
-  
+  const usuarioSingular = usuario === "Alumno" ? "Alumno" : "Profesor"
 
 
   return (
     <div className="searchbar d-flex flex-wrap justify-content-center justify-content-sm-between gap-2 mb-4">
       <div className="searchbar-container_button" onClick={() => handleModalCreateOpen(true)}>
-        <Button msg={"Nuevo Alumno"} estilo={"aprobar"} />
+        <Button msg={`Nuevo ${usuarioSingular}`} estilo={"aprobar"} />
       </div>      
 
       <div className="searchbar-container_input">

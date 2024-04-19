@@ -33,7 +33,7 @@ export const Modal = (
     } else {
         return "form-control py-1 py-md-2"
     }
-}
+  }
      
 
   return (
@@ -44,13 +44,13 @@ export const Modal = (
           <h5 className="modal-title">{title}</h5>
           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleIsOpen(false)}></button>
         </div>
-        {  tipoModal === "editar" & tipoUsuario === "alumno" ? 
-          <ModalViewBody datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} isEdit={isEdit} datosOrRutinas={datosOrRutinas} setDatosOrRutinas={setDatosOrRutinas} emptyInput={emptyInput}/> 
+        {  tipoModal === "editar" ? 
+          <ModalViewBody datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} isEdit={isEdit} datosOrRutinas={datosOrRutinas} setDatosOrRutinas={setDatosOrRutinas} emptyInput={emptyInput} tipoUsuario={tipoUsuario}/> 
           :
           <></>
         }
-        {  tipoModal === "crear" & tipoUsuario === "alumno" ? 
-          <ModalCreateBody datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario}/> 
+        {  tipoModal === "crear"  ? 
+          <ModalCreateBody datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} tipoUsuario={tipoUsuario}/> 
           :
           <></>
         }
