@@ -1,17 +1,44 @@
+import { useState } from "react";
 import { Loader } from "../../Atoms/Loader/Loader";
+import { ArrowOrder } from "../../Atoms/icons/ArrowOrder";
+import { OrderListApellido, OrderListEstado, OrderListNombre } from "../../helpers/orderList";
 import { PlaceHolderTable } from "../PlaceHolderTable/PlaceHolderTable";
 import { TableRow } from "../table-row/TableRow";
 import "./TableContainer.css"
 
-export const TableContainer = ({usuariosState, stateFetch, handleModalAlumnoOpen, handleModalSeguroOpen}) => {
+
+export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, handleModalAlumnoOpen, handleModalSeguroOpen}) => {
+
+  const [orden, setOrden] = useState({
+    apellido: true,
+    nombre: true,
+    estado: true  
+  })
+
+  const handleApellido = () => {
+    setOrden({...orden, apellido: !orden.apellido})
+    const usuariosOrdenados = usuariosState.sort((a, b) => OrderListApellido(a, b, orden.apellido))
+    setUsuariosState([...usuariosOrdenados])
+  }
+  const handleNombre = () => {
+    setOrden({...orden, nombre: !orden.nombre})
+    const usuariosOrdenados = usuariosState.sort((a, b) => OrderListNombre(a, b, orden.nombre))
+    setUsuariosState([...usuariosOrdenados])
+  }
+  const handleEstado = () => {
+    setOrden({...orden, estado: !orden.estado})
+    const usuariosOrdenados = usuariosState.sort((a, b) => OrderListEstado(a, b, orden.estado))
+    setUsuariosState([...usuariosOrdenados])
+  }
+
   return (
     <div className="container-usuario__table">
       <table className="table table-striped  table-hover">
         <thead>
           <tr>
-            <th scope="col">Apellido</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Estado</th>
+            <th scope="col" ><span onClick={handleApellido} style={{cursor: "pointer"}}><ArrowOrder/>  Apellido</span></th>
+            <th scope="col"><span onClick={handleNombre} style={{cursor: "pointer"}}><ArrowOrder/>  Nombre</span></th>
+            <th scope="col"><span onClick={handleEstado} style={{cursor: "pointer"}}><ArrowOrder/>  Estado</span></th>
             <th scope="col"></th>
             {/* <th scope="col"></th> */}
           </tr>

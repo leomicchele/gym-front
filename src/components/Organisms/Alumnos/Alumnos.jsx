@@ -40,7 +40,6 @@ export const Alumnos = () => {
 
     const {id, rol, token} = getSessionStorage()
 
-
     // TRAE TODOS LOS ALUMNOS
     const handlerUpdate = async() => {
       dispatch({type: "LOADING"})
@@ -219,7 +218,7 @@ export const Alumnos = () => {
         handleModalCreateOpen={handleModalCreateOpen}
       />
 
-      <TableContainer usuariosState={usuariosState} stateFetch={state} handleModalAlumnoOpen={handleModalAlumnoOpen} handleModalSeguroOpen={handleModalSeguroOpen}/>  
+      <TableContainer usuariosState={usuariosState} setUsuariosState={setUsuariosState} stateFetch={state} handleModalAlumnoOpen={handleModalAlumnoOpen} handleModalSeguroOpen={handleModalSeguroOpen}/>  
 
       { state.error && <Alert type={"danger"} /> }
 

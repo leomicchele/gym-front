@@ -207,7 +207,7 @@ export const Profesores = () => {
         handleModalCreateOpen={handleModalCreateOpen}
       />
 
-      <TableContainer usuariosState={usuariosState} stateFetch={state} handleModalAlumnoOpen={handleModalProfesorOpen} handleModalSeguroOpen={handleModalSeguroOpen}/>  
+      <TableContainer usuariosState={usuariosState} setUsuariosState={setUsuariosState} stateFetch={state} handleModalAlumnoOpen={handleModalProfesorOpen} handleModalSeguroOpen={handleModalSeguroOpen}/>  
 
       { state.error && <Alert type={"danger"} /> }
 
