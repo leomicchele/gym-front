@@ -247,7 +247,7 @@ export const Alumnos = () => {
       }
       { modalSeguro && <Modal handleFunction={handleDeleteAlumno} handleIsOpen={handleModalSeguroOpen} title={`¿Deseas eliminar a ${datosAlumno.nombre} ${datosAlumno.apellido}?`} msg={responseMsg} tipoModal={"eliminar"} tipoUsuario={"alumno"} /> }
 
-      <Pagination usuariosState={usuariosState} setNumerPage={setNumerPage}/>
+      <Pagination usuariosState={usuariosState} numerPage={numerPage} setNumerPage={setNumerPage}/>
     </div>
   );
 }
