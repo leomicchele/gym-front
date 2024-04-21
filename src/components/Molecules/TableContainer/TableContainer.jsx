@@ -7,7 +7,7 @@ import { TableRow } from "../table-row/TableRow";
 import "./TableContainer.css"
 
 
-export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, handleModalAlumnoOpen, handleModalSeguroOpen}) => {
+export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, handleModalAlumnoOpen, handleModalSeguroOpen, numerPage}) => {
 
   const [orden, setOrden] = useState({
     apellido: true,
@@ -31,6 +31,26 @@ export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, han
     setUsuariosState([...usuariosOrdenados])
   }
 
+  const handleNumberItems = () => {
+    let pageItems = [];
+    usuariosState.map((e, index) => {
+      if (index < 10*numerPage && index >= 10*(numerPage-1)) {
+        pageItems.push(
+          <TableRow
+            nombre={e.nombre}
+            apellido={e.apellido}
+            estado={e.estado}
+            key={e._id}
+            id={e._id}
+            handleModalAlumnoOpen={handleModalAlumnoOpen}
+            handleModalSeguroOpen={handleModalSeguroOpen}
+          />
+        );
+      }
+    })
+    return pageItems;
+  }
+
   return (
     <div className="container-usuario__table">
       <table className="table table-striped  table-hover">
@@ -45,19 +65,7 @@ export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, han
         </thead>
         <tbody>
           { stateFetch.loading ? <PlaceHolderTable/> :
-              usuariosState.map((e) => {
-                return (
-                  <TableRow
-                    nombre={e.nombre}
-                    apellido={e.apellido}
-                    estado={e.estado}
-                    key={e._id}
-                    id={e._id}
-                    handleModalAlumnoOpen={handleModalAlumnoOpen}
-                    handleModalSeguroOpen={handleModalSeguroOpen}
-                  />
-                );
-              })            
+              handleNumberItems()           
           }
         </tbody>
       </table>

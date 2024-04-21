@@ -29,6 +29,8 @@ export const Profesores = () => {
       email: ""
     });
 
+    const [numerPage , setNumerPage ] = useState(1)
+
     const {state, dispatch} = useContext(LoginContext)
 
     const {id, rol, token} = getSessionStorage()
@@ -207,7 +209,7 @@ export const Profesores = () => {
         handleModalCreateOpen={handleModalCreateOpen}
       />
 
-      <TableContainer usuariosState={usuariosState} setUsuariosState={setUsuariosState} stateFetch={state} handleModalAlumnoOpen={handleModalProfesorOpen} handleModalSeguroOpen={handleModalSeguroOpen}/>  
+      <TableContainer usuariosState={usuariosState} setUsuariosState={setUsuariosState} stateFetch={state} handleModalAlumnoOpen={handleModalProfesorOpen} handleModalSeguroOpen={handleModalSeguroOpen} numerPage={numerPage}/>  
 
       { state.error && <Alert type={"danger"} /> }
 
@@ -235,7 +237,7 @@ export const Profesores = () => {
       }
       { modalSeguro && <Modal handleFunction={handleDeleteProfesor} handleIsOpen={handleModalSeguroOpen} title={`¿Deseas eliminar a ${datosProfesor.nombre} ${datosProfesor.apellido}?`} msg={responseMsg} tipoModal={"eliminar"} tipoUsuario={"alumno"} /> }
 
-      <Pagination items={usuariosAll.length} />
+      <Pagination usuariosState={usuariosState} setNumerPage={setNumerPage} />
     </div>
   );
 }
