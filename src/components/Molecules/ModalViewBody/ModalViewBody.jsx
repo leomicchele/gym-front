@@ -147,6 +147,11 @@ export const ModalViewBody = ({datosUsuario, setDatosUsuario, datosOrRutinas = "
     rutinas[dia].ejercicios.splice(ejercicio, 1)
     setDatosUsuario({...datosUsuario, rutina: rutinas})
   }
+  const handleRemoveDia = (indexDia) => {
+    const rutinas = datosUsuario.rutina
+    rutinas.splice(indexDia, 1)
+    setDatosUsuario({...datosUsuario, rutina: rutinas})    
+  }
 
   const handleSetDatosUsuario = (dia, ejercicioIndex, ejercicioNombre, value, campoIndex) => {
     const rutinas = datosUsuario.rutina
@@ -193,9 +198,12 @@ export const ModalViewBody = ({datosUsuario, setDatosUsuario, datosOrRutinas = "
       )
     }
   }
+
   
   return (
     <div className="modal-body">
+
+      
             <ul className="nav nav-tabs mb-2">
               { handlePensañasTipoUsuario() }
             </ul>
@@ -209,33 +217,36 @@ export const ModalViewBody = ({datosUsuario, setDatosUsuario, datosOrRutinas = "
               {
                 datosUsuario.rutina.length > 0 && datosUsuario.rutina.map((rutina, indexDia) => {
                   return (
-                    <div className="accordion mb-2" id="accordionExample">
-                        <div className="accordion-item">
+                    
+                    <div key={`dia${+indexDia}`} className="accordion mb-2 animate__animated animate__fadeInRight" id={`acordionDia${indexDia}`}>
+                        <div  className="accordion-item">
                           <h2 className="accordion-header">
                             <button onClick={(e) => handleShowDias(e)} className="accordion-button" type="button" data-bs-toggle="collapse" id={`${indexDia+1}`} data-bs-target={`#collapse${indexDia+1}`} aria-expanded="true" aria-controls="collapseOne">
-                              Día {indexDia + 1}
-                            </button>
+                              <span>Día {indexDia + 1}</span>                                 
+                              
+                            </button>           
                           </h2>
                           <div id={`collapse${indexDia+1}`}  className={`accordion-collapse collapse`} data-bs-parent="#accordionExample">
                             <div className="accordion-body py-2 px-1">    
 
 
-                              <div class="collapse show" id="collapseExample">
+                              <div className="collapse show" id="collapseExample">
                                 {
                                   rutina.ejercicios?.map((ejercicio, index) => {
                                     return (
-                                      <ModalViewBodyRutinas datosUsuario={ejercicio} handleSetDatosUsuario={handleSetDatosUsuario} handleRemoveEjercicio={handleRemoveEjercicio} isEdit={isEdit} dia={indexDia} index={index}/>
+                                        <ModalViewBodyRutinas key={index} datosUsuario={ejercicio} handleSetDatosUsuario={handleSetDatosUsuario} handleRemoveEjercicio={handleRemoveEjercicio} isEdit={isEdit} dia={indexDia} index={index}/>
                                     )
                                   })
-                                      
-                                }
+                                  
+                                }                
                                   {/* <ModalViewBodyRutinas datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} isEdit={isEdit}/> */}
                                   
                                   <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia)}><Add/> Ejercicio</button>
-                                {/* <div class="card card-body p-0">
+                                {/* <div className="card card-body p-0">
                                 </div> */}
                               </div>  
                             </div>
+                            <button type="button" className="btn btn-warning mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>Eliminar dia {indexDia + 1 }</button>                   
                           </div>
                         </div>
                         

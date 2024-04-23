@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowDown } from "../../Atoms/icons/ArrowDown";
 import { ArrowUpBar } from "../../Atoms/icons/ArrowUpBar";
 
+
 export const ModalViewBodyRutinas = ({
   datosUsuario,
   handleSetDatosUsuario,
@@ -14,8 +15,8 @@ export const ModalViewBodyRutinas = ({
   const styleDisplayNone = "d-none"
   const styleDisplayFlex = "list-group-item d-flex align-items-center gap-2"
 
-  return (
-    <ul className="list-group fs-6 text-start mb-2 border border-success">
+  return (                  
+    <ul  className="list-group fs-6 text-start mb-2 border border-success animate__animated animate__fadeInRight">
       <li className={`list-group-item-action list-group-item-success d-flex ${!show ? styleDisplayFlex : styleDisplayNone} `} >
           <span className="fw-semibold col-11" onClick={() => setShow(true)}>{!datosUsuario.ejercicio ? "Nuevo ejercicio" : datosUsuario.ejercicio }</span>
           <button type="button" className="btn-close col" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveEjercicio(dia, index)}></button>
@@ -85,7 +86,7 @@ export const ModalViewBodyRutinas = ({
               <span>{datosUsuario.descanso}</span>
             </>
           :
-          <input type="text" class="form-control p-1" id="" value={datosUsuario.descanso} onChange={(e) => handleSetDatosUsuario(dia, index, "descanso", e.target.value)}/>
+          <input type="text" className="form-control p-1" id="" value={datosUsuario.descanso} onChange={(e) => handleSetDatosUsuario(dia, index, "descanso", e.target.value)}/>
         }
         <span>min</span>
       </li>
@@ -119,7 +120,7 @@ export const ModalViewBodyRutinas = ({
               <span>{datosUsuario.metodo}</span>
             </>
           :
-          <input type="text" class="form-control p-1" id="" value={datosUsuario.metodo} onChange={(e) => handleSetDatosUsuario(dia, index, "metodo", e.target.value)}/>
+          <input type="text" className="form-control p-1" id="" value={datosUsuario.metodo} onChange={(e) => handleSetDatosUsuario(dia, index, "metodo", e.target.value)}/>
         }
       </li>
       <li className={show ? styleDisplayFlex : styleDisplayNone}>
@@ -130,7 +131,7 @@ export const ModalViewBodyRutinas = ({
               <span>{datosUsuario.observaciones}</span>
             </>
           :
-          <input type="text" class="form-control p-1" id="" value={datosUsuario.observaciones} onChange={(e) => handleSetDatosUsuario(dia, index, "observaciones", e.target.value)}/>
+          <input type="text" className="form-control p-1" id="" value={datosUsuario.observaciones} onChange={(e) => handleSetDatosUsuario(dia, index, "observaciones", e.target.value)}/>
         }
       </li>
     </ul>

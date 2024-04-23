@@ -10,7 +10,7 @@ export const ModalViewBodyDatosAlumno = ({datosUsuario, setDatosUsuario, isEdit,
                   <li className="list-group-item d-flex align-items-center gap-2">
                     <span className="fw-semibold">ESTADO: </span> 
                     { 
-                      !isEdit ? <span className={datosUsuario.estado ? "text-success" : "text-warning-emphasis"}>{datosUsuario.estado ? "Activo" : "Inactivo"}</span> : <div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"  checked={datosUsuario.estado} onClick={() => setDatosUsuario({...datosUsuario, estado: !datosUsuario.estado})}/></div>
+                      !isEdit ? <span className={datosUsuario.estado ? "text-success" : "text-warning-emphasis"}>{datosUsuario.estado ? "Activo" : "Inactivo"}</span> : <div className="form-check form-switch"><input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"  checked={datosUsuario.estado} onClick={() => setDatosUsuario({...datosUsuario, estado: !datosUsuario.estado})}/></div>
                     }                    
                   </li>
                   <li className="list-group-item d-flex align-items-center gap-2">

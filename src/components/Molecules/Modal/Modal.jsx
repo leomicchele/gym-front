@@ -6,6 +6,7 @@ import { ModalViewBody } from "../ModalViewBody/ModalViewBody"
 import { Button } from "../../Atoms/Button/Button"
 import { ModalCreateBody } from "../ModalCreateBody/ModalCreateBody"
 
+
 export const Modal = (
   {
     handleFunction,
@@ -37,8 +38,8 @@ export const Modal = (
      
 
   return (
-    <div className="modal" tabindex="-1">
-    <div className="modal-dialog">
+    <div className="modal " tabIndex="-1">
+    <div className="modal-dialog animate__animated animate__fadeInDown">
       <div className="modal-content">
         <div className="modal-header gap-2">
           <h5 className="modal-title">{title}</h5>

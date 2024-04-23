@@ -47,7 +47,7 @@ export const Login = () => {
 
   return (
     <div className="align">
-      <div className="grid">
+      <div className="grid  animate__animated animate__bounce">
         <div>
           <img src="/imagenes/gymLogo2.png" alt="" style={{width: "200px"}}/>
         </div>
@@ -64,7 +64,7 @@ export const Login = () => {
               <span className="hidden">Username</span>
             </label>
             <input
-              autocomplete="off"
+              autoComplete="off"
               id="login__username"
               type="text"
               // name="username"
