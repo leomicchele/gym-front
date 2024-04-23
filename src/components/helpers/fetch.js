@@ -246,10 +246,11 @@ export const profesorCreateFetch = async (usuario, idGimnasio) => {
   };
   try {
     const response = await fetch(`${path}/api/profesores`, requestOptions);
+    const result = await response.json()
     if (response.status === 401) return { message: "No autorizado", error: true};
     if (response.status === 500) return { message: "Error en el servidor", error: true};
     if (response.status === 404) return { message: "No encontrado", error: true};
-    if (response.status === 400) return { message: "Error en los datos", error: true};
+    if (response.status === 400) return { message: result.msg || result.errors[0].msg || "Error en los datos", error: true};
     if (response.ok === false) return { message: "Error en la peticion", error: true};
     
     if (response.ok === true) return { message: "Profesor Creado"};
