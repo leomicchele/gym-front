@@ -1,22 +1,25 @@
 
 
-import { config } from "./config.js";
 import { getSessionStorage } from "./storage";
-
-// export const CLIENT_ID = config.REACT_APP_CLIENT_ID;
 
 const urlAmbientes = () => "https://gym-back-production.up.railway.app"
 // const urlAmbientes = () => "http://localhost:3000"
 
-// export const urlAmbientesOpenId = () => config.REACT_APP_OPENID_API_URL
+// REGEX EMAIL
+const validateEmail = (userName) => {
+  const  re = /\S+@\S+\.\S+/;
+  return re.test(userName);
+};
 
 // LOGIN
 const postFetchLogin = async({userName, password}) => {
   const path = urlAmbientes();
+  const isEmail = validateEmail(userName);
   let raw = {
-    dni: userName,
     password
   };
+  if (isEmail) raw.email = userName;
+  if (!isEmail) raw.dni = userName;
 
   raw = JSON.stringify(raw);
 

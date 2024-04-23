@@ -15,10 +15,22 @@ export const ModalViewBodyRutinas = ({
   const styleDisplayNone = "d-none"
   const styleDisplayFlex = "list-group-item d-flex align-items-center gap-2"
 
+  // const handleRemoveEjercicioCSS = (e) => {
+  //   const node = e.target.parentElement.parentElement;
+  //   console.log(e.target.parentElement.parentElement)
+  //   node.classList.add("animate__fadeOutRight");
+  //   handleRemoveEjercicio(dia, index);
+  //   // setTimeout(() => {
+  //   // }
+  //   // , 500);
+
+  // }
+
   return (                  
-    <ul  className="list-group fs-6 text-start mb-2 border border-success animate__animated animate__fadeInRight">
+    <ul  className="list-group fs-6 text-start mb-2 border border-success animate__animated animate__fadeInRight" id="card-ejercicio">
       <li className={`list-group-item-action list-group-item-success d-flex ${!show ? styleDisplayFlex : styleDisplayNone} `} >
           <span className="fw-semibold col-11" onClick={() => setShow(true)}>{!datosUsuario.ejercicio ? "Nuevo ejercicio" : datosUsuario.ejercicio }</span>
+          {/* <button type="button" className="btn-close col" data-bs-dismiss="modal" aria-label="Close" onClick={(e) => handleRemoveEjercicioCSS(e)}></button> */}
           <button type="button" className="btn-close col" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveEjercicio(dia, index)}></button>
         
       </li>

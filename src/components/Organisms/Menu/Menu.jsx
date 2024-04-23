@@ -14,7 +14,7 @@ const MenuPrincipal = () => {
   //  const path = urlAmbientesOpenId();
   //  const client_id = CLIENT_ID
 
-   const {id, rol ,token} = JSON.parse(sessionStorage.getItem("Auth_token"))
+   const {id, rol ,token, nombre} = JSON.parse(sessionStorage.getItem("Auth_token"))
 
    const { dispatch } = useContext(LoginContext);
 
@@ -59,7 +59,7 @@ const MenuPrincipal = () => {
                  <a className="text-primary">Tableros</a>
                </li>
              </ol> */}
-             <h3 className="m-0">Bienvenido Matias</h3>
+             <h3 className="m-0">{`Hola ${nombre}`} <span>&#128075;</span></h3>
            </nav>
            <form className="d-flex gap-3 align-items-center m-0" role="search">
              <div onClick={handleCloseSession}>
