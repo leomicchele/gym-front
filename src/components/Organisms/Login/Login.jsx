@@ -64,7 +64,7 @@ export const Login = () => {
               <span className="hidden">Username</span>
             </label>
             <input
-              autoComplete="off"
+              autoComplete="on"
               id="login__username"
               type="text"
               // name="username"
