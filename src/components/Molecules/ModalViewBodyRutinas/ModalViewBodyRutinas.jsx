@@ -115,11 +115,11 @@ export const ModalViewBodyRutinas = ({
             </>
           :
             <>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.kilos[0]}/>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.kilos[1]}/>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.kilos[2]}/>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.kilos[3]}/>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.kilos[4]}/>
+              <input type="number" className="form-control p-1" id="" value={datosUsuario.kilos[0]} onChange={(e) => handleSetDatosUsuario(dia, index, "kilos", e.target.value, 0 )}/>
+              <input type="number" className="form-control p-1" id="" value={datosUsuario.kilos[1]} onChange={(e) => handleSetDatosUsuario(dia, index, "kilos", e.target.value, 1 )}/>
+              <input type="number" className="form-control p-1" id="" value={datosUsuario.kilos[2]} onChange={(e) => handleSetDatosUsuario(dia, index, "kilos", e.target.value, 2 )}/>
+              <input type="number" className="form-control p-1" id="" value={datosUsuario.kilos[3]} onChange={(e) => handleSetDatosUsuario(dia, index, "kilos", e.target.value, 3 )}/>
+              <input type="number" className="form-control p-1" id="" value={datosUsuario.kilos[4]} onChange={(e) => handleSetDatosUsuario(dia, index, "kilos", e.target.value, 4 )}/>
             </>
         }
         <span>Kg</span>
