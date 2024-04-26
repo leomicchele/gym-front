@@ -76,7 +76,7 @@ const MenuPrincipal = () => {
               rol === "ALUMNO_ROL" &&
               <div>
                 <CardMenu
-                  title={"Mis rutinas"}
+                  title={"Rutina"}
                   description={"Entrá y consultá tus rutinas."}
                   handler={handlerClickCardMenu}
                 />

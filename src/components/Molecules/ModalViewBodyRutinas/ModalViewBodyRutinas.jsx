@@ -98,7 +98,7 @@ export const ModalViewBodyRutinas = ({
               <span>{datosUsuario.descanso}</span>
             </>
           :
-          <input type="text" className="form-control p-1" id="" value={datosUsuario.descanso} onChange={(e) => handleSetDatosUsuario(dia, index, "descanso", e.target.value)}/>
+          <input type="number" className="form-control p-1" id="" value={datosUsuario.descanso} onChange={(e) => handleSetDatosUsuario(dia, index, "descanso", e.target.value)}/>
         }
         <span>min</span>
       </li>

@@ -10,6 +10,7 @@ import HeroLogin from './components/HeroLogin';
 // import { Ecopuntos } from './components/Organisms/Ecopuntos/Ecopuntos';
 import { Alumnos } from './components/Organisms/Alumnos/Alumnos';
 import { Profesores } from './components/Organisms/Profesores/Profesores';
+import { Rutinas } from './components/Organisms/Rutinas/Rutinas';
 
 function App() {
 
@@ -46,8 +47,7 @@ function App() {
         {/* <Route path='/menu/ecopuntos' element={<Ecopuntos/>}/> */}
         <Route path='/menu/alumnos' element={<Alumnos/>}/>
         <Route path='/menu/profesores' element={<Profesores/>}/>
-        {/* <Route path='/menu/gimnasios' element={<Alumnos/>}/>
-        <Route path='/menu/rutinas' element={<Alumnos/>}/> */}
+        <Route path='/menu/rutina' element={<Rutinas/>}/>
       </Route>
 
       </Routes>
