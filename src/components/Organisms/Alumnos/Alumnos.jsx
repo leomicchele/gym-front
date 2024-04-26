@@ -71,7 +71,6 @@ export const Alumnos = () => {
 
     // ABRE MODAL NUEVO ALUMNO
     const handleModalCreateOpen = (isOpen) => {
-      console.log("adewntro")
       // Abre modal
       if (isOpen) {
         setModalCrate(true)

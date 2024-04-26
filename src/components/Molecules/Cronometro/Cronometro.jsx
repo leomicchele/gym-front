@@ -71,7 +71,6 @@ export const Cronometro = ({index, descanso}) => {
 		  return { ...prevTiempo, centesimas: nuevoCentesimas };
 		});
 	  };
-	  console.log(tiempo)
   return (
 		<div class="border bg-body-tertiary d-flex">
 			<div id="contenedor" className="d-flex gap-2 align-items-center">

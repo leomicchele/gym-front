@@ -109,7 +109,6 @@ export const Profesores = () => {
         return usuario._id === id     
       });
       setDatosProfesor(usuariosFilter[0])
-      console.log(usuariosFilter[0])
 
 
       // Abre modal
