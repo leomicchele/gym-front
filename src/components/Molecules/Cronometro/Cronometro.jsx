@@ -5,54 +5,98 @@ import { Play } from "../../Atoms/icons/Play"
 import "./Cronometro.css"
 import { Stop } from "../../Atoms/icons/Stop";
 
+const isWakeLockSupported = 'wakeLock' in navigator;
+
 export const Cronometro = ({index, descanso}) => {
 
 	const [reproduciendo, setReproduciendo] = useState(false)
-	const [tiempo, setTiempo] = useState({ minutos: 0, segundos: 0, centesimas: 0 });
+
+	let parsedTime = parseTiempo(descanso);
+	if(parsedTime === null) parsedTime = { minutos: 0, segundos: 0 }
+	const [tiempo, setTiempo] = useState({
+		minutos: parsedTime.minutos > 5 ? 5 : parsedTime.minutos, 
+		segundos: parsedTime.segundos > 59 ? 59 : parsedTime.segundos,
+		centesimas: 0
+	}) || { minutos: 0, segundos: 0, centesimas: 0 };
 	
+	const intervalID = useRef(null);
+	const wakeLock = useRef(null);
 
-	// let parsedTime = parseTiempo(descanso);
-	// if(parsedTime === null) parsedTime = { minutos: 0, segundos: 0 }
-	// const [tiempo, setTiempo] = useState({
-	// 	minutos: parsedTime.minutos > 5 ? 5 : parsedTime.minutos, 
-	// 	segundos: parsedTime.segundos > 59 ? 59 : parsedTime.segundos,
-	// 	centesimas: 0
-	// }) || { minutos: 0, segundos: 0, centesimas: 0 };
-	
-	const worker = useRef(null);
+	useEffect(() => {
+		if (reproduciendo) {
+			intervalID.current = setInterval(cronometroReproducioendo, 10);
+		} else {
+		  clearInterval(intervalID.current);
+		  
+		}
+		return () => {
+			clearInterval(intervalID.current);
 
-  useEffect(() => {
-    worker.current = new Worker(new URL('./worker.js', import.meta.url));
-    worker.current.onmessage = handleWorkerMessage;
+			if (wakeLock.current !== null) {
+				wakeLock.current.release();
+			  }
+		}
+	  }, [reproduciendo]);
 
-    return () => {
-      worker.current.terminate();
-    };
-  }, []);
+	async function inicioCronometro () {
+		if (isWakeLockSupported) {
+			try {
+			  wakeLock.current = await navigator.wakeLock.request('screen');
+			} catch (err) {
+			  console.error(`${err.name}, ${err.message}`);
+			}
+		  }
+		if (tiempo.minutos === 0 && tiempo.segundos === 0 && tiempo.centesimas === 0) {
+			setTiempo({
+				minutos: parsedTime.minutos,
+				segundos: parsedTime.segundos,
+				centesimas: 0
+			}) || { minutos: 0, segundos: 0, centesimas: 0 };
+			return
+		}
+		setReproduciendo(true)
+	}
 
-  const handleWorkerMessage = (event) => {
-    if (event.data.type === 'update') {
-      setTiempo(event.data.tiempo);
-    } else if (event.data.type === 'finished') {
-      setReproduciendo(false);
-    }
-  };
+	function pararCronometro () {
+		setReproduciendo(false)
+		if (wakeLock.current !== null) {
+			wakeLock.current.release().catch((err) => console.error(err));
+		  }
+	}
 
-  const inicioCronometro = () => {
-    worker.current.postMessage('start');
-    setReproduciendo(true);
-  };
+	function reinicioCronometro () {
+		setTiempo({
+			minutos: parsedTime.minutos > 5 ? 5 : parsedTime.minutos, 
+			segundos: parsedTime.segundos > 59 ? 59 : parsedTime.segundos,
+			centesimas: 0
+		}) || { minutos: 0, segundos: 0, centesimas: 0 };
+		setReproduciendo(false);
+		if (wakeLock.current !== null) {
+			wakeLock.current.release().catch((err) => console.error(err));
+		  }
+	}
 
-  const pararCronometro = () => {
-    worker.current.postMessage('stop');
-    setReproduciendo(false);
-  };
-
-  const reinicioCronometro = () => {
-    worker.current.postMessage('stop');
-    setTiempo({ minutos: 0, segundos: 0, centesimas: 0 });
-    setReproduciendo(false);
-  };
+	const cronometroReproducioendo = () => {
+		setTiempo((prevTiempo) => {
+		  const nuevoCentesimas = prevTiempo.centesimas - 1;
+		  if (nuevoCentesimas < 0) {
+			const nuevoSegundos = prevTiempo.segundos - 1;
+			if (nuevoSegundos < 0) {
+			  const nuevoMinutos = prevTiempo.minutos - 1;
+			  if (nuevoMinutos < 0) {
+				setReproduciendo(false);
+				if (wakeLock.current !== null) {
+				  wakeLock.current.release().catch((err) => console.error(err));
+				}
+				return { minutos: 0, segundos: 0, centesimas: 0 };
+			  }
+			  return { ...prevTiempo, minutos: nuevoMinutos, segundos: 59, centesimas: 99 };
+			}
+			return { ...prevTiempo, segundos: nuevoSegundos, centesimas: 99 };
+		  }
+		  return { ...prevTiempo, centesimas: nuevoCentesimas };
+		});
+	  };
   return (
 		<div class="border bg-body-tertiary d-flex">
 			<div id="contenedor" className="d-flex gap-2 align-items-center">
