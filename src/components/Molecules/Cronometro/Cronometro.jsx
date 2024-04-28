@@ -8,69 +8,51 @@ import { Stop } from "../../Atoms/icons/Stop";
 export const Cronometro = ({index, descanso}) => {
 
 	const [reproduciendo, setReproduciendo] = useState(false)
-
-	let parsedTime = parseTiempo(descanso);
-	if(parsedTime === null) parsedTime = { minutos: 0, segundos: 0 }
-	const [tiempo, setTiempo] = useState({
-		minutos: parsedTime.minutos > 5 ? 5 : parsedTime.minutos, 
-		segundos: parsedTime.segundos > 59 ? 59 : parsedTime.segundos,
-		centesimas: 0
-	}) || { minutos: 0, segundos: 0, centesimas: 0 };
+	const [tiempo, setTiempo] = useState({ minutos: 0, segundos: 0, centesimas: 0 });
 	
-	const intervalID = useRef(null);
 
-	useEffect(() => {
-		if (reproduciendo) {
-			intervalID.current = setInterval(cronometroReproducioendo, 10);
-		} else {
-		  clearInterval(intervalID.current);
-		}
-		return () => clearInterval(intervalID.current);
-	  }, [reproduciendo]);
+	// let parsedTime = parseTiempo(descanso);
+	// if(parsedTime === null) parsedTime = { minutos: 0, segundos: 0 }
+	// const [tiempo, setTiempo] = useState({
+	// 	minutos: parsedTime.minutos > 5 ? 5 : parsedTime.minutos, 
+	// 	segundos: parsedTime.segundos > 59 ? 59 : parsedTime.segundos,
+	// 	centesimas: 0
+	// }) || { minutos: 0, segundos: 0, centesimas: 0 };
+	
+	const worker = useRef(null);
 
-	function inicioCronometro () {
-		if (tiempo.minutos === 0 && tiempo.segundos === 0 && tiempo.centesimas === 0) {
-			setTiempo({
-				minutos: parsedTime.minutos,
-				segundos: parsedTime.segundos,
-				centesimas: 0
-			}) || { minutos: 0, segundos: 0, centesimas: 0 };
-			return
-		}
-		setReproduciendo(true)
-	}
+  useEffect(() => {
+    worker.current = new Worker(new URL('./worker.js', import.meta.url));
+    worker.current.onmessage = handleWorkerMessage;
 
-	function pararCronometro () {
-		setReproduciendo(false)
-	}
+    return () => {
+      worker.current.terminate();
+    };
+  }, []);
 
-	function reinicioCronometro () {
-		setTiempo({
-			minutos: parsedTime.minutos > 5 ? 5 : parsedTime.minutos, 
-			segundos: parsedTime.segundos > 59 ? 59 : parsedTime.segundos,
-			centesimas: 0
-		}) || { minutos: 0, segundos: 0, centesimas: 0 };
-		setReproduciendo(false)
-	}
+  const handleWorkerMessage = (event) => {
+    if (event.data.type === 'update') {
+      setTiempo(event.data.tiempo);
+    } else if (event.data.type === 'finished') {
+      setReproduciendo(false);
+    }
+  };
 
-	const cronometroReproducioendo = () => {
-		setTiempo(prevTiempo => {
-		  const nuevoCentesimas = prevTiempo.centesimas - 1;
-		  if (nuevoCentesimas < 0) {
-			const nuevoSegundos = prevTiempo.segundos - 1;
-			if (nuevoSegundos < 0) {
-			  const nuevoMinutos = prevTiempo.minutos - 1;
-			  if (nuevoMinutos < 0) {
-				setReproduciendo(false);
-				return { minutos: 0, segundos: 0, centesimas: 0 };
-			  }
-			  return { ...prevTiempo, minutos: nuevoMinutos, segundos: 59, centesimas: 99 };
-			}
-			return { ...prevTiempo, segundos: nuevoSegundos, centesimas: 99 };
-		  }
-		  return { ...prevTiempo, centesimas: nuevoCentesimas };
-		});
-	  };
+  const inicioCronometro = () => {
+    worker.current.postMessage('start');
+    setReproduciendo(true);
+  };
+
+  const pararCronometro = () => {
+    worker.current.postMessage('stop');
+    setReproduciendo(false);
+  };
+
+  const reinicioCronometro = () => {
+    worker.current.postMessage('stop');
+    setTiempo({ minutos: 0, segundos: 0, centesimas: 0 });
+    setReproduciendo(false);
+  };
   return (
 		<div class="border bg-body-tertiary d-flex">
 			<div id="contenedor" className="d-flex gap-2 align-items-center">
