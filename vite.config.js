@@ -7,7 +7,6 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
       manifest: {
         display: 'standalone',
         display_override: ['windowControlsOverlay'],
