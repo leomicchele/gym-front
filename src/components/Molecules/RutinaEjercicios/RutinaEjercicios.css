@@ -8,3 +8,8 @@
 .observaciones-input {
     text-align: justify;
 }
+
+.form-check-input:checked {
+    background-color: green;
+    border-color: green;
+}

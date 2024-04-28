@@ -30,8 +30,9 @@ export const Fecha = () => {
     // Obtenemos el nombre del día de la semana
     const nombreDiaSemana = nombresDiasSemana[diaSemana];
 
-    // Mostramos la información en la consola
-    // console.log(`Hoy es ${nombreDiaSemana}, ${dia} de ${nombreMes}`);
+    
+
+
   return (
     <div class="card text-center mb-4">
       <div class="card-header">Hoy es: </div>

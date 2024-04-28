@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Cronometro } from "../Cronometro/Cronometro";
 import TopBar from "../TopBar/TopBar";
 import "./RutinaEjercicios.css"
@@ -10,7 +11,18 @@ const variants = {
 
 export const RutinaEjercicios = ({ ejercicios, dia }) => {
 
-  const handleAbrirCollapse = (index) => {
+  const handleAbrirCollapse = (e, index) => {
+    if (e.target.classList.contains("form-check-input")) {
+      if (e.target.checked) {
+        document.querySelector(".boton-ejercicio-" + index).classList.add("bg-success-subtle")        
+      } else {
+        const boton = document.querySelector(".boton-ejercicio-" + index)
+        boton.classList.remove("bg-success-subtle")        
+        boton.classList.add("bg-primary-subtle")        
+      }
+      return
+    }
+
     if (document.querySelector(".collapse-" + index).classList.contains("show")) {
       document.querySelector(".collapse-" + index).classList.remove("show")
       return      
@@ -23,21 +35,27 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
     <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}>
       <TopBar titulo={`Ejercicios - Día ${dia}`} />
 
+      <h5 className="text-start mb-2 text-secondary text-uppercase">Lista de ejercicios: </h5>
+
       <div class="accordion" id="accordionPanelsStayOpenExample">
         {ejercicios.map((ejercicio, index) => {
           return (
-            <div class="accordion-item mb-3 rounded">
-          <h2 class="accordion-header">
+            <div key={index} class="accordion-item mb-2 rounded">
+              
+            <h2 class="accordion-header">
 
             <button
-              class="accordion-button p-3 rounded"
+              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index}`}
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={"#panelsStayOpen-collapseOne" + index}
               aria-expanded="true"
               aria-controls={"panelsStayOpen-collapseOne" + index}
-              onClick={() => handleAbrirCollapse(index)}
+              onClick={(e) => handleAbrirCollapse(e, index)}
             >
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+              </div>
 
               {ejercicio.ejercicio}
             </button>

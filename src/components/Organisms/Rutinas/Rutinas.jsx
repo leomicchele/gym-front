@@ -1,15 +1,8 @@
 
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { getSessionStorage } from "../../helpers/storage";
 import { LoginContext } from "../../../context/LoginContext";
-import TopBar from "../../Molecules/TopBar/TopBar";
 import "./Alumnos.css"
-import { SearchBar } from "../../Molecules/SearchBar";
-import { alumnoCreateFetch, alumnoDeleteFetch, alumnoUpdateFetch, getFetch } from "../../helpers/fetch";
-import { TableContainer } from "../../Molecules/TableContainer/TableContainer";
-import { Alert } from "../../Atoms/Alert/Alert";
-import { Modal } from "../../Molecules/Modal/Modal";
-import { Pagination } from "../../Molecules/Pagination/Pagination";
 import { RutinaDias } from "../../Molecules/RutinaDias/RutinaDias";
 import { RutinaEjercicios } from "../../Molecules/RutinaEjercicios/RutinaEjercicios";
 import { AnimatePresence, motion } from "framer-motion"
