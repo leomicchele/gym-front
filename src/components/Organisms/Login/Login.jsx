@@ -7,6 +7,7 @@ import { getSessionStorage, setSessionStorage } from "../../helpers/storage";
 import { ModalError } from "../../Molecules/ModalError/ModalError";
 import { config } from "../../helpers/config.js";
 import { Loader } from "../../Atoms/Loader/Loader.tsx";
+import { motion } from "framer-motion"
 
 export const Login = () => {
 
@@ -47,7 +48,7 @@ export const Login = () => {
 
   return (
     <div className="align">
-      <div className="grid  animate__animated animate__bounce">
+      <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} className="grid  ">
         <div>
           <img src="/imagenes/gymLogo2.png" alt="" style={{width: "200px"}}/>
         </div>
@@ -122,7 +123,7 @@ export const Login = () => {
                 </div>
               }
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -1,6 +1,12 @@
 import { Cronometro } from "../Cronometro/Cronometro";
 import TopBar from "../TopBar/TopBar";
 import "./RutinaEjercicios.css"
+import { motion } from "framer-motion"
+
+const variants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0, x: "-100%" },
+}
 
 export const RutinaEjercicios = ({ ejercicios, dia }) => {
 
@@ -14,7 +20,7 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
 
 
   return (
-    <>
+    <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}>
       <TopBar titulo={`Ejercicios - Día ${dia}`} />
 
       <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -36,9 +42,12 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
               {ejercicio.ejercicio}
             </button>
           </h2>
-          <div
+          <motion.div
+            initial="closed"
+            animate="open"
+            variants={variants}
             id="panelsStayOpen-collapseOne"
-            class={`accordion-collapse border border-primary-subtle collapse-${index} collapse animate__animated animate__fadeIn animate__fast`}
+            class={`accordion-collapse border border-primary-subtle collapse-${index} collapse`}
           >
 
             <div class="accordion-body px-2">
@@ -57,13 +66,13 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
             </div>
 
 
-          </div>
+          </motion.div>
         </div>
           );
         })}
         
         
       </div>
-    </>
+    </motion.div>
   );
 };

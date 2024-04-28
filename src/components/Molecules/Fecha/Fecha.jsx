@@ -1,6 +1,13 @@
 export const Fecha = () => {
-    // Obtenemos la fecha actual
-    const fechaActual = new Date();
+    let fechaActual = new Date();
+
+    // Obtener la diferencia horaria en minutos para GMT -3
+    let diferenciaHorariaMinutos = -3 * 60; // -3 horas * 60 minutos/hora
+
+    // Aplicar la diferencia horaria
+    fechaActual.setMinutes(fechaActual.getMinutes() + diferenciaHorariaMinutos);
+
+    console.log(fechaActual)
 
     // Obtenemos el día del mes
     const dia = fechaActual.getDate();
@@ -21,7 +28,7 @@ export const Fecha = () => {
     const nombresDiasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
     // Obtenemos el nombre del día de la semana
-    const nombreDiaSemana = nombresDiasSemana[diaSemana - 1];
+    const nombreDiaSemana = nombresDiasSemana[diaSemana];
 
     // Mostramos la información en la consola
     // console.log(`Hoy es ${nombreDiaSemana}, ${dia} de ${nombreMes}`);
@@ -29,8 +36,6 @@ export const Fecha = () => {
     <div class="card text-center mb-4">
       <div class="card-header">Hoy es: </div>
       <div class="card-body">
-        {/* <h5 class="card-title">{`${nombreDiaSemana.slice(0, 3) + "."}`}</h5>
-        <h5 class="card-title">{`${dia}`}</h5> */}
         <h5 class="card-title">{`${nombreDiaSemana}, ${dia} de ${nombreMes}`}</h5>
       </div>
     </div>

@@ -5,6 +5,8 @@ import { Loader } from "../../Atoms/Loader/Loader"
 import { ModalViewBody } from "../ModalViewBody/ModalViewBody"
 import { Button } from "../../Atoms/Button/Button"
 import { ModalCreateBody } from "../ModalCreateBody/ModalCreateBody"
+import { motion, AnimatePresence } from "framer-motion"
+
 
 
 export const Modal = (
@@ -39,7 +41,7 @@ export const Modal = (
 
   return (
     <div className="modal " tabIndex="-1">
-    <div className="modal-dialog animate__animated animate__fadeInDown">
+    <motion.div initial={{opacity: 0, y: -100}} animate={{opacity: 1, y: 0}} transition={{duration: 0.3, ease: "easeOut"}} className="modal-dialog ">
       <div className="modal-content">
         <div className="modal-header gap-2">
           <h5 className="modal-title">{title}</h5>
@@ -58,21 +60,21 @@ export const Modal = (
 
         <div className="modal-footer">
             { state.error &&  <Alert type={"danger"} msg={msg}/> }
-            { state.formInputSuccess && <Alert type={"success"} msg={msg}/> }
+            { state.formInputSuccess && <Alert type={"success"} msg={tipoModal === "editar" ? "Actualizado" : msg}/> }
             
           <button disabled={state.loading} type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => handleIsOpen(false)}>Cerrar</button>
 
 
             
           {/* ------------- EDITAR / ACTUALIZAR ------------- */}
-            {
+            {/* {
                 !isEdit & (tipoModal === "editar") & !state.formInputSuccess ?
                 <Button msg={"Editar"} estilo={"editar"} loading={state.loading} functionHandle={handleIsEdit}/>
                 :
                 <></>
-            }
+            } */}
             {
-                isEdit & (tipoModal === "editar") & !state.formInputSuccess ?
+                (tipoModal === "editar")  ?
                 <Button msg={"Actualizar"} loading={state.loading} functionHandle={handleFunction}/>
                 :
                 <></>
@@ -95,7 +97,7 @@ export const Modal = (
             }
         </div>
       </div>
-    </div>
+    </motion.div>
   </div>
   )
 }

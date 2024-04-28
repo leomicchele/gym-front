@@ -6,8 +6,6 @@ import { Button } from "../../Atoms/Button/Button";
 import { useContext, useEffect } from "react";
 import { getSessionStorage, removeSessionStorage } from "../../helpers/storage";
 import { LoginContext } from "../../../context/LoginContext";
-// import { CLIENT_ID, urlAmbientesOpenId } from "../../helpers/fetch";
-
 
 
 const MenuPrincipal = () => {
@@ -38,7 +36,7 @@ const MenuPrincipal = () => {
 
 
    return (
-     <div className="container-menu">
+     <div  className="container-menu">
        {/* <TopBar titulo={"Menú principal"}/> */}
 
        {/* <form

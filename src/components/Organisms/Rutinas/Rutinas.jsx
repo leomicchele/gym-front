@@ -12,6 +12,8 @@ import { Modal } from "../../Molecules/Modal/Modal";
 import { Pagination } from "../../Molecules/Pagination/Pagination";
 import { RutinaDias } from "../../Molecules/RutinaDias/RutinaDias";
 import { RutinaEjercicios } from "../../Molecules/RutinaEjercicios/RutinaEjercicios";
+import { AnimatePresence, motion } from "framer-motion"
+
 
 export const Rutinas = () => {
 
@@ -23,6 +25,7 @@ export const Rutinas = () => {
     const {id, rol, token, rutina} = getSessionStorage()
 
     const handleChangePage = (page) => {
+
         setPageDia(page)
         setDiasOEjercicios("ejercicios")
     }
@@ -30,12 +33,14 @@ export const Rutinas = () => {
 
   return (
     <div className="container container-alumno">
+      <AnimatePresence>
       {
-        diasOEjercicios === "dias" ?
-        <RutinaDias rutina={rutina} handleChangePage={handleChangePage} />
-        :
-        <RutinaEjercicios ejercicios={rutina[pageDia].ejercicios} dia={pageDia+1} />
+        diasOEjercicios === "dias" ?        
+          <RutinaDias rutina={rutina} handleChangePage={handleChangePage} />
+        :        
+          <RutinaEjercicios ejercicios={rutina[pageDia].ejercicios} dia={pageDia+1} />
       }
+      </AnimatePresence>
       
     </div>
   );
