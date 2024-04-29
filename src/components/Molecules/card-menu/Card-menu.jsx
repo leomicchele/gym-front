@@ -1,6 +1,5 @@
 import { Image } from "../../Atoms/Image";
 import { ChevronRight } from "../../Atoms/icons/ChevronRight";
-// import { Ecopuntos } from "../../Atoms/icons/Ecopuntos";
 import { Alumnos } from "../../Organisms/Alumnos/Alumnos";
 import "./Card-menu.css";
 

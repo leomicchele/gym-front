@@ -67,7 +67,7 @@ const MenuPrincipal = () => {
          </div>
        </nav>
        <div>
-         <div className="d-flex flex-column justify-content-start mt-3 p-4 bg-white container_cards border border-1">
+         <div className="d-flex flex-column justify-content-start mt-3 p-4 mx-3 bg-white container_cards border border-1">
            <h4 className="text-start text-dark">Mis tableros</h4>
            <div className="d-flex justify-content-start mt-3 gap-3 flex-wrap container_cards">
             {
@@ -85,14 +85,14 @@ const MenuPrincipal = () => {
               <>
               <div>
                 <CardMenu
-                 title={"profesores"}
+                 title={"Profesores"}
                  description={"Entrá y consultá tus profesores"}
                  handler={handlerClickCardMenu}
                />
               </div>
               <div>
                 <CardMenu
-                  title={"alumnos"}
+                  title={"Alumnos"}
                   description={"Entrá y consultá tus alumnos"}
                   handler={handlerClickCardMenu}
                 />

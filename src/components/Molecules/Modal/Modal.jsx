@@ -57,6 +57,7 @@ export const Modal = (
           :
           <></>
         }
+        {  tipoModal === "terminar" && <p className="fs-6">{msg}</p> }
 
         <div className="modal-footer">
             { state.error &&  <Alert type={"danger"} msg={msg}/> }
@@ -90,6 +91,15 @@ export const Modal = (
             {/* ------------- ELIMINAR ------------- */}
             {
               tipoModal === "eliminar" & !state.formInputSuccess ?
+              <Button msg={"Si"} estilo={"eliminar"} loading={state.loading} functionHandle={handleFunction}/>
+              :
+              <></>
+
+            }
+            {/* ------------- TERMINAR ENTRENAMIENTO ------------- */}
+
+            {
+              tipoModal === "terminar" & !state.formInputSuccess ?
               <Button msg={"Si"} estilo={"eliminar"} loading={state.loading} functionHandle={handleFunction}/>
               :
               <></>

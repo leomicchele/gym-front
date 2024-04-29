@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Cronometro } from "../Cronometro/Cronometro";
 import TopBar from "../TopBar/TopBar";
 import "./RutinaEjercicios.css"
 import { motion } from "framer-motion"
+import { Button } from "../../Atoms/Button/Button";
+import { Modal } from "../Modal/Modal";
+import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../../../context/LoginContext";
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -10,6 +14,55 @@ const variants = {
 }
 
 export const RutinaEjercicios = ({ ejercicios, dia }) => {
+
+  const [isOpen, setIsOpen] = useState(false)
+  const [ejerciciosRealizados, setEjerciciosRealizados] = useState(0)
+  const navigate = useNavigate()
+  const {state, dispatch} = useContext(LoginContext)
+
+
+  const handleEjercicioRealizado = (e, index) => {
+    if (e.target.classList.contains("form-check-input")) {
+      if (e.target.checked) {
+        setEjerciciosRealizados(ejerciciosRealizados + 1)
+      } else {
+        setEjerciciosRealizados(ejerciciosRealizados - 1)
+      }
+      console.log(ejerciciosRealizados)
+    }
+  }
+
+  const handleFrases = () => {
+    let frase = ""
+    switch (ejerciciosRealizados) {
+      case 0:
+        frase = "¿solo eso? 🤔"
+        break;    
+      case 1:
+        frase = "Vamos por más! 💪"
+        break;      
+      case 2:
+        frase = "sigue así! 😉"
+        break;  
+      default: 
+        frase = "Enhorabuena! 🎉"
+        break;
+    }
+    return frase
+  }
+
+  const handleFinalizarEntrenamiento = () => {
+    dispatch({type: "LOADING"})
+
+    setTimeout(() => {
+      dispatch({type: "SUCCESS"})
+      setIsOpen(!isOpen)
+      navigate("/menu")
+      
+    }, 1000);
+
+
+  }
 
   const handleAbrirCollapse = (e, index) => {
     if (e.target.classList.contains("form-check-input")) {
@@ -54,7 +107,7 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
               onClick={(e) => handleAbrirCollapse(e, index)}
             >
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={(e) => handleEjercicioRealizado(e)} />
               </div>
 
               {ejercicio.ejercicio}
@@ -75,10 +128,10 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
               <li class="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">KILOS: </span></div>  <div className="text-start">{ejercicio.kilos.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
               <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">METODO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.metodo}</span></div></li>
               <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">OBS: </span></div>  <div className="observaciones-input"><span className="fw-medium text-info-emphasis">{ejercicio.observaciones}</span></div></li>
-              <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div></li>
-              {/* <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso} min</span></div></li> */}
+              {/* <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div></li> */}
+              <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
               
-            <Cronometro key={index} index={index} descanso={ejercicio.descanso}/>
+            {/* <Cronometro key={index} index={index} descanso={ejercicio.descanso}/> */}
              
             </ul>
             </div>
@@ -91,6 +144,11 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
         
         
       </div>
+      <button className="btn btn-dark my-4 col-12" onClick={() => setIsOpen(!isOpen)}>Finalizar Entrenamiento</button>
+      {
+        isOpen && <Modal tipoModal={"terminar"} handleFunction={handleFinalizarEntrenamiento}  handleIsOpen={setIsOpen} title={`Has realizado ${ejerciciosRealizados} ejercicio/s, ${handleFrases()}`} msg={"¿Deseas finalizar tu entrenamiento?"}/>
+      }
+
     </motion.div>
   );
 };
