@@ -90,24 +90,24 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
 
       <h5 className="text-start mb-2 text-secondary text-uppercase">Lista de ejercicios: </h5>
 
-      <div class="accordion" id="accordionPanelsStayOpenExample">
+      <div className="accordion" id="accordionPanelsStayOpenExample">
         {ejercicios.map((ejercicio, index) => {
           return (
-            <div key={index} class="accordion-item mb-2 rounded">
+            <div key={index} className="accordion-item mb-2 rounded">
               
-            <h2 class="accordion-header">
+            <h2 className="accordion-header">
 
             <button
               className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index}`}
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={"#panelsStayOpen-collapseOne" + index}
-              aria-expanded="true"
+              aria-expanded="false"
               aria-controls={"panelsStayOpen-collapseOne" + index}
               onClick={(e) => handleAbrirCollapse(e, index)}
             >
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={(e) => handleEjercicioRealizado(e)} />
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={(e) => handleEjercicioRealizado(e)} />
               </div>
 
               {ejercicio.ejercicio}
@@ -118,18 +118,18 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
             animate="open"
             variants={variants}
             id="panelsStayOpen-collapseOne"
-            class={`accordion-collapse border border-primary-subtle collapse-${index} collapse`}
+            className={`accordion-collapse border border-primary-subtle collapse-${index} collapse`}
           >
 
-            <div class="accordion-body px-2">
-            <ul class="list-group">
-              <li class="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIE: </span></div>  <div className="text-start">{ejercicio.series.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
-              <li class="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start">{ejercicio.reps.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
-              <li class="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">KILOS: </span></div>  <div className="text-start">{ejercicio.kilos.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
-              <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">METODO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.metodo}</span></div></li>
-              <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">OBS: </span></div>  <div className="observaciones-input"><span className="fw-medium text-info-emphasis">{ejercicio.observaciones}</span></div></li>
-              {/* <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div></li> */}
-              <li class="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
+            <div className="accordion-body px-2">
+            <ul className="list-group">
+              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIE: </span></div>  <div className="text-start">{ejercicio.series.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
+              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start">{ejercicio.reps.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
+              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">KILOS: </span></div>  <div className="text-start">{ejercicio.kilos.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
+              <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">METODO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.metodo}</span></div></li>
+              <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">OBS: </span></div>  <div className="observaciones-input"><span className="fw-medium text-info-emphasis">{ejercicio.observaciones}</span></div></li>
+              {/* <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div></li> */}
+              <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
               
             {/* <Cronometro key={index} index={index} descanso={ejercicio.descanso}/> */}
              

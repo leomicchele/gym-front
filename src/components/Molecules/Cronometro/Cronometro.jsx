@@ -98,21 +98,21 @@ export const Cronometro = ({index, descanso}) => {
 		});
 	  };
   return (
-		<div class="border bg-body-tertiary d-flex">
+		<div className="border bg-body-tertiary d-flex">
 			<div id="contenedor" className="d-flex gap-2 align-items-center">
 				<div>
-					{/* <div class="reloj" id="Horas">00</div> */}
+					{/* <div className="reloj" id="Horas">00</div> */}
 					<div id={`Minutos-${index}`} className="reloj">{`${(tiempo.minutos !== undefined ? tiempo.minutos.toString().padStart(2, "0") : "00")}:`}</div>
 					<div id={`Segundos-${index}`} className="reloj">{`${(tiempo.segundos !== undefined ? tiempo.segundos.toString().padStart(2, "0") : "00")}:`}</div>
 					<div id={`Centesimas-${index}`} className="reloj">{`${(tiempo.centesimas !== undefined ? tiempo.centesimas.toString().padStart(2, "0") : "00")}`}</div>
 				</div>
 				{
 					reproduciendo ?
-						<button id={`parar-${index}`} type="button" class="btn btn-warning" onClick={pararCronometro}><Pause/></button>
+						<button id={`parar-${index}`} type="button" className="btn btn-warning" onClick={pararCronometro}><Pause/></button>
 						:
-						<button id={`inicio-${index}`} type="button" class="btn btn-warning" onClick={inicioCronometro}><Play/></button>
+						<button id={`inicio-${index}`} type="button" className="btn btn-warning" onClick={inicioCronometro}><Play/></button>
 				}
-				<button id={`reinicio-${index}`} type="button" class="btn btn-warning" onClick={reinicioCronometro}><Stop/></button>
+				<button id={`reinicio-${index}`} type="button" className="btn btn-warning" onClick={reinicioCronometro}><Stop/></button>
 				
 			</div>
 			</div>

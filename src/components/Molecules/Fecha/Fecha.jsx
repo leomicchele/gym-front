@@ -34,10 +34,10 @@ export const Fecha = () => {
 
 
   return (
-    <div class="card text-center mb-4">
-      <div class="card-header">Hoy es: </div>
-      <div class="card-body">
-        <h5 class="card-title">{`${nombreDiaSemana}, ${dia} de ${nombreMes}`}</h5>
+    <div className="card text-center mb-4">
+      <div className="card-header">Hoy es: </div>
+      <div className="card-body">
+        <h5 className="card-title">{`${nombreDiaSemana}, ${dia} de ${nombreMes}`}</h5>
       </div>
     </div>
   );

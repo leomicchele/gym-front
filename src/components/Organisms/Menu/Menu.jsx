@@ -7,12 +7,18 @@ import { useContext, useEffect } from "react";
 import { getSessionStorage, removeSessionStorage } from "../../helpers/storage";
 import { LoginContext } from "../../../context/LoginContext";
 
+import { motion } from "framer-motion"
+
+const variants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0, x: "-100%" },
+  closedRight: { opacity: 0, x: "100%" },
+}
 
 const MenuPrincipal = () => {
-  //  const path = urlAmbientesOpenId();
-  //  const client_id = CLIENT_ID
 
-   const {id, rol ,token, nombre} = JSON.parse(sessionStorage.getItem("Auth_token"))
+   const {id, rol ,token, nombre} = JSON.parse(localStorage.getItem("Auth_token"))
+  //  const {id, rol ,token, nombre} = JSON.parse(sessionStorage.getItem("Auth_token"))
 
    const { dispatch } = useContext(LoginContext);
 
@@ -57,7 +63,7 @@ const MenuPrincipal = () => {
                  <a className="text-primary">Tableros</a>
                </li>
              </ol> */}
-             <h3 className="m-0">{`Hola ${nombre}`} <span>&#128075;</span></h3>
+             <motion.h3 initial="closed" animate="open" variants={variants} className="m-0">{`Hola ${nombre}`} <span>&#128075;</span></motion.h3>
            </nav>
            <form className="d-flex gap-3 align-items-center m-0" role="search">
              <div onClick={handleCloseSession}>
@@ -67,7 +73,7 @@ const MenuPrincipal = () => {
          </div>
        </nav>
        <div>
-         <div className="d-flex flex-column justify-content-start mt-3 p-4 mx-3 bg-white container_cards border border-1">
+         <motion.div initial="closedRight" animate="open" variants={variants} className="d-flex flex-column justify-content-start mt-3 p-4 mx-3 bg-white container_cards border border-1">
            <h4 className="text-start text-dark">Mis tableros</h4>
            <div className="d-flex justify-content-start mt-3 gap-3 flex-wrap container_cards">
             {
@@ -140,7 +146,7 @@ const MenuPrincipal = () => {
               </div>
             }             
            </div>
-         </div>
+         </motion.div>
        </div>
      </div>
    );

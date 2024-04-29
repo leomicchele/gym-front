@@ -24,7 +24,7 @@ export const RutinaDias = ({rutina, handleChangePage}) => {
                   <h5 className="mb-0 text-start text-secondary fst-italic">{rutina.titulo ? <span className="text-secondary fst-italic">{rutina.titulo}</span> : `Dia ${index+1}`}</h5>
                   {/* <h5 className="mb-0 text-start">Dia {index+1} - <span className="text-secondary fst-italic">{rutina.titulo}</span></h5> */}
                   <div className="d-flex gap-2">
-                    {/* <span class="badge text-bg-primary rounded-pill">{rutina.ejercicios.length}</span> */}
+                    {/* <span className="badge text-bg-primary rounded-pill">{rutina.ejercicios.length}</span> */}
                     <ChevronRight/>
                   </div>
                 </li>
