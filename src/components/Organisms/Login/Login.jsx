@@ -20,8 +20,7 @@ export const Login = () => {
   })  
 
   const [errorFetch, setErrorFetch] = useState({
-    errorCredential: false,
-    errorServer: false,
+    error: false,
     errorMsg: ""
   })  
 
@@ -34,14 +33,14 @@ export const Login = () => {
     if (data.login) {
       // dispatch({type: "LOGIN", payload: {...state, user: data.user}})
       dispatch({type: "LOGIN"})
+      setErrorFetch({...errorFetch, error: false, errorMsg: ""})
       setSessionStorage(data.user)
       navigate("/menu")
     } else {
       dispatch({type: "ERROR"})
-      if(data.message.includes("Server")) setErrorFetch({...errorFetch, errorServer: true, errorCredential: false});
-      if(data.message.includes("NO-Registrado")) setErrorFetch({...errorFetch, errorServer: true, errorCredential: false});
-      if(data.message.includes("Usuario")) setErrorFetch({...errorFetch, errorCredential: true, errorMsg: data.message});
-      console.log(errorFetch)
+      if (data.status === 401 || data.status === 400) setErrorFetch({...errorFetch, error: true, errorMsg: data.message})
+      if (data.status === 500) setErrorFetch({...errorFetch, error: true, errorMsg: data.message})
+      
     }
   }
 
@@ -50,7 +49,8 @@ export const Login = () => {
     <div className="align">
       <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} className="grid  ">
         <div>
-          <img src="/imagenes/gymLogo2.png" alt="" style={{width: "200px"}}/>
+          <img src="/imagenes/kairossLogo.webp" alt="" style={{width: "200px"}}/>
+          {/* <img src="/imagenes/gymLogo2.png" alt="" style={{width: "200px"}}/> */}
         </div>
         <form className="form login">
           <div className="form__field">
@@ -116,10 +116,9 @@ export const Login = () => {
             </button>
           </div>
               {
-                (errorFetch.errorServer || errorFetch.errorCredential) &&
-                <div className="alert alert-danger" role="alert">
-                  { errorFetch.errorCredential && "El usuario o la contraseña son incorrectas!" }
-                  { errorFetch.errorServer && "Error al Ingresar" }
+                (errorFetch.error) &&
+                <div className="alert alert-danger" role="alert">                  
+                  { errorFetch.errorMsg }
                 </div>
               }
         </form>

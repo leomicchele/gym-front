@@ -36,16 +36,17 @@ const postFetchLogin = async({userName, password}) => {
   try {
     const response = await fetch(`${path}/api/auth/login`, requestOptions);
     const result = await response.json()
+    console.log(result)
     // console.log(`El resultado del fetch es response ${response}`);
     // console.log(`El resultado del fetch es result ${result}`);
-    if (response.ok === true) return { message: "Ok", login: true, user: result};
-    if (response.status === 401) return { message: "Usuario y/o contraseña incorrecta", login: false};
-    if (response.status === 400) return { message: "NO-Registrado", login: false};
+    if (response.ok === true) return { message: "Ok", login: true, user: result, status: 200};
+    if (response.status === 401) return { message: result.msg || "Usuario y/o contraseña incorrecta", login: false, status: 401};
+    if (response.status === 400) return { message: result.msg || "No Registrado", login: false, status: 400};
 
   } catch (error) {
     console.log('ACA EL ERROR', error);
     
-    return { message: "Error Server", login: false};;
+    return { message: "Error en el servidor", login: false, status: 500};;
   }
 };
 
@@ -87,9 +88,9 @@ export const getFetch = async (idProfesor, idGimnasio) => {
 export const alumnoCreateFetch = async (usuario, idProfesor, idGimnasio) => {
   const path = urlAmbientes();
   let raw = {
-    nombre: usuario.nombre,
-    apellido: usuario.apellido,
-    dni: usuario.dni,
+    nombre: usuario.nombre.trim(),
+    apellido: usuario.apellido.trim(),
+    dni: usuario.dni.trim(),
     password: usuario.password,
     experiencia: usuario.experiencia,
     lesion: usuario.lesion,
@@ -227,11 +228,11 @@ export const getFetchProfesores = async (id) => {
 export const profesorCreateFetch = async (usuario, idGimnasio) => {
   const path = urlAmbientes();
   let raw = {
-    nombre: usuario.nombre,
-    apellido: usuario.apellido,
-    dni: usuario.dni,
+    nombre: usuario.nombre.trim(),
+    apellido: usuario.apellido.trim(),
+    dni: usuario.dni.trim(),
     password: usuario.password,
-    email: usuario.email,
+    email: usuario.email.trim(),
     gimnasio: idGimnasio,
   }
 

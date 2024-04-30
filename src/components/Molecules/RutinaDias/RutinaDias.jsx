@@ -10,7 +10,6 @@ const variants = {
 }
 
 export const RutinaDias = ({rutina, handleChangePage}) => {
-
   return (
     <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}>
       <TopBar titulo={"Mi Rutina"} />
@@ -21,7 +20,7 @@ export const RutinaDias = ({rutina, handleChangePage}) => {
             rutina.map((rutina, index) => {
               return (
                 <li style={{cursor: "pointer"}} className="list-group-item list-group-item-action list-group-item-success mb-2 py-3 d-flex justify-content-between align-items-center border border-success-subtle rounded" key={index} onClick={() => handleChangePage(index)}>
-                  <h5 className="mb-0 text-start text-secondary fst-italic">{rutina.titulo ? <span className="text-secondary fst-italic">{rutina.titulo}</span> : `Dia ${index+1}`}</h5>
+                  <h5 className="mb-0 text-start text-secondary fst-italic">{rutina.titulo ? <span className="text-secondary fst-italic">{rutina.titulo}</span> : <span className="text-secondary fst-italic">{`Dia ${index+1}`}</span>}</h5>
                   {/* <h5 className="mb-0 text-start">Dia {index+1} - <span className="text-secondary fst-italic">{rutina.titulo}</span></h5> */}
                   <div className="d-flex gap-2">
                     {/* <span className="badge text-bg-primary rounded-pill">{rutina.ejercicios.length}</span> */}
