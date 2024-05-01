@@ -15,7 +15,7 @@ export const Rutinas = () => {
 
     const {state, dispatch} = useContext(LoginContext)
 
-    const {id, rol, token, rutina} = getSessionStorage()
+    const {id, rol, token, rutina, caducacionRutina} = getSessionStorage()
 
     const handleChangePage = (page) => {
 
@@ -29,7 +29,7 @@ export const Rutinas = () => {
       <AnimatePresence>
       {
         diasOEjercicios === "dias" ?        
-          <RutinaDias rutina={rutina} handleChangePage={handleChangePage} />
+          <RutinaDias rutina={rutina} handleChangePage={handleChangePage} caducacionRutina={caducacionRutina || "0"}/>
         :        
           <RutinaEjercicios ejercicios={rutina[pageDia].ejercicios} dia={pageDia+1} />
       }

@@ -9,11 +9,11 @@ const variants = {
   closed: { opacity: 0, x: "-100%" },
 }
 
-export const RutinaDias = ({rutina, handleChangePage}) => {
+export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
   return (
     <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}>
       <TopBar titulo={"Mi Rutina"} />
-      <Fecha/>
+      <Fecha caducacionRutina={caducacionRutina} />
       <h5 className="text-start text-uppercase text-dark fw-semibold mb-3">Selecciona el día de tu rutina: </h5>
       <ul  className="list-group">
           {

@@ -9,6 +9,7 @@ import { Edit } from "../../Atoms/icons/Edit"
 import "./ModalViewBody.css"
 import { CheckOkEdit } from "../../Atoms/icons/CheckOkEdit"
 import { ModalViewBodyDias } from "../ModalViewBodyDias/ModalViewBodyDias"
+import { FechaCaducacion } from "../../Atoms/FechaCaducacion/FechaCaducacion"
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -228,88 +229,82 @@ export const ModalViewBody = ({
   
   return (
     <div className="modal-body">
+      <ul className="nav nav-tabs mb-2">{handlePensañasTipoUsuario()}</ul>
 
-      
-            <ul className="nav nav-tabs mb-2">
-              { handlePensañasTipoUsuario() }
-            </ul>
+      {datosOrRutinas === "datos" && handleDatosTipoUsuario()}
+      {datosOrRutinas === "rutinas" ? (
+        // <AnimatePresence>
+        // <>
+        // {
+        //   datosUsuario.rutina.length > 0 && datosUsuario.rutina.map((rutina, indexDia) => {
+        //     return (
 
-            {
-              datosOrRutinas === "datos" && handleDatosTipoUsuario()
-            }
-            {
-              datosOrRutinas === "rutinas" ?
-              // <AnimatePresence>
-              // <>
-              // {
-              //   datosUsuario.rutina.length > 0 && datosUsuario.rutina.map((rutina, indexDia) => {
-              //     return (
-                    
-              //       <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}  key={`dia${+indexDia}`} className="accordion mb-2" id={`acordionDia${indexDia}`}>
-              //           <div  className="accordion-item">
-              //             <h2 className="accordion-header">
-              //               <button onClick={(e) => handleShowDias(e)} className=" position-relative accordion-button d-flex justify-content-between gap-3" type="button" data-bs-toggle="collapse" id={`${indexDia+1}`} data-bs-target={`#collapse${indexDia+1}`} aria-expanded="true" aria-controls="collapseOne">
-              //                 <div>
-              //                   {
-              //                     !isEdit ?
-              //                     <span>{rutina.titulo ? rutina.titulo : <span className="fst-italic text-secondary">Día Nuevo</span>}</span>   
-              //                     :
-              //                     <input type="text" className="form-control" placeholder="Nombre del día" value={rutina.titulo} onChange={(e) => handleSetNombreDia(indexDia, e.target.value)}/>                              
-              //                   }
-              //                 </div>
-              //                 <div className="d-flex align-item-center"  onClick={() => setIsEdit(!isEdit)}>
-              //                   {
-              //                     isEdit ? <CheckOkEdit/> : <Edit/>
-              //                   }
-              //                 </div>
-              //                 {/* <span>Día: {indexDia + 1} {rutina.titulo}</span>    */}
-              //               </button>           
-              //             </h2>
-              //             <motion.div initial={{opacity: 0}} animate={{opacity: 1}}  id={`collapse${indexDia+1}`}  className={`accordion-collapse collapse`} data-bs-parent="#accordionExample">
-              //               <div className="accordion-body py-2 px-1">    
+        //       <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}  key={`dia${+indexDia}`} className="accordion mb-2" id={`acordionDia${indexDia}`}>
+        //           <div  className="accordion-item">
+        //             <h2 className="accordion-header">
+        //               <button onClick={(e) => handleShowDias(e)} className=" position-relative accordion-button d-flex justify-content-between gap-3" type="button" data-bs-toggle="collapse" id={`${indexDia+1}`} data-bs-target={`#collapse${indexDia+1}`} aria-expanded="true" aria-controls="collapseOne">
+        //                 <div>
+        //                   {
+        //                     !isEdit ?
+        //                     <span>{rutina.titulo ? rutina.titulo : <span className="fst-italic text-secondary">Día Nuevo</span>}</span>
+        //                     :
+        //                     <input type="text" className="form-control" placeholder="Nombre del día" value={rutina.titulo} onChange={(e) => handleSetNombreDia(indexDia, e.target.value)}/>
+        //                   }
+        //                 </div>
+        //                 <div className="d-flex align-item-center"  onClick={() => setIsEdit(!isEdit)}>
+        //                   {
+        //                     isEdit ? <CheckOkEdit/> : <Edit/>
+        //                   }
+        //                 </div>
+        //                 {/* <span>Día: {indexDia + 1} {rutina.titulo}</span>    */}
+        //               </button>
+        //             </h2>
+        //             <motion.div initial={{opacity: 0}} animate={{opacity: 1}}  id={`collapse${indexDia+1}`}  className={`accordion-collapse collapse`} data-bs-parent="#accordionExample">
+        //               <div className="accordion-body py-2 px-1">
 
+        //                 <div className="collapse show" id="collapseExample">
+        //                   {
+        //                     rutina.ejercicios?.map((ejercicio, index) => {
+        //                       return (
+        //                           <ModalViewBodyRutinas key={index} datosUsuario={ejercicio} handleSetDatosUsuario={handleSetDatosUsuario} handleRemoveEjercicio={handleRemoveEjercicio} isEdit={isEdit} dia={indexDia} index={index}/>
+        //                       )
+        //                     })
 
-              //                 <div className="collapse show" id="collapseExample">
-              //                   {
-              //                     rutina.ejercicios?.map((ejercicio, index) => {
-              //                       return (
-              //                           <ModalViewBodyRutinas key={index} datosUsuario={ejercicio} handleSetDatosUsuario={handleSetDatosUsuario} handleRemoveEjercicio={handleRemoveEjercicio} isEdit={isEdit} dia={indexDia} index={index}/>
-              //                       )
-              //                     })
-                                  
-              //                   }                
-              //                     {/* <ModalViewBodyRutinas datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} isEdit={isEdit}/> */}
-                                  
-              //                     <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia)}><Add/> Ejercicio</button>
-              //                   {/* <div className="card card-body p-0">
-              //                   </div> */}
-              //                 </div>  
-              //               </div>
-              //               <button type="button" className="btn btn-warning mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>Eliminar dia {indexDia + 1 }</button>                   
-              //             </motion.div>
-              //           </div>
-                        
-              //       </motion.div>
-              //     )                  
-              //   })
-              // }
-              //   <Button msg={"Agregar Día"} functionHandle={handleAddDay}/>
-              // </>
-              // </AnimatePresence>
-              <AnimatePresence>
-              <>
-                {
-                  datosUsuario.rutina.length > 0 && datosUsuario.rutina.map((rutina, indexDia) => {
-                    return <ModalViewBodyDias datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} rutina={rutina} indexDia={indexDia}/>
-                  })
-                }
-              <Button msg={"Agregar Día"} functionHandle={handleAddDay}/>
-            </>
-            </AnimatePresence>
-              : 
+        //                   }
+        //                     {/* <ModalViewBodyRutinas datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} isEdit={isEdit}/> */}
 
-              <></>
-            }
-          </div>
-  )
+        //                     <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia)}><Add/> Ejercicio</button>
+        //                   {/* <div className="card card-body p-0">
+        //                   </div> */}
+        //                 </div>
+        //               </div>
+        //               <button type="button" className="btn btn-warning mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>Eliminar dia {indexDia + 1 }</button>
+        //             </motion.div>
+        //           </div>
+
+        //       </motion.div>
+        //     )
+        //   })
+        // }
+        //   <Button msg={"Agregar Día"} functionHandle={handleAddDay}/>
+        // </>
+        // </AnimatePresence>
+        <AnimatePresence>
+          <>
+            <FechaCaducacion datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario}/>
+            <p className="fs-6 text-warning-emphasis text-uppercase text-decoration-underline mt-3 mb-2 text-start">Días: </p>
+            {datosUsuario.rutina.length > 0 &&
+              datosUsuario.rutina.map((rutina, indexDia) => {
+                return (
+                  <ModalViewBodyDias datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} rutina={rutina} indexDia={indexDia}/>
+                );
+              })}
+            <Button msg={"Agregar Día"} functionHandle={handleAddDay} />
+          </>
+        </AnimatePresence>
+      ) : (
+        <></>
+      )}
+    </div>
+  );
 }
