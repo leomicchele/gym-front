@@ -49,7 +49,7 @@ export const Login = () => {
     <div className="align">
       <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} className="grid  ">
         <div>
-          <img src="/imagenes/kairossLogo.webp" alt="" style={{width: "200px"}}/>
+          <img src="/imagenes/kairossLogo.png" alt="" style={{width: "200px"}}/>
           {/* <img src="/imagenes/gymLogo2.png" alt="" style={{width: "200px"}}/> */}
         </div>
         <form className="form login">

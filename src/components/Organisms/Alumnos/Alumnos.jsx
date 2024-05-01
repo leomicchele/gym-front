@@ -39,7 +39,7 @@ export const Alumnos = () => {
 
     const {state, dispatch} = useContext(LoginContext)
 
-    const {id, rol, token} = getSessionStorage()
+    const {id, rol, token, gimnasio} = getSessionStorage()
 
     // TRAE TODOS LOS ALUMNOS
     const handlerUpdate = async() => {
@@ -93,8 +93,8 @@ export const Alumnos = () => {
         return
       }
 
-      const idProfesor  = rol === "PROFESOR_ROL" ? id : null
-      const idGimnasio  = rol === "GYM_ROL" ? id : null
+      const idProfesor  = rol === "PROFESOR_ROL" ? id : null // Si es el profesor quien crea, pasa su id, si crea un gimnasio, pasa null
+      const idGimnasio  = rol === "GYM_ROL" ? id : gimnasio // Si es el gimnasio quien crea, pasa su id, si crea un profesor, pasa el id del gimnasio
 
       dispatch({type: "LOADING"})
       try {

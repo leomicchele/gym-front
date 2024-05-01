@@ -11,27 +11,27 @@ export default defineConfig({
         display: 'standalone',
         display_override: ['windowControlsOverlay'],
         lang: 'es-ES',
-        name: 'Gym Dashboard App',
-        short_name: 'Gym App',
+        name: 'Kaiross Gym App',
+        short_name: 'Kaiross Gym',
         description: 'App Rutinas',
         theme_color: "#19223c",
         background_color: "#d4d4d4",
         icons: [         
           {
-            src: '/imagenes/gym-icon-32.png',
+            src: '/imagenes/kaiross-32.png',
             sizes: '32x32',
             type: 'image/png',
             purpose: 'any',
           },         
           {
-            src: '/imagenes/gym-icon-96.png',
+            src: '/imagenes/kaiross-96.png',
             sizes: '96x96',
             type: 'image/png',
             purpose: 'any',
           },         
           {
-            src: '/imagenes/gym-icon-144.png',
-            sizes: '144x144',
+            src: '/imagenes/kaiross-250.png',
+            sizes: '250x250',
             type: 'image/png',
             purpose: 'any',
           }      
