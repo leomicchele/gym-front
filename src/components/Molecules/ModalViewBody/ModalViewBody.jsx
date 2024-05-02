@@ -29,113 +29,12 @@ export const ModalViewBody = ({
   const [isEdit, setIsEdit] = useState(false);
 
 
-  // datosUsuario.rutina = [
-  //   {
-  //     ejercicios: [
-  //       {
-  //         ejercicio: "Press banca",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       },
-  //       {
-  //         ejercicio: "Press Inclinado",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       }, 
-  //       {
-  //         ejercicio: "Apertura con mancuerna",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       },
-  //       {
-  //         ejercicio: "Polea Cruzada",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       }
-  //     ] ,      
-  //   },
-  //   {
-  //     ejercicios: [
-  //       {
-  //         ejercicio: "Tiron al pecho",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       },
-  //       {
-  //         ejercicio: "Remo con barra T",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       }, 
-  //       {
-  //         ejercicio: "Polea tras nuca",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       },
-  //       {
-  //         ejercicio: "Pull Over",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       }
-  //     ] ,      
-  //   },
-  //   {
-  //     ejercicios: [
-  //       {
-  //         ejercicio: "Sentadilla",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       },
-  //       {
-  //         ejercicio: "Peso Muerto",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       }, 
-  //       {
-  //         ejercicio: "Leg Curl",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       },
-  //       {
-  //         ejercicio: "Leg Extension",
-  //         series: [4, 4, 4, 4, 4],
-  //         reps: [12, 10, 8, 6, 4],
-  //         descanso: 2,
-  //         kilos: [20, 30, 40, 50, 60]
-  //       }
-  //     ] ,      
-  //   },
-
-  // ]
-
   const handleShowDias = (e) => {
     const divShow = document.querySelector(`#collapse${e.target.id}`)
     divShow.classList.toggle("show")
   }
 
   const handleAddDay = () => {
-    console.log("entra")
     const newDay = {
       ejercicios: []
     }
@@ -233,62 +132,6 @@ export const ModalViewBody = ({
 
       {datosOrRutinas === "datos" && handleDatosTipoUsuario()}
       {datosOrRutinas === "rutinas" ? (
-        // <AnimatePresence>
-        // <>
-        // {
-        //   datosUsuario.rutina.length > 0 && datosUsuario.rutina.map((rutina, indexDia) => {
-        //     return (
-
-        //       <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}  key={`dia${+indexDia}`} className="accordion mb-2" id={`acordionDia${indexDia}`}>
-        //           <div  className="accordion-item">
-        //             <h2 className="accordion-header">
-        //               <button onClick={(e) => handleShowDias(e)} className=" position-relative accordion-button d-flex justify-content-between gap-3" type="button" data-bs-toggle="collapse" id={`${indexDia+1}`} data-bs-target={`#collapse${indexDia+1}`} aria-expanded="true" aria-controls="collapseOne">
-        //                 <div>
-        //                   {
-        //                     !isEdit ?
-        //                     <span>{rutina.titulo ? rutina.titulo : <span className="fst-italic text-secondary">Día Nuevo</span>}</span>
-        //                     :
-        //                     <input type="text" className="form-control" placeholder="Nombre del día" value={rutina.titulo} onChange={(e) => handleSetNombreDia(indexDia, e.target.value)}/>
-        //                   }
-        //                 </div>
-        //                 <div className="d-flex align-item-center"  onClick={() => setIsEdit(!isEdit)}>
-        //                   {
-        //                     isEdit ? <CheckOkEdit/> : <Edit/>
-        //                   }
-        //                 </div>
-        //                 {/* <span>Día: {indexDia + 1} {rutina.titulo}</span>    */}
-        //               </button>
-        //             </h2>
-        //             <motion.div initial={{opacity: 0}} animate={{opacity: 1}}  id={`collapse${indexDia+1}`}  className={`accordion-collapse collapse`} data-bs-parent="#accordionExample">
-        //               <div className="accordion-body py-2 px-1">
-
-        //                 <div className="collapse show" id="collapseExample">
-        //                   {
-        //                     rutina.ejercicios?.map((ejercicio, index) => {
-        //                       return (
-        //                           <ModalViewBodyRutinas key={index} datosUsuario={ejercicio} handleSetDatosUsuario={handleSetDatosUsuario} handleRemoveEjercicio={handleRemoveEjercicio} isEdit={isEdit} dia={indexDia} index={index}/>
-        //                       )
-        //                     })
-
-        //                   }
-        //                     {/* <ModalViewBodyRutinas datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} isEdit={isEdit}/> */}
-
-        //                     <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia)}><Add/> Ejercicio</button>
-        //                   {/* <div className="card card-body p-0">
-        //                   </div> */}
-        //                 </div>
-        //               </div>
-        //               <button type="button" className="btn btn-warning mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>Eliminar dia {indexDia + 1 }</button>
-        //             </motion.div>
-        //           </div>
-
-        //       </motion.div>
-        //     )
-        //   })
-        // }
-        //   <Button msg={"Agregar Día"} functionHandle={handleAddDay}/>
-        // </>
-        // </AnimatePresence>
         <AnimatePresence>
           <>
             <FechaCaducacion datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario}/>
