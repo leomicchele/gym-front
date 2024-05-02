@@ -11,6 +11,7 @@ import HeroLogin from './components/HeroLogin';
 import { Alumnos } from './components/Organisms/Alumnos/Alumnos';
 import { Profesores } from './components/Organisms/Profesores/Profesores';
 import { Rutinas } from './components/Organisms/Rutinas/Rutinas';
+import './scss/styles.scss'
 
 function App() {
 

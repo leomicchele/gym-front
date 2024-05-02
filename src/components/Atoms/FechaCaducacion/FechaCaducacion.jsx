@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { CheckOkEdit } from "../icons/CheckOkEdit";
 import { Edit } from "../icons/Edit";
 import "./FechaCaducacion.css";
+import { motion } from "framer-motion";
+
+const variants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0, x: "-100%" },
+}
 
 export const FechaCaducacion = ({datosUsuario, setDatosUsuario}) => {
 
-  console.log(datosUsuario)
 
   const [isEdit, setIsEdit] = useState(false);
   const [fecha, setFecha] = useState(datosUsuario.caducacionRutina || "--/--/----");
-  console.log({fecha})
 
   const handleInputChange = (e, field) => {
     const { value } = e.target;
@@ -36,10 +40,10 @@ export const FechaCaducacion = ({datosUsuario, setDatosUsuario}) => {
   };
 
   return (
-    <div class="input-group mb-2 d-flex flex-column text-start">
+    <div  class="input-group mb-2 d-flex flex-column text-start">
       {/* <span class="input-group-text px-2" id="basic-addon1">Caduca:</span> */}
       <label for="basic-url" class="form-label fs-6 text-warning-emphasis text-uppercase text-decoration-underline mb-2 ">Fecha de actualizacion: </label>
-      <div class="input-group-text gap-2 d-flex justify-content-between container-caducacion">
+      <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants} class="input-group-text gap-2 d-flex justify-content-between container-caducacion">
 
         {
             isEdit ?
@@ -67,7 +71,7 @@ export const FechaCaducacion = ({datosUsuario, setDatosUsuario}) => {
             </>
         }
         
-      </div>
+      </motion.div>
 
     
                 
