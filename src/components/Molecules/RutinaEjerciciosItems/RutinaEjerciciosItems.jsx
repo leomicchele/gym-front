@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 import { Edit } from "../../Atoms/icons/Edit"
 import { useContext, useEffect, useState } from "react";
 import { getSessionStorage, updateSessionStorage } from "../../helpers/storage";
-import { RutinaContext } from "../../../context/rutinaContext";
+import { RutinaContext } from "../../../context/RutinaContext";
 import { CheckOk } from "../../Atoms/icons/CheckOk";
 import { CheckOkEdit } from "../../Atoms/icons/CheckOkEdit";
 import { alumnoUpdateFetch } from "../../helpers/fetch";

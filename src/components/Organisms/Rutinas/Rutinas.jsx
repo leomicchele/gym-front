@@ -6,7 +6,7 @@ import "./Alumnos.css"
 import { RutinaDias } from "../../Molecules/RutinaDias/RutinaDias";
 import { RutinaEjercicios } from "../../Molecules/RutinaEjercicios/RutinaEjercicios";
 import { AnimatePresence, motion } from "framer-motion"
-import { RutinaContext } from "../../../context/rutinaContext";
+import { RutinaContext } from "../../../context/RutinaContext";
 
 
 export const Rutinas = () => {

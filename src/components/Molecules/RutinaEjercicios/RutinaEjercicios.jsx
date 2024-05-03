@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../../context/LoginContext";
 import { Edit } from "../../Atoms/icons/Edit";
 import { RutinaEjerciciosItems } from "../RutinaEjerciciosItems/RutinaEjerciciosItems";
-import { RutinaContext } from "../../../context/rutinaContext";
+import { RutinaContext } from "../../../context/RutinaContext";
 
 const variants = {
   open: { opacity: 1, x: 0 },
