@@ -5,6 +5,11 @@ export const setSessionStorage = (user) => {
 export const getSessionStorage = () => {
     return JSON.parse(localStorage.getItem('Auth_token'))
 }
+export const updateSessionStorage = (updateProperty, property) => {
+    let authToken = JSON.parse(localStorage.getItem('Auth_token'))
+    authToken[property] = updateProperty
+    localStorage.setItem('Auth_token', JSON.stringify(authToken));
+}
 export const removeSessionStorage = () => {
     return localStorage.removeItem('Auth_token')
 }

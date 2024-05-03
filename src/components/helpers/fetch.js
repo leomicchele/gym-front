@@ -11,7 +11,7 @@ const validateEmail = (userName) => {
   return re.test(userName);
 };
 
-// LOGIN
+// ---------------- LOGIN ----------------
 const postFetchLogin = async({userName, password}) => {
   const path = urlAmbientes();
   const isEmail = validateEmail(userName);
@@ -146,6 +146,7 @@ export const alumnoUpdateFetch = async (usuario, idProfesor) => {
   };
   try {
     const response = await fetch(`${path}/api/alumnos/${idUsuario}`, requestOptions);
+    const result = await response.json()
 
     if (response.status === 401) return { message: "No autorizado", error: true};
     if (response.status === 500) return { message: "Error en el servidor", error: true};
@@ -153,7 +154,7 @@ export const alumnoUpdateFetch = async (usuario, idProfesor) => {
     if (response.status === 400) return { message: "Error en los datos", error: true};
     if (response.ok === false) return { message: "Error en la peticion", error: true};
 
-    if (response.ok === true) return { message: "Alumno Actualizado", error: false};
+    if (response.ok === true) return { message: "Alumno Actualizado", error: false, data: result};
     
   } catch (error) {
     console.log({error})
@@ -190,7 +191,6 @@ export const alumnoDeleteFetch = async (id) => {
   }
 
 }
-
 
 // ---------------- PROFESORES ----------------
 
