@@ -101,6 +101,7 @@ export const alumnoCreateFetch = async (usuario, idProfesor, idGimnasio) => {
     profesor: idProfesor || null,
     gimnasio: idGimnasio || usuario.gimnasio,
     rutina: [],
+    fechaCreacion: new Date()
   }
 
   let requestOptions = {
@@ -234,6 +235,7 @@ export const profesorCreateFetch = async (usuario, idGimnasio) => {
     password: usuario.password,
     email: usuario.email.trim(),
     gimnasio: idGimnasio,
+    fechaCreacion: new Date()
   }
 
   let requestOptions = {

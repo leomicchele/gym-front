@@ -86,6 +86,14 @@ export const ModalViewBodyDatosAlumno = ({
                     <span>{datosUsuario.profesor?.nombre} {datosUsuario.profesor?.apellido}</span>
                                         
                   </li>
+                  <li className="list-group-item d-flex align-items-center gap-2">
+                    <span className="fw-semibold">Fecha de creacion: </span> 
+                    {
+                      !datosUsuario.fechaCreacion ? <span> </span> : <span>{new Date(datosUsuario?.fechaCreacion).getDate()} / {new Date(datosUsuario?.fechaCreacion).getMonth()} / {new Date(datosUsuario?.fechaCreacion).getFullYear()}</span>
+                    }
+                    
+                                        
+                  </li>
                 </ul>
            
   )
