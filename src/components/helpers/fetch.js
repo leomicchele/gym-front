@@ -329,4 +329,34 @@ export const profesorDeleteFetch = async (id) => {
 
 }
 
+// ---------------- RUTINAS ----------------
+export const getRutina = async (usuario) => {
+  console.log(usuario.rutinaId)
+  const path = urlAmbientes();
+  const idRutina = usuario.rutinaId;
+
+  var requestOptions = {
+    method: 'GET',
+    // redirect: 'follow',
+    headers: {
+      'accept': 'application/json', 
+      // "Authorization": `Bearer ${user.token}`,
+      
+    }
+  };
+  try {
+    const response = await fetch(`${path}/api/rutina/${idRutina}`, requestOptions);
+    if (response.status == 401) {
+      return false
+    }
+    const result = await response.json()
+
+    return result
+    
+  } catch (error) {
+    throw new Error ( `Failed to connect to api` );
+  }
+
+}
+
 export default postFetchLogin;

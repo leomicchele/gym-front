@@ -1,11 +1,11 @@
 
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { getSessionStorage } from "../../helpers/storage";
 import { LoginContext } from "../../../context/LoginContext";
 import TopBar from "../../Molecules/TopBar/TopBar";
 import "./Alumnos.css"
 import { SearchBar } from "../../Molecules/SearchBar";
-import { alumnoCreateFetch, alumnoDeleteFetch, alumnoUpdateFetch, getFetch } from "../../helpers/fetch";
+import { alumnoCreateFetch, alumnoDeleteFetch, alumnoUpdateFetch, getFetch, getRutina } from "../../helpers/fetch";
 import { TableContainer } from "../../Molecules/TableContainer/TableContainer";
 import { Alert } from "../../Atoms/Alert/Alert";
 import { Modal } from "../../Molecules/Modal/Modal";
@@ -33,7 +33,9 @@ export const Alumnos = () => {
       objetivo: "",
       diasSemanales: "",
       deporte: "",
-      rutina: []
+      rutina: [], 
+      rutinaId: "",
+      caducacionRutina: ""
     });
     const [numerPage , setNumerPage ] = useState(1)
 
@@ -115,7 +117,7 @@ export const Alumnos = () => {
     }
 
     // ABRE MODAL ALUMNO
-    const handleModalAlumnoOpen = (isOpen, id) => {
+    const handleModalAlumnoOpen = async (isOpen, id) => {
       const usuariosFilter = usuariosAll.filter(usuario => {
         return usuario._id === id     
       });
@@ -123,7 +125,7 @@ export const Alumnos = () => {
 
       // Abre modal
       if (isOpen) {
-        setModalView(true)       
+        setModalView(true)
       } 
 
       // Cierra modal
@@ -132,6 +134,19 @@ export const Alumnos = () => {
         dispatch({type: "SUCCESS"})
       } 
     }
+
+    const handleTraerRutina = async() => {
+      dispatch({type: "LOADING"})
+      try {
+        const response = await getRutina(datosAlumno); 
+        setDatosAlumno({...datosAlumno, rutina: response.rutina, caducacionRutina: response.caducacionRutina})
+        dispatch({type: "SUCCESS"})
+      } catch (error) {
+        dispatch({type: "ERROR"})
+        console.info({error})
+      }
+    }
+
 
     // ACTUALIZA ALUMNO
     const handleUpdateAlumno = async() => {
@@ -143,7 +158,7 @@ export const Alumnos = () => {
 
       dispatch({type: "LOADING"})
       try {
-        const response = await alumnoUpdateFetch(datosAlumno, id); 
+        const response = await alumnoUpdateFetch(datosAlumno); 
         if (response.error) {
           dispatch({type: "ERROR"})
           setResponseMsg(response.message)
@@ -202,7 +217,12 @@ export const Alumnos = () => {
       }
     }
     
-    
+    useEffect(() => {
+      if (modalView && datosAlumno.dni !== "" && datosAlumno.rutina.length === 0) {
+        handleTraerRutina()        
+      }
+    }
+    , [modalView])
 
   return (
     <div className="container container-alumno">
@@ -242,7 +262,8 @@ export const Alumnos = () => {
         title={`${datosAlumno.nombre} ${datosAlumno.apellido}`} 
         msg={responseMsg} 
         tipoUsuario={"alumno"}  
-        tipoModal={"editar"}/>
+        tipoModal={"editar"}
+        />
       }
       { modalSeguro && <Modal handleFunction={handleDeleteAlumno} handleIsOpen={handleModalSeguroOpen} title={`¿Deseas eliminar a ${datosAlumno.nombre} ${datosAlumno.apellido}?`} msg={responseMsg} tipoModal={"eliminar"} tipoUsuario={"alumno"} /> }
 

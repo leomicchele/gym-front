@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Fecha } from "../Fecha/Fecha"
 import TopBar from "../TopBar/TopBar"
 import { motion } from "framer-motion"
 import { ChevronRight } from "../../Atoms/icons/ChevronRight"
+import { LoginContext } from "../../../context/LoginContext"
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -10,12 +11,34 @@ const variants = {
 }
 
 export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
+  const {state, dispatch} = useContext(LoginContext)
   return (
     <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}>
       <TopBar titulo={"Mi Rutina"} />
       <Fecha caducacionRutina={caducacionRutina} />
       <h5 className="text-start text-uppercase text-dark fw-semibold mb-3">Selecciona el día de tu rutina: </h5>
       <ul  className="list-group">
+        {
+          state.loading && 
+          <>
+          <p class="placeholder-glow my-1">
+            <span class="placeholder col-12"></span>
+          </p>
+          <p class="placeholder-glow my-1">
+            <span class="placeholder col-12"></span>
+          </p>
+          <p class="placeholder-glow my-1">
+            <span class="placeholder col-12"></span>
+          </p>
+          <p class="placeholder-glow my-1">
+            <span class="placeholder col-12"></span>
+          </p>
+          <p class="placeholder-glow my-1">
+            <span class="placeholder col-12"></span>
+          </p>
+          
+          </>
+        }
           {
             rutina.map((rutina, index) => {
               return (

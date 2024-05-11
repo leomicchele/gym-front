@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { ModalViewBodyRutinas } from "../ModalViewBodyRutinas/ModalViewBodyRutinas"
 import { Button } from "../../Atoms/Button/Button"
 import { Add } from "../../Atoms/icons/Add"
@@ -10,6 +10,8 @@ import "./ModalViewBody.css"
 import { CheckOkEdit } from "../../Atoms/icons/CheckOkEdit"
 import { ModalViewBodyDias } from "../ModalViewBodyDias/ModalViewBodyDias"
 import { FechaCaducacion } from "../../Atoms/FechaCaducacion/FechaCaducacion"
+import { LoginContext } from "../../../context/LoginContext"
+import { Loader } from "../../Atoms/Loader/Loader"
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -25,14 +27,8 @@ export const ModalViewBody = ({
   emptyInput, 
   tipoUsuario}) => {
 
-  const [rutinaState, setRutinaState] = useState([])
-  const [isEdit, setIsEdit] = useState(false);
+    const {state, dispatch} = useContext(LoginContext)
 
-
-  const handleShowDias = (e) => {
-    const divShow = document.querySelector(`#collapse${e.target.id}`)
-    divShow.classList.toggle("show")
-  }
 
   const handleAddDay = () => {
     const newDay = {
@@ -41,67 +37,18 @@ export const ModalViewBody = ({
     setDatosUsuario({...datosUsuario, rutina: [...datosUsuario.rutina, newDay]})
   }
 
-  const handleAddEjercicio = (dia) => {
-    const rutinas = datosUsuario.rutina
-    const newEjercicio = {
-      ejercicio: "",
-      series: [],
-      reps: [],
-      descanso: 0,
-      kilos: [],
-      metodo: "",
-      observaciones: ""
-    }
-    if (rutinas[dia].length === 0) {
-      rutinas[dia].ejercicios = [newEjercicio]
-      setDatosUsuario({...datosUsuario, rutina: rutinas})
-      return
-    }
-    rutinas[dia].ejercicios.push(newEjercicio)
-    setDatosUsuario({...datosUsuario, rutina: rutinas})
-
-  }
-
-  const handleRemoveEjercicio = (dia, ejercicio) => {
-    const rutinas = datosUsuario.rutina
-    rutinas[dia].ejercicios.splice(ejercicio, 1)
-    setDatosUsuario({...datosUsuario, rutina: rutinas})
-  }
-  const handleRemoveDia = (indexDia) => {
-    const rutinas = datosUsuario.rutina
-    rutinas.splice(indexDia, 1)
-    setDatosUsuario({...datosUsuario, rutina: rutinas})    
-  }
-
-  const handleSetNombreDia = (indexDia, value) => {
-    const rutinas = datosUsuario.rutina
-    rutinas[indexDia].titulo = value
-    setDatosUsuario({...datosUsuario, rutina: rutinas})
-  }
-
-  const handleSetDatosUsuario = (dia, ejercicioIndex, ejercicioNombre, value, campoIndex) => {
-    const rutinas = datosUsuario.rutina
-
-    // SI EL NOMBRE DEL EJERCICIO ES SERIES, REPS O KILOS
-    if (ejercicioNombre === "series" || ejercicioNombre === "reps" || ejercicioNombre === "kilos") {
-      rutinas[dia].ejercicios[ejercicioIndex][ejercicioNombre][campoIndex] = value
-      setDatosUsuario({...datosUsuario, rutina: rutinas})
-      return
-      
-    }
-
-    // SI EL NOMBRE DEL EJERCICIO ES EJERCICIO, METODO O OBSERVACIONES
-    rutinas[dia].ejercicios[ejercicioIndex][ejercicioNombre] = value
-    setDatosUsuario({...datosUsuario, rutina: rutinas})
-  }
-
-
   const handlePensañasTipoUsuario = () => {
     if (tipoUsuario === "alumno") {
       return (
         <>
           <li li className="nav-item" style={{cursor: "pointer"}} onClick={() => setDatosOrRutinas("datos")}> <span className={`nav-link ${datosOrRutinas === "datos" && "active"} fs-6`}>Datos</span> </li>
-          <li className="nav-item" style={{cursor: "pointer"}} onClick={() => setDatosOrRutinas("rutinas")}> <span className={`nav-link ${datosOrRutinas === "rutinas" && "active"} fs-6`}>Rutinas</span> </li>
+          <li
+            
+            className="nav-item" 
+            style={{cursor: "pointer"}} 
+            onClick={() => !state.loading && setDatosOrRutinas("rutinas")}> 
+            <span className={`nav-link ${datosOrRutinas === "rutinas" && "active"} fs-6`}>{state.loading ? <Loader/> :  "Rutinas"  }</span> 
+          </li>
         </> 
       )
     } else {

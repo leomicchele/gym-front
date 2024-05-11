@@ -25,7 +25,7 @@ export const RutinaEjerciciosItems = ({
     dia
   }) => {
 
-  const {id, rol, token, rutina, caducacionRutina} = getSessionStorage()
+  const {id, rol, token, rutina, caducacionRutina, rutinaId} = getSessionStorage()
   const {rutinaAlumno, setRutinaAlumno, pageDia} = useContext(RutinaContext)
   const {state, dispatch} = useContext(LoginContext)
   const initialKilos = ejercicio.kilos && ejercicio.kilos.length > 0 ? ejercicio.kilos : ["0", "0", "0", "0", "0"];
@@ -42,7 +42,6 @@ export const RutinaEjerciciosItems = ({
       }
       return kilo
     }))
-    console.log(kilosState)
   }
   
 
@@ -71,7 +70,8 @@ export const RutinaEjerciciosItems = ({
   const handleUpdateRutina = async () => {
     const datosAlumno = {
       rutina: rutinaAlumno,
-      _id: id
+      _id: id,
+      rutinaId: rutinaId,
     }
     dispatch({type: "LOADING"})
       try {
@@ -84,7 +84,7 @@ export const RutinaEjerciciosItems = ({
           // setResponseMsg(response.message)
         } else {         
           // setResponseMsg(response.message)
-          updateSessionStorage(response.data.alumnoUpdate.rutina, "rutina")
+          updateSessionStorage(rutinaAlumno, "rutina")
           dispatch({type: "FORM_SUCCESS"})
           setIsEdit(!isEdit)
           setErrorFetch(false)

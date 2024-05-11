@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { LoginContext } from "../../../context/LoginContext"
 import { Alert } from "../../Atoms/Alert/Alert"
 import { Loader } from "../../Atoms/Loader/Loader"
@@ -18,7 +18,8 @@ export const Modal = (
     tipoUsuario, 
     tipoModal, 
     datosUsuario,
-    setDatosUsuario}) => {
+    setDatosUsuario,
+  }) => {
 
 
     const {state, dispatch} = useContext(LoginContext)
@@ -100,8 +101,8 @@ export const Modal = (
             {/* ------------- TERMINAR ENTRENAMIENTO ------------- */}
 
             {
-              tipoModal === "terminar" & !state.formInputSuccess ?
-              <Button msg={"Si"} estilo={"eliminar"} loading={state.loading} functionHandle={handleFunction}/>
+              tipoModal === "terminar" && !state.formInputSuccess ?
+              <Button msg="Si" estilo={"eliminar"} loading={state.loading} functionHandle={handleFunction}/>
               :
               <></>
 
