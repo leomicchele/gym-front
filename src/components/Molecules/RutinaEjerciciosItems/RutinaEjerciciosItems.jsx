@@ -139,6 +139,7 @@ export const RutinaEjerciciosItems = ({
           <motion.div
             initial="closed"
             animate="open"
+            transition={{ duration: 0.6 }}
             variants={variants}
             id="panelsStayOpen-collapseOne"
             className={`accordion-collapse border border-primary-subtle collapse-${index} collapse`}
@@ -146,13 +147,13 @@ export const RutinaEjerciciosItems = ({
 
             <div className="accordion-body px-2">
             <ul className="list-group">
-              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIE: </span></div>  <div className="text-start">{ejercicio.series.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
-              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start">{ejercicio.reps.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
+              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIE: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.series.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
+              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.reps.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
               <li className="list-group-item d-flex align-items-center gap-1">
                 <div className="items-ejercicio-small text-start">
                   <span className="fw-semibold text-start">KILOS: </span>
                 </div>  
-                <div className="text-start d-flex align-items-center">
+                <div className="text-start d-flex align-items-center justify-content-between">
                     {
                         isEdit ? 
                         <>
@@ -200,6 +201,8 @@ export const RutinaEjerciciosItems = ({
                 
                 
               </li>
+              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">R.I.R: </span></div>  <div className="text-start d-flex justify-content-between w-100 gap-1">{ejercicio.rir?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
+
               <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">METODO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.metodo}</span></div></li>
               <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">OBS: </span></div>  <div className="observaciones-input"><span className="fw-medium text-info-emphasis">{ejercicio.observaciones}</span></div></li>
               {/* <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div></li> */}

@@ -7,7 +7,6 @@ let diferenciaHorariaMinutos = -3 * 60; // -3 horas * 60 minutos/hora
 // Aplicar la diferencia horaria
 fechaActual.setMinutes(fechaActual.getMinutes() + diferenciaHorariaMinutos);
 
-console.log(fechaActual)
 
 // Obtenemos el día del mes
 const dia = fechaActual.getDate();

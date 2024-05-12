@@ -88,7 +88,7 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
 
 
   return (
-    <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}>
+    <motion.div initial={"closed"} animate={"open"} transition={{ duration: 0.6 }} exit={"closed"} variants={variants}>
       <TopBar titulo={`Ejercicios - Día ${dia}`} />
 
       <h5 className="text-start mb-2 text-secondary text-uppercase">Lista de ejercicios: </h5>

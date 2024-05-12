@@ -49,6 +49,20 @@ export const ModalViewBody = ({
             onClick={() => !state.loading && setDatosOrRutinas("rutinas")}> 
             <span className={`nav-link ${datosOrRutinas === "rutinas" && "active"} fs-6`}>{state.loading ? <Loader/> :  "Rutinas"  }</span> 
           </li>
+          <li            
+            className="nav-item" 
+            style={{cursor: "pointer"}} 
+            // onClick={() => !state.loading && setDatosOrRutinas("rutinas")}
+          > 
+            <span className={`nav-link text-secondary ${datosOrRutinas === "historial" && "active"} fs-6`}>{state.loading ? <Loader/> :  "Hist."  }</span> 
+          </li>
+          <li            
+            className="nav-item" 
+            style={{cursor: "pointer"}} 
+            // onClick={() => !state.loading && setDatosOrRutinas("rutinas")}
+          > 
+            <span className={`nav-link text-secondary ${datosOrRutinas === "pagos" && "active"} fs-6`}>{state.loading ? <Loader/> :  "Pagos"  }</span> 
+          </li>
         </> 
       )
     } else {

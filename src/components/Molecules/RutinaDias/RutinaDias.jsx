@@ -13,7 +13,7 @@ const variants = {
 export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
   const {state, dispatch} = useContext(LoginContext)
   return (
-    <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants}>
+    <motion.div initial={"closed"} animate={"open"} exit={"closed"} transition={{ duration: 0.6 }} variants={variants}>
       <TopBar titulo={"Mi Rutina"} />
       <Fecha caducacionRutina={caducacionRutina} />
       <h5 className="text-start text-uppercase text-dark fw-semibold mb-3">Selecciona el día de tu rutina: </h5>

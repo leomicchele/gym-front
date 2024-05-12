@@ -9,6 +9,11 @@ import { LoginContext } from "../../../context/LoginContext";
 
 import { motion } from "framer-motion"
 
+// const variants = {
+//   open: { opacity: 1},
+//   closed: { opacity: 0},
+//   closedRight: { opacity: 0},
+// }
 const variants = {
   open: { opacity: 1, x: 0 },
   closed: { opacity: 0, x: "-100%" },
@@ -63,7 +68,7 @@ const MenuPrincipal = () => {
                  <a className="text-primary">Tableros</a>
                </li>
              </ol> */}
-             <motion.h3 initial="closed" animate="open" variants={variants} className="m-0">{`Hola ${nombre}`} <span>&#128075;</span></motion.h3>
+             <motion.h3 initial="closed" animate="open" transition={{ duration: 0.7 }} variants={variants} className="m-0">{`Hola ${nombre}`} <span>&#128075;</span></motion.h3>
            </nav>
            <form className="d-flex gap-3 align-items-center m-0" role="search">
              <div onClick={handleCloseSession}>
@@ -73,16 +78,21 @@ const MenuPrincipal = () => {
          </div>
        </nav>
        <div>
-         <motion.div initial="closedRight" animate="open" variants={variants} className="d-flex flex-column justify-content-start mt-3 p-4 mx-3 bg-white container_cards border border-1">
+         <motion.div initial="closedRight" animate="open" transition={{ duration: 0.7 }} variants={variants} className="d-flex flex-column justify-content-start mt-3 p-4 mx-3 bg-white container_cards border border-1">
            <h4 className="text-start text-dark">Mis tableros</h4>
            <div className="d-flex justify-content-start mt-3 gap-3 flex-wrap container_cards">
             {
               rol === "ALUMNO_ROL" &&
-              <div>
+              <div className="d-flex justify-content-start mt-3 gap-3 flex-wrap">
                 <CardMenu
                   title={"Rutina"}
                   description={"Entrá y consultá tus rutinas."}
                   handler={handlerClickCardMenu}
+                />
+                <CardMenu
+                  title={"Historial"}
+                  description={"Entrá y consultá tus progresos."}
+                  handler={() => console.log("historial")}
                 />
               </div>
             }

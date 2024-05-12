@@ -9,7 +9,7 @@ export const CardMenu = ({ title, description, handler }) => {
   return (
     <div className="card" onClick={() => handler(title)} style={{cursor:"pointer"}}>
   <div className="d-flex align-items-center g-3">
-    <div className="col-3 py-3 px-1">
+    <div className="py-3 px-1">
       <img src={`/imagenes/${title}.png`} alt="" style={{width: "75px"}}/>
     </div>
     <div className="col-7">

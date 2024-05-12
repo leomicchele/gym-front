@@ -70,7 +70,11 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
     const rutinas = datosUsuario.rutina
 
     // SI EL NOMBRE DEL EJERCICIO ES SERIES, REPS O KILOS
-    if (ejercicioNombre === "series" || ejercicioNombre === "reps" || ejercicioNombre === "kilos") {
+    if (ejercicioNombre === "series" || ejercicioNombre === "reps" || ejercicioNombre === "kilos" || ejercicioNombre === "rir") {
+      // si rir no existe: lo creamos
+      if (!rutinas[dia].ejercicios[ejercicioIndex].rir) {
+        rutinas[dia].ejercicios[ejercicioIndex].rir = []
+      }      
       rutinas[dia].ejercicios[ejercicioIndex][ejercicioNombre][campoIndex] = value
       setDatosUsuario({...datosUsuario, rutina: rutinas})
       return

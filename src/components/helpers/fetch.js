@@ -36,9 +36,6 @@ const postFetchLogin = async({userName, password}) => {
   try {
     const response = await fetch(`${path}/api/auth/login`, requestOptions);
     const result = await response.json()
-    console.log(result)
-    // console.log(`El resultado del fetch es response ${response}`);
-    // console.log(`El resultado del fetch es result ${result}`);
     if (response.ok === true) return { message: "Ok", login: true, user: result, status: 200};
     if (response.status === 401) return { message: result.msg || "Usuario y/o contraseña incorrecta", login: false, status: 401};
     if (response.status === 400) return { message: result.msg || "No Registrado", login: false, status: 400};
@@ -271,8 +268,6 @@ export const profesorUpdateFetch = async (usuario, idProfesor) => {
   let raw = usuario; 
   delete raw.password;
 
-  console.log(usuario._id)
-
   let requestOptions = {
     method: 'PUT',
     // redirect: 'follow',
@@ -331,7 +326,6 @@ export const profesorDeleteFetch = async (id) => {
 
 // ---------------- RUTINAS ----------------
 export const getRutina = async (usuario) => {
-  console.log(usuario.rutinaId)
   const path = urlAmbientes();
   const idRutina = usuario.rutinaId;
 

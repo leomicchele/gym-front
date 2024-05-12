@@ -95,11 +95,11 @@ export const ModalViewBodyRutinas = ({
             </>
           :
             <>
-              <input type="number" className="form-control p-1" id="" value={datosUsuario.reps[0]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 0 )}/>
-              <input type="number" className="form-control p-1" id="" value={datosUsuario.reps[1]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 1 )}/>
-              <input type="number" className="form-control p-1" id="" value={datosUsuario.reps[2]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 2 )}/>
-              <input type="number" className="form-control p-1" id="" value={datosUsuario.reps[3]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 3 )}/>
-              <input type="number" className="form-control p-1" id="" value={datosUsuario.reps[4]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 4 )}/>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.reps[0]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 0 )}/>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.reps[1]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 1 )}/>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.reps[2]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 2 )}/>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.reps[3]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 3 )}/>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.reps[4]} onChange={(e) => handleSetDatosUsuario(dia, index, "reps", e.target.value, 4 )}/>
             </>
         }
       </li>
@@ -136,6 +136,28 @@ export const ModalViewBodyRutinas = ({
             </>
         }
         <span>Kg</span>
+      </li>
+      <li className={show ? styleDisplayFlex : styleDisplayNone}>
+        <span className="fw-semibold">R.I.R: </span>
+        {
+          !isEdit ?
+          <>
+            <span>{datosUsuario?.rir?.[0] || ""}</span>
+            <span>- {datosUsuario?.rir?.[1] || ""}</span>
+            <span>- {datosUsuario?.rir?.[2] || ""}</span>
+            <span>- {datosUsuario?.rir?.[3] || ""}</span>
+            <span>- {datosUsuario?.rir?.[4] || ""}</span>
+          </>
+          :
+            <>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[0]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 0 )}/>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[1]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 1 )}/>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[2]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 2 )}/>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[3]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 3 )}/>
+              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[4]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 4 )}/>
+            </>
+        }
+        <span></span>
       </li>
       <li className={show ? styleDisplayFlex : styleDisplayNone}>
         <span className="fw-semibold">METODO: </span>
