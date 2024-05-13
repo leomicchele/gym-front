@@ -12,6 +12,7 @@ import { RutinaEjerciciosItems } from "../RutinaEjerciciosItems/RutinaEjercicios
 import { RutinaContext } from "../../../context/RutinaContext";
 import { getSessionStorage } from "../../helpers/storage";
 import { historialUpdateFetch } from "../../helpers/fetch";
+import { getDate } from "../../helpers/getDate";
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -62,11 +63,13 @@ export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
   }
 
   const handleFinalizarEntrenamiento = async () => {
+
+    const {dia, anio, mes} = getDate()
     
     dispatch({type: "LOADING"})
     let historial = {
       historial: {
-        fecha: new Date().toISOString().slice(0, 10),
+        fecha: `${dia}/${mes}/${anio}`,
         nombreDia: diaNombre,
         ejerciciosRealizados: [],
         observaciones: observaciones

@@ -23,6 +23,10 @@ const nombreMes = nombresMeses[indiceMes];
 // Obtenemos el día de la semana (0 es domingo, 1 es lunes, etc.)
 const diaSemana = fechaActual.getDay();
 
+const anio = fechaActual.getFullYear();
+
+const mes = fechaActual.getMonth() + 1
+
 // Array con los nombres de los días de la semana
 const nombresDiasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
@@ -32,5 +36,7 @@ const nombreDiaSemana = nombresDiasSemana[diaSemana];
 return {
     dia,
     nombreMes,
-    nombreDiaSemana}
+    nombreDiaSemana,
+    anio,
+    mes}
 }
