@@ -58,14 +58,24 @@ export const Modal = (
           :
           <></>
         }
-        {  tipoModal === "eliminar" && <p className="fs-6 mx-2">{msg}</p> }
-        {  tipoModal === "terminar" && <p className="fs-6">{msg}</p> }
+        {  tipoModal === "eliminar" && <p className="fs-6 mx-2">{""}</p> }
+        {  tipoModal === "terminar" && <p className="fs-6">{"Cuando aceptes, tu entrenador recibira el registro de tu dia de entrenamiento"}</p> }
 
         <div className="modal-footer">
             { state.error &&  <Alert type={"danger"} msg={msg}/> }
-            { state.formInputSuccess && <Alert type={"success"} msg={tipoModal === "editar" ? "Actualizado" : msg}/> }
+            { state.formInputSuccess && tipoModal === "editar" && <Alert type={"success"} msg={"Actualizado"}/> }
+            { state.formInputSuccess && tipoModal === "crear" && <Alert type={"success"} msg={msg}/> }
+            { state.formInputSuccess && tipoModal === "eliminar" && <Alert type={"success"} msg={msg}/> }
+            { state.formInputSuccess && tipoModal === "terminar" && <Alert type={"success"} msg={msg}/> }
             
-          <button disabled={state.loading} type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => handleIsOpen(false)}>Cerrar</button>
+
+            {
+              (state.formInputSuccess) && (tipoModal === "terminar") ? 
+              <button disabled={true} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              :
+              <button disabled={state.loading} type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => handleIsOpen(false)}>Cerrar</button>
+
+            }
 
 
             

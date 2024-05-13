@@ -74,6 +74,17 @@ export function loginReducer(state, action) {
             formInputError: false,
             formInputSuccess: true
           };
+        case 'FORM_NEUTRAL':
+          return {
+            ...state,
+            login: false,
+            loading: false,
+            error: false,
+            success: false,
+            user: null,
+            formInputError: false,
+            formInputSuccess: false
+          };
     default:
       return state;
   }

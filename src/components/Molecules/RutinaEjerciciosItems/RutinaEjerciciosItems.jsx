@@ -129,7 +129,7 @@ export const RutinaEjerciciosItems = ({
               onClick={(e) => handleAbrirCollapse(e, index)}
             >
               <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={(e) => handleEjercicioRealizado(e)} />
+                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={(e) => handleEjercicioRealizado(e, index, ejercicio.ejercicio)} />
               </div>
 
                 {/* Nombre del ejercicio */}
@@ -139,7 +139,7 @@ export const RutinaEjerciciosItems = ({
           <motion.div
             initial="closed"
             animate="open"
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             variants={variants}
             id="panelsStayOpen-collapseOne"
             className={`accordion-collapse border border-primary-subtle collapse-${index} collapse`}

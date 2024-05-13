@@ -10,34 +10,41 @@ import { LoginContext } from "../../../context/LoginContext";
 import { Edit } from "../../Atoms/icons/Edit";
 import { RutinaEjerciciosItems } from "../RutinaEjerciciosItems/RutinaEjerciciosItems";
 import { RutinaContext } from "../../../context/RutinaContext";
+import { getSessionStorage } from "../../helpers/storage";
+import { historialUpdateFetch } from "../../helpers/fetch";
 
 const variants = {
   open: { opacity: 1, x: 0 },
   closed: { opacity: 0, x: "-100%" },
 }
 
-export const RutinaEjercicios = ({ ejercicios, dia }) => {
+export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
 
   const [isOpen, setIsOpen] = useState(false)
-  const [ejerciciosRealizados, setEjerciciosRealizados] = useState(0)
+  const [responseMsg, setResponseMsg] = useState("");
+  const [ejerciciosRealizadosCheck, setEjerciciosRealizadosCheck] = useState(0)
+  const [ejerciciosRealizados, setEjerciciosRealizados] = useState([])
   const navigate = useNavigate()
   const {state, dispatch} = useContext(LoginContext)
+  const {id} = getSessionStorage()
+  const [observaciones, setObservaciones] = useState("")
 
 
-  const handleEjercicioRealizado = (e, index) => {
+  const handleEjercicioRealizado = (e, index, nombre) => {
     if (e.target.classList.contains("form-check-input")) {
       if (e.target.checked) {
-        setEjerciciosRealizados(ejerciciosRealizados + 1)
+        setEjerciciosRealizadosCheck(ejerciciosRealizadosCheck + 1)
+        setEjerciciosRealizados([...ejerciciosRealizados, {ejercicio: nombre, kilos: ejercicios[index].kilos}])
+        console.log(ejerciciosRealizados)
       } else {
-        setEjerciciosRealizados(ejerciciosRealizados - 1)
+        setEjerciciosRealizadosCheck(ejerciciosRealizadosCheck - 1)
       }
-      console.log(ejerciciosRealizados)
     }
   }
 
   const handleFrases = () => {
     let frase = ""
-    switch (ejerciciosRealizados) {
+    switch (ejerciciosRealizadosCheck) {
       case 0:
         frase = "¿solo eso? 🤔"
         break;    
@@ -54,15 +61,43 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
     return frase
   }
 
-  const handleFinalizarEntrenamiento = () => {
+  const handleFinalizarEntrenamiento = async () => {
+    
     dispatch({type: "LOADING"})
+    let historial = {
+      historial: {
+        fecha: new Date().toISOString().slice(0, 10),
+        nombreDia: diaNombre,
+        ejerciciosRealizados: [],
+        observaciones: observaciones
+      }
+    }
 
-    setTimeout(() => {
-      dispatch({type: "SUCCESS"})
-      setIsOpen(!isOpen)
-      navigate("/menu")
+    historial.historial.ejerciciosRealizados = ejerciciosRealizados.map(ejercicio => {
+      return {
+        ejercicio: ejercicio.ejercicio,
+        kilos: ejercicio.kilos
+      }
+    }
+    )
+
+
+    try {
+      const response = await historialUpdateFetch(id, historial)
+      dispatch({type: "FORM_SUCCESS"})
+      setResponseMsg(response.message)
+      setTimeout(() => {
+        dispatch({ type: "FORM_NEUTRAL"})
+        setIsOpen(!isOpen)
+        navigate("/menu")
+      }, 2000)
+
       
-    }, 3000);
+    } catch (error) {
+      dispatch({type: "ERROR"})
+      console.info({error})      
+      
+    }
 
 
   }
@@ -88,7 +123,7 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
 
 
   return (
-    <motion.div initial={"closed"} animate={"open"} transition={{ duration: 0.6 }} exit={"closed"} variants={variants}>
+    <motion.div initial={"closed"} animate={"open"} transition={{ duration: 0.5 }} exit={"closed"} variants={variants}>
       <TopBar titulo={`Ejercicios - Día ${dia}`} />
 
       <h5 className="text-start mb-2 text-secondary text-uppercase">Lista de ejercicios: </h5>
@@ -102,9 +137,15 @@ export const RutinaEjercicios = ({ ejercicios, dia }) => {
         
         
       </div>
+
+      <div class="form-floating">
+        <textarea class="form-control" value={observaciones} placeholder="Leave a comment here" id="floatingTextarea" onChange={(e) => setObservaciones(e.target.value)}  ></textarea>
+        <label for="floatingTextarea">Observaciones</label>
+      </div>
+
       <button className="btn btn-dark my-4 col-12" onClick={() => setIsOpen(!isOpen)}>Finalizar Entrenamiento</button>
       {
-        isOpen && <Modal tipoModal={"terminar"} handleFunction={handleFinalizarEntrenamiento}  handleIsOpen={setIsOpen} title={`Has realizado ${ejerciciosRealizados} ejercicio/s, ${handleFrases()}`} msg={"¿Deseas finalizar tu entrenamiento?"}/>
+        isOpen && <Modal tipoModal={"terminar"} handleFunction={handleFinalizarEntrenamiento}  handleIsOpen={setIsOpen} title={`Has realizado ${ejerciciosRealizadosCheck} ejercicio/s, ${handleFrases()}`} msg={responseMsg}/>
       }
 
     </motion.div>

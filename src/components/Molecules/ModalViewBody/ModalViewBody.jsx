@@ -12,6 +12,7 @@ import { ModalViewBodyDias } from "../ModalViewBodyDias/ModalViewBodyDias"
 import { FechaCaducacion } from "../../Atoms/FechaCaducacion/FechaCaducacion"
 import { LoginContext } from "../../../context/LoginContext"
 import { Loader } from "../../Atoms/Loader/Loader"
+import { ModalViewBodyHistorial } from "../ModalViewBodyHistorial/ModalViewBodyHistorial"
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -26,6 +27,7 @@ export const ModalViewBody = ({
   // isEdit,
   emptyInput, 
   tipoUsuario}) => {
+    
 
     const {state, dispatch} = useContext(LoginContext)
 
@@ -52,9 +54,9 @@ export const ModalViewBody = ({
           <li            
             className="nav-item" 
             style={{cursor: "pointer"}} 
-            // onClick={() => !state.loading && setDatosOrRutinas("rutinas")}
+            onClick={() => !state.loading && setDatosOrRutinas("historial")}
           > 
-            <span className={`nav-link text-secondary ${datosOrRutinas === "historial" && "active"} fs-6`}>{state.loading ? <Loader/> :  "Hist."  }</span> 
+            <span className={`nav-link ${datosOrRutinas === "historial" && "active"} fs-6`}>{state.loading ? <Loader/> :  "Hist."  }</span> 
           </li>
           <li            
             className="nav-item" 
@@ -95,12 +97,22 @@ export const ModalViewBody = ({
       {datosOrRutinas === "rutinas" ? (
         <AnimatePresence>
           <>
-            <FechaCaducacion datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario}/>
-            <p className="fs-6 text-warning-emphasis text-uppercase text-decoration-underline mt-3 mb-2 text-start">Días: </p>
+            <FechaCaducacion
+              datosUsuario={datosUsuario}
+              setDatosUsuario={setDatosUsuario}
+            />
+            <p className="fs-6 text-success-emphasis fw-medium text-uppercase text-decoration-underline mt-3 mb-2 text-start">
+              Días:{" "}
+            </p>
             {datosUsuario.rutina.length > 0 &&
               datosUsuario.rutina.map((rutina, indexDia) => {
                 return (
-                  <ModalViewBodyDias datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} rutina={rutina} indexDia={indexDia}/>
+                  <ModalViewBodyDias
+                    datosUsuario={datosUsuario}
+                    setDatosUsuario={setDatosUsuario}
+                    rutina={rutina}
+                    indexDia={indexDia}
+                  />
                 );
               })}
             <Button msg={"Agregar Día"} functionHandle={handleAddDay} />
@@ -109,6 +121,25 @@ export const ModalViewBody = ({
       ) : (
         <></>
       )}
+      {datosOrRutinas === "historial" ?
+      (
+        <>
+          <p className="fs-6 text-success-emphasis fw-medium text-uppercase text-decoration-underline mt-3 mb-2 text-start">
+                Asistencias y ejercicios realizados:{" "}
+          </p>
+          {
+            datosUsuario.historial.map((historialDia, indexDia) => {
+              return (
+                <ModalViewBodyHistorial historialDia={historialDia} indexDia={indexDia} />
+              );
+            })        
+          }
+        </>
+    )
+
+      : <></>
+        
+      }
     </div>
   );
 }

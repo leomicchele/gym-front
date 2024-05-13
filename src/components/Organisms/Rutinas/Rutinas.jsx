@@ -54,7 +54,7 @@ export const Rutinas = () => {
         diasOEjercicios === "dias" ?        
           <RutinaDias rutina={rutinaAlumno} handleChangePage={handleChangePage} caducacionRutina={caducacionRutina || "0"}/>
         :        
-          <RutinaEjercicios ejercicios={rutinaAlumno[pageDia].ejercicios} dia={pageDia+1} />
+          <RutinaEjercicios ejercicios={rutinaAlumno[pageDia].ejercicios} dia={pageDia+1} diaNombre={rutinaAlumno[pageDia].titulo}/>
       }
       </AnimatePresence>
       </RutinaContext.Provider>

@@ -5,7 +5,7 @@ import { LoginContext } from "../../../context/LoginContext";
 import TopBar from "../../Molecules/TopBar/TopBar";
 import "./Alumnos.css"
 import { SearchBar } from "../../Molecules/SearchBar";
-import { alumnoCreateFetch, alumnoDeleteFetch, alumnoUpdateFetch, getFetch, getRutina } from "../../helpers/fetch";
+import { alumnoCreateFetch, alumnoDeleteFetch, alumnoUpdateFetch, getFetch, getHistorial, getRutina } from "../../helpers/fetch";
 import { TableContainer } from "../../Molecules/TableContainer/TableContainer";
 import { Alert } from "../../Atoms/Alert/Alert";
 import { Modal } from "../../Molecules/Modal/Modal";
@@ -35,7 +35,8 @@ export const Alumnos = () => {
       deporte: "",
       rutina: [], 
       rutinaId: "",
-      caducacionRutina: ""
+      caducacionRutina: "",
+      historial: []
     });
     const [numerPage , setNumerPage ] = useState(1)
 
@@ -138,8 +139,15 @@ export const Alumnos = () => {
     const handleTraerRutina = async() => {
       dispatch({type: "LOADING"})
       try {
-        const response = await getRutina(datosAlumno); 
-        setDatosAlumno({...datosAlumno, rutina: response.rutina, caducacionRutina: response.caducacionRutina})
+        const response = await Promise.all(
+          [
+            getRutina(datosAlumno),
+            getHistorial(datosAlumno)
+          ]
+        )
+
+        // const response = await getRutina(datosAlumno); 
+        setDatosAlumno({...datosAlumno, rutina: response[0].rutina, caducacionRutina: response[0].caducacionRutina, historial: response[1].historial})
         dispatch({type: "SUCCESS"})
       } catch (error) {
         dispatch({type: "ERROR"})

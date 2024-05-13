@@ -353,4 +353,66 @@ export const getRutina = async (usuario) => {
 
 }
 
+// ---------------- HISTORIAL ----------------
+export const getHistorial = async (usuario) => {
+  const path = urlAmbientes();
+  const idAlumno = usuario._id;
+
+  var requestOptions = {
+    method: 'GET',
+    // redirect: 'follow',
+    headers: {
+      'accept': 'application/json', 
+      // "Authorization": `Bearer ${user.token}`,
+      
+    }
+  };
+  try {
+    const response = await fetch(`${path}/api/historial/${idAlumno}`, requestOptions);
+    if (response.status == 401) {
+      return false
+    }
+    const result = await response.json()
+
+    return result
+    
+  } catch (error) {
+    throw new Error ( `Failed to connect to api` );
+  }
+
+}
+
+export const historialUpdateFetch = async (id, historial) => {
+  const path = urlAmbientes();
+  const idUsuario = id;
+  let raw = historial; 
+  console.log(raw)
+
+  let requestOptions = {
+    method: 'PUT',
+    // redirect: 'follow',
+    headers: { 
+      'Content-Type': 'application/json', 
+      // 'Cookie': 'BIGipServeres1WJ+wB3R4WLaaB2wky9A=rd5o00000000000000000000ffff0a090b38o80; c52247493d0c9071e1f49cc01c78fe68=0aeab0b30e77e504501d3a7eff6e7f40'
+    },
+    body: JSON.stringify(raw)
+  };
+  try {
+    const response = await fetch(`${path}/api/historial/${idUsuario}`, requestOptions);
+
+    if (response.status === 401) return { message: "No autorizado", error: true};
+    if (response.status === 500) return { message: "Error en el servidor", error: true};
+    if (response.status === 404) return { message: "No encontrado", error: true};
+    if (response.status === 400) return { message: "Error en los datos", error: true};
+    if (response.ok === false) return { message: "Error en la peticion", error: true};
+
+    if (response.ok === true) return { message: "Rutina Enviada 3..2..1", error: false};
+    
+  } catch (error) {
+    console.log({error})
+    throw new Error ( `Failed to connect to api` );
+  }
+
+}
+
 export default postFetchLogin;

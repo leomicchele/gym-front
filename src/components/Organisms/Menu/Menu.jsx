@@ -26,6 +26,7 @@ const MenuPrincipal = () => {
   //  const {id, rol ,token, nombre} = JSON.parse(sessionStorage.getItem("Auth_token"))
 
    const { dispatch } = useContext(LoginContext);
+   dispatch({ type: "FORM_NEUTRAL"});
 
    const navigate = useNavigate()
 
