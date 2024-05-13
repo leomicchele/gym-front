@@ -26,7 +26,7 @@ const MenuPrincipal = () => {
   //  const {id, rol ,token, nombre} = JSON.parse(sessionStorage.getItem("Auth_token"))
 
    const { dispatch } = useContext(LoginContext);
-   dispatch({ type: "FORM_NEUTRAL"});
+  //  dispatch({ type: "FORM_NEUTRAL"});
 
    const navigate = useNavigate()
 
@@ -81,19 +81,29 @@ const MenuPrincipal = () => {
        <div>
          <motion.div initial="closedRight" animate="open" transition={{ duration: 0.7 }} variants={variants} className="d-flex flex-column justify-content-start mt-3 p-4 mx-3 bg-white container_cards border border-1">
            <h4 className="text-start text-dark">Mis tableros</h4>
-           <div className="d-flex justify-content-start mt-3 gap-3 flex-wrap container_cards">
+           <div className="d-flex justify-content-start gap-3 flex-wrap container_cards">
             {
               rol === "ALUMNO_ROL" &&
-              <div className="d-flex justify-content-start mt-3 gap-3 flex-wrap">
+              <div className="d-flex justify-content-center mt-3 gap-3 flex-wrap flex-column">
                 <CardMenu
                   title={"Rutina"}
-                  description={"Entrá y consultá tus rutinas."}
+                  description={"Entrá y consultá tu rutina."}
                   handler={handlerClickCardMenu}
                 />
                 <CardMenu
                   title={"Historial"}
-                  description={"Entrá y consultá tus progresos."}
+                  description={"Entrá y consultá tus progresos. (Proximamente)"}
                   handler={() => console.log("historial")}
+                />
+                <CardMenu
+                  title={"Ficha"}
+                  description={"Entrá y consultá tu ficha. (Proximamente)"}
+                  handler={() => console.log("Ficha")}
+                />
+                <CardMenu
+                  title={"Pagos"}
+                  description={"Entrá y consultá tus pagos. (Proximamente)"}
+                  handler={() => console.log("pagos")}
                 />
               </div>
             }

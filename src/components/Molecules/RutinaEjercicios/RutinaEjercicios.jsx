@@ -127,6 +127,7 @@ export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
       <TopBar titulo={`Ejercicios - Día ${dia}`} />
 
       <h5 className="text-start mb-2 text-secondary text-uppercase">Lista de ejercicios: </h5>
+      <span className="mb-2 text-start fst-italic d-flex w-100">Asegúrate de completar el día de entrenamiento para que tu entrenador pueda revisar lo que has hecho.</span>
 
       <div className="accordion" id="accordionPanelsStayOpenExample">
         {ejercicios.map((ejercicio, index) => {
@@ -141,6 +142,8 @@ export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
       <div class="form-floating">
         <textarea class="form-control" value={observaciones} placeholder="Leave a comment here" id="floatingTextarea" onChange={(e) => setObservaciones(e.target.value)}  ></textarea>
         <label for="floatingTextarea">Observaciones</label>
+        <span className="mt-2 text-start fst-italic d-flex w-100">Registra todo lo que consideres importante sobre tu día de entrenamiento: lo que no pudiste hacer o cualquier otro detalle relevante.</span>
+
       </div>
 
       <button className="btn btn-dark my-4 col-12" onClick={() => setIsOpen(!isOpen)}>Finalizar Entrenamiento</button>

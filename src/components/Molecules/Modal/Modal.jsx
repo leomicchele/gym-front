@@ -59,7 +59,7 @@ export const Modal = (
           <></>
         }
         {  tipoModal === "eliminar" && <p className="fs-6 mx-2">{""}</p> }
-        {  tipoModal === "terminar" && <p className="fs-6">{"Cuando aceptes, tu entrenador recibira el registro de tu dia de entrenamiento"}</p> }
+        {  tipoModal === "terminar" && <p className="fs-6 px-1">{"Al aceptar, tu entrenador podrá recibir un registro detallado de tu día de entrenamiento."}</p> }
 
         <div className="modal-footer">
             { state.error &&  <Alert type={"danger"} msg={msg}/> }
