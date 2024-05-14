@@ -87,6 +87,7 @@ export const alumnoCreateFetch = async (usuario, idProfesor, idGimnasio) => {
   let raw = {
     nombre: usuario.nombre.trim(),
     apellido: usuario.apellido.trim(),
+    edad: usuario.edad,
     dni: usuario.dni.trim(),
     password: usuario.password,
     experiencia: usuario.experiencia,
@@ -95,8 +96,8 @@ export const alumnoCreateFetch = async (usuario, idProfesor, idGimnasio) => {
     objetivo: usuario.objetivo,
     diasSemanales: usuario.diasSemanales,
     deporte: usuario.deporte,
-    profesor: idProfesor || null,
-    gimnasio: idGimnasio || usuario.gimnasio,
+    profesor: idProfesor,
+    gimnasio: idGimnasio,
     rutina: [],
     fechaCreacion: new Date()
   }

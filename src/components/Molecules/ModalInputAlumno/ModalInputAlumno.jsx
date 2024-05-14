@@ -27,7 +27,7 @@ export const ModalInputAlumno = ({datosUsuario, setDatosUsuario}) => {
     </div>
     <div className="d-flex flex-wrap justify-content-center gap-2 mb-2">
         <div className="form-floating flex-grow-1">
-            <input autoComplete="off" type="text" disabled={state.loading} className="form-control text-primary-emphasis" placeholder="" value={datosUsuario.edad} onChange={(e) => setDatosUsuario({...datosUsuario, edad: e.target.value})} id="edad" name="edad"/>
+            <input autoComplete="off" type="number" disabled={state.loading} className="form-control text-primary-emphasis" placeholder="" value={datosUsuario.edad} onChange={(e) => setDatosUsuario({...datosUsuario, edad: e.target.value})} id="edad" name="edad"/>
             <label htmlFor="edad">Edad</label>
         </div>
         <div className="form-floating flex-grow-1">

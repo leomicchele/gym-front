@@ -24,7 +24,7 @@ export const Alumnos = () => {
     const [datosAlumno, setDatosAlumno] = useState({
       nombre: "",
       apellido: "",
-      edad: "",
+      edad: undefined,
       dni: "",
       password: "",
       experiencia: "",
