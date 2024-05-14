@@ -62,6 +62,12 @@ export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
     return frase
   }
 
+  const handleOpenModal = () => {
+    dispatch({ type: "FORM_NEUTRAL"})
+    setIsOpen(!isOpen)
+  }
+  
+
   const handleFinalizarEntrenamiento = async () => {
 
     const {dia, anio, mes} = getDate()
@@ -149,7 +155,7 @@ export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
 
       </div>
 
-      <button className="btn btn-dark my-4 col-12" onClick={() => setIsOpen(!isOpen)}>Finalizar Entrenamiento</button>
+      <button className="btn btn-dark my-4 col-12" onClick={() => handleOpenModal()}>Finalizar Entrenamiento</button>
       {
         isOpen && <Modal tipoModal={"terminar"} handleFunction={handleFinalizarEntrenamiento}  handleIsOpen={setIsOpen} title={`Has realizado ${ejerciciosRealizadosCheck} ejercicio/s, ${handleFrases()}`} msg={responseMsg}/>
       }

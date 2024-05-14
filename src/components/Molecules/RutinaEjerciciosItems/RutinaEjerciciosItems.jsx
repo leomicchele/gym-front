@@ -29,9 +29,9 @@ export const RutinaEjerciciosItems = ({
   const {rutinaAlumno, setRutinaAlumno, pageDia} = useContext(RutinaContext)
   const {state, dispatch} = useContext(LoginContext)
   const initialKilos = ejercicio.kilos && ejercicio.kilos.length > 0 ? ejercicio.kilos : ["0", "0", "0", "0", "0"];
-  const [kilosState, setKilosState] = useState(initialKilos)
+  const filledKilos = [...initialKilos, ...Array(5 - initialKilos.length).fill("0")];
+  const [kilosState, setKilosState] = useState(filledKilos)
   const [errorFetch, setErrorFetch] = useState(false)
-  // console.log(kilosState)
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -45,9 +45,28 @@ export const RutinaEjerciciosItems = ({
   }
   
 
-  const handleEditarkilos = async () => {
 
-    setRutinaAlumno(rutinaAlumno.map((dia, i) => {
+
+  const handleEditarkilos = async () => {
+    // si algun elemento de kilosState esta vacio, lo rellena con un 0
+    const updatedKilosState = kilosState.map(kilo => {
+      if (kilo === "") {
+        return "0";
+      }
+      return kilo;
+    });
+
+    setKilosState(updatedKilosState);
+
+    // si algun elemento de kilosState esta vacio, lo rellena con un 0
+    // setKilosState(kilosState.map(kilo => {
+    //   if (kilo === "") {
+    //     return "0"
+    //   }
+    //   return kilo
+    // }))
+
+    const updatedRutinaAlumno = rutinaAlumno.map((dia, i) => {
       if (i === pageDia) {
         return {
           ...dia,
@@ -55,15 +74,37 @@ export const RutinaEjerciciosItems = ({
             if (j === index) {
               return {
                 ...ejercicio,
-                kilos: kilosState
-              }
+                kilos: updatedKilosState  // Usar el estado actualizado
+              };
             }
-            return ejercicio
+            return ejercicio;
           })
-        }
+        };
       }
-      return dia
-    }))
+      return dia;
+    });
+  
+    // Finalmente, actualizar la rutinaAlumno con el estado actualizado
+    setRutinaAlumno(updatedRutinaAlumno);
+
+
+    // setRutinaAlumno(rutinaAlumno.map((dia, i) => {
+    //   if (i === pageDia) {
+    //     return {
+    //       ...dia,
+    //       ejercicios: dia.ejercicios.map((ejercicio, j) => {
+    //         if (j === index) {
+    //           return {
+    //             ...ejercicio,
+    //             kilos: kilosState
+    //           }
+    //         }
+    //         return ejercicio
+    //       })
+    //     }
+    //   }
+    //   return dia
+    // }))
 
   }
 
@@ -85,6 +126,7 @@ export const RutinaEjerciciosItems = ({
         } else {         
           // setResponseMsg(response.message)
           updateSessionStorage(rutinaAlumno, "rutina")
+          
           dispatch({type: "FORM_SUCCESS"})
           setIsEdit(!isEdit)
           setErrorFetch(false)
@@ -109,7 +151,7 @@ export const RutinaEjerciciosItems = ({
   useEffect(() => {
     if(isEdit) {
       handleUpdateRutina()
-    }
+    } 
   }, [rutinaAlumno])
   
 
