@@ -92,19 +92,25 @@ const MenuPrincipal = () => {
                 />
                 <CardMenu
                   title={"Historial"}
-                  description={"Entrá y consultá tus progresos. (Proximamente)"}
-                  handler={() => console.log("historial")}
+                  description={"Entrá y consultá tus progresos."}
+                  handler={handlerClickCardMenu}
                 />
-                <CardMenu
-                  title={"Ficha"}
-                  description={"Entrá y consultá tu ficha. (Proximamente)"}
-                  handler={() => console.log("Ficha")}
-                />
-                <CardMenu
-                  title={"Pagos"}
-                  description={"Entrá y consultá tus pagos. (Proximamente)"}
-                  handler={() => console.log("pagos")}
-                />
+                <div className="filtro-bn">
+                  <CardMenu
+                    title={"Ficha"}
+                    description={"Entrá y consultá tu ficha. (Proximamente)"}
+                    handler={() => console.log("Ficha")}
+                  />
+
+                </div>
+                <div className="filtro-bn">
+                  <CardMenu
+                    title={"Pagos"}
+                    description={"Entrá y consultá tus pagos. (Proximamente)"}
+                    handler={() => console.log("pagos")}
+                  />
+
+                </div>
               </div>
             }
             {

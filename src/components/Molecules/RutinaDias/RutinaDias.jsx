@@ -4,11 +4,13 @@ import TopBar from "../TopBar/TopBar"
 import { motion } from "framer-motion"
 import { ChevronRight } from "../../Atoms/icons/ChevronRight"
 import { LoginContext } from "../../../context/LoginContext"
+import CustomDatePicker from "../CustomDatePicker/CustomDatePicker"
 
 const variants = {
   open: { opacity: 1, x: 0 },
   closed: { opacity: 0, x: "-100%" },
 }
+
 
 export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
   const {state, dispatch} = useContext(LoginContext)
@@ -16,6 +18,7 @@ export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
     <motion.div initial={"closed"} animate={"open"} exit={"closed"} transition={{ duration: 0.5 }} variants={variants}>
       <TopBar titulo={"Mi Rutina"} />
       <Fecha caducacionRutina={caducacionRutina} />
+      {/* <CustomDatePicker selectDate={new Date("2020-04-30")} /> */}
       <h5 className="text-start text-uppercase text-dark fw-semibold mb-3">Selecciona el día de tu rutina: </h5>
       <ul  className="list-group">
         {

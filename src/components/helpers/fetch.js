@@ -356,6 +356,7 @@ export const getRutina = async (usuario) => {
 
 // ---------------- HISTORIAL ----------------
 export const getHistorial = async (usuario) => {
+  console.log("object");
   const path = urlAmbientes();
   const idAlumno = usuario._id;
 

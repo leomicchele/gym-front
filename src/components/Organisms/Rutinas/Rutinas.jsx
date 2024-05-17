@@ -47,7 +47,7 @@ export const Rutinas = () => {
     }, [])
 
   return (
-    <div className="container container-alumno">
+    <div className="container">
       <RutinaContext.Provider value={{rutinaAlumno, setRutinaAlumno, pageDia}}>
       <AnimatePresence>
       {
