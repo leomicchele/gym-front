@@ -63,7 +63,7 @@ export const Rutinas = () => {
 
     // Setea el estado de diasOEjercicios a "dias" si la ruta es "/menu/rutina"
     useEffect( () => {
-      location.pathname === "/menu/rutina" && setDiasOEjercicios("dias")
+      location.pathname === "/menu/Rutina" && setDiasOEjercicios("dias")
     }, [location.pathname])
 
 
