@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Cronometro } from "../Cronometro/Cronometro";
 import TopBar from "../TopBar/TopBar";
 import "./RutinaEjercicios.css"
@@ -10,7 +10,7 @@ import { LoginContext } from "../../../context/LoginContext";
 import { Edit } from "../../Atoms/icons/Edit";
 import { RutinaEjerciciosItems } from "../RutinaEjerciciosItems/RutinaEjerciciosItems";
 import { RutinaContext } from "../../../context/RutinaContext";
-import { getSessionStorage } from "../../helpers/storage";
+import { getSessionStorage, getSessionStorageEjerciciosRealizados, updateSessionStorageEjerciciosRealizados } from "../../helpers/storage";
 import { historialUpdateFetch } from "../../helpers/fetch";
 import { getDate } from "../../helpers/getDate";
 
@@ -19,12 +19,12 @@ const variants = {
   closed: { opacity: 0, x: "-100%" },
 }
 
-export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
+export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre }) => {
 
   const [isOpen, setIsOpen] = useState(false)
   const [responseMsg, setResponseMsg] = useState("");
   const [ejerciciosRealizadosCheck, setEjerciciosRealizadosCheck] = useState(0)
-  const [ejerciciosRealizados, setEjerciciosRealizados] = useState([])
+  const [ejerciciosRealizados, setEjerciciosRealizados] = useState(getSessionStorageEjerciciosRealizados())
   const navigate = useNavigate()
   const {state, dispatch} = useContext(LoginContext)
   const {id} = getSessionStorage()
@@ -34,11 +34,32 @@ export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
   const handleEjercicioRealizado = (e, index, nombre) => {
     if (e.target.classList.contains("form-check-input")) {
       if (e.target.checked) {
+        // verificar que no exista el ejercicio en el array
+        if (ejerciciosRealizados.find(ejercicio => ejercicio.ejercicio === nombre)) {
+          return
+        }
+        const nuevoEjercicio = {ejercicio: nombre, kilos: ejercicios[index].kilos}
+        const arrayDia = ejerciciosRealizados[dia-1]
+        arrayDia.push(nuevoEjercicio)
+        setEjerciciosRealizados(ejerciciosRealizados.map((ejercicio, index) => {
+          if (index === (dia-1)) {
+            return arrayDia
+          }
+          return ejercicio
+        }))
+
+
         setEjerciciosRealizadosCheck(ejerciciosRealizadosCheck + 1)
-        setEjerciciosRealizados([...ejerciciosRealizados, {ejercicio: nombre, kilos: ejercicios[index].kilos}])
-        console.log(ejerciciosRealizados)
+        // updateSessionStorageEjerciciosRealizados(ejerciciosRealizados)
       } else {
         setEjerciciosRealizadosCheck(ejerciciosRealizadosCheck - 1)
+        setEjerciciosRealizados(ejerciciosRealizados.map((ejercicio, index) => {
+          if (index === (dia-1)) {
+            return ejercicio.filter(ejercicio => ejercicio.ejercicio !== nombre)
+          }
+          return ejercicio
+        }))
+        // updateSessionStorageEjerciciosRealizados(ejerciciosRealizados)
       }
     }
   }
@@ -70,19 +91,23 @@ export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
 
   const handleFinalizarEntrenamiento = async () => {
 
-    const {dia, anio, mes} = getDate()
+    // console.log(ejerciciosRealizados[dia-1])
+    const diaNumber = dia - 1
+
+
+    const fechaActual = getDate()
     
     dispatch({type: "LOADING"})
     let historial = {
       historial: {
-        fecha: `${dia}/${mes}/${anio}`,
+        fecha: `${fechaActual.dia}/${fechaActual.mes}/${fechaActual.anio}`,
         nombreDia: diaNombre,
         ejerciciosRealizados: [],
         observaciones: observaciones
       }
     }
 
-    historial.historial.ejerciciosRealizados = ejerciciosRealizados.map(ejercicio => {
+    historial.historial.ejerciciosRealizados = ejerciciosRealizados[diaNumber].map(ejercicio => {
       return {
         ejercicio: ejercicio.ejercicio,
         kilos: ejercicio.kilos
@@ -90,11 +115,22 @@ export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
     }
     )
 
+    
+
 
     try {
       const response = await historialUpdateFetch(id, historial)
       dispatch({type: "FORM_SUCCESS"})
       setResponseMsg(response.message)
+
+      // vaciar el array de ejercicios realizados
+      setEjerciciosRealizados(ejerciciosRealizados.map((ejercicio, index) => {
+        if (index === diaNumber) {
+          return []
+        }
+        return ejercicio
+      }))
+
       setTimeout(() => {
         dispatch({ type: "FORM_NEUTRAL"})
         setIsOpen(!isOpen)
@@ -129,11 +165,17 @@ export const RutinaEjercicios = ({ ejercicios, dia,diaNombre }) => {
     }
     document.querySelector(".collapse-" + index).classList.add("show")
   }
+  
+  useEffect(() => {
+    setEjerciciosRealizadosCheck(ejerciciosRealizados[dia-1].length)
+    updateSessionStorageEjerciciosRealizados(ejerciciosRealizados)
+
+  }, [ejerciciosRealizados])
 
 
   return (
     <motion.div initial={"closed"} animate={"open"} transition={{ duration: 0.5 }} exit={"closed"} variants={variants}>
-      <TopBar titulo={`Ejercicios - Día ${dia}`} />
+      <TopBar titulo={`Ejercicios - Día ${dia}`} ruta="/menu/rutina" callback={() => setDiasOEjercicios("dias")} />
 
       <h5 className="text-start mb-2 text-secondary text-uppercase">Lista de ejercicios: </h5>
       <span className="mb-2 text-start fst-italic d-flex w-100">Asegúrate de completar el día de entrenamiento para que tu entrenador pueda revisar lo que has hecho.</span>

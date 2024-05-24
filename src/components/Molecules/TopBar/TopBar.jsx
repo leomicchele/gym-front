@@ -2,12 +2,12 @@ import React, { useContext } from "react"
 import { Button } from "../../Atoms/Button/Button";
 import { LoginContext } from "../../../context/LoginContext";
 import { useNavigate } from "react-router-dom";
-import { removeSessionStorage } from "../../helpers/storage";
+import { removeSessionStorage, removeSessionStorageEjerciciosRealizados } from "../../helpers/storage";
 import "./TopBar.css"
 import { ArrowBack } from "../../Atoms/icons/ArrowBack";
 
 
-const TopBar = ({titulo}) => {
+const TopBar = ({titulo, ruta = "/", callback = null}) => {
 
    const { dispatch } = useContext(LoginContext);
 
@@ -16,11 +16,15 @@ const TopBar = ({titulo}) => {
     const handleCloseSession = (e) => {
         dispatch({ type: "CLOSED_SESSION" });
         removeSessionStorage();
+        removeSessionStorageEjerciciosRealizados()
        navigate("/login");
      };
 
      const handleGoHome = () => {
-      navigate("/");
+      if (callback) {
+         callback();
+      }
+      navigate(ruta, { replace: true });
     }
    
    return ( 

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { Edit } from "../../Atoms/icons/Edit"
 import { useContext, useEffect, useState } from "react";
-import { getSessionStorage, updateSessionStorage } from "../../helpers/storage";
+import { getSessionStorage, getSessionStorageEjerciciosRealizados, updateSessionStorage } from "../../helpers/storage";
 import { RutinaContext } from "../../../context/RutinaContext";
 import { CheckOk } from "../../Atoms/icons/CheckOk";
 import { CheckOkEdit } from "../../Atoms/icons/CheckOkEdit";
@@ -32,6 +32,11 @@ export const RutinaEjerciciosItems = ({
   const filledKilos = [...initialKilos, ...Array(5 - initialKilos.length).fill("0")];
   const [kilosState, setKilosState] = useState(filledKilos)
   const [errorFetch, setErrorFetch] = useState(false)
+  
+  
+  let ejerciciosRealizados = getSessionStorageEjerciciosRealizados()
+  const [ejerciciosCheckeado, setEjerciciosCheckeado] = useState(ejerciciosRealizados[dia-1][index] || false)
+
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -58,14 +63,6 @@ export const RutinaEjerciciosItems = ({
 
     setKilosState(updatedKilosState);
 
-    // si algun elemento de kilosState esta vacio, lo rellena con un 0
-    // setKilosState(kilosState.map(kilo => {
-    //   if (kilo === "") {
-    //     return "0"
-    //   }
-    //   return kilo
-    // }))
-
     const updatedRutinaAlumno = rutinaAlumno.map((dia, i) => {
       if (i === pageDia) {
         return {
@@ -86,25 +83,6 @@ export const RutinaEjerciciosItems = ({
   
     // Finalmente, actualizar la rutinaAlumno con el estado actualizado
     setRutinaAlumno(updatedRutinaAlumno);
-
-
-    // setRutinaAlumno(rutinaAlumno.map((dia, i) => {
-    //   if (i === pageDia) {
-    //     return {
-    //       ...dia,
-    //       ejercicios: dia.ejercicios.map((ejercicio, j) => {
-    //         if (j === index) {
-    //           return {
-    //             ...ejercicio,
-    //             kilos: kilosState
-    //           }
-    //         }
-    //         return ejercicio
-    //       })
-    //     }
-    //   }
-    //   return dia
-    // }))
 
   }
 
@@ -162,7 +140,7 @@ export const RutinaEjerciciosItems = ({
             <h2 className="accordion-header">
 
             <button
-              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index}`}
+              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index} ${ejerciciosCheckeado && "bg-success-subtle"}`}
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={"#panelsStayOpen-collapseOne" + index}
@@ -171,7 +149,11 @@ export const RutinaEjerciciosItems = ({
               onClick={(e) => handleAbrirCollapse(e, index)}
             >
               <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={(e) => handleEjercicioRealizado(e, index, ejercicio.ejercicio)} />
+                <input checked={ejerciciosCheckeado ? true : false} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={(e) => {
+                    handleEjercicioRealizado(e, index, ejercicio.ejercicio)
+                    setEjerciciosCheckeado(!ejerciciosCheckeado)
+                  }
+                  } />
               </div>
 
                 {/* Nombre del ejercicio */}

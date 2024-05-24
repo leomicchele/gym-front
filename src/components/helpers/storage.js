@@ -13,6 +13,26 @@ export const updateSessionStorage = (updateProperty, property) => {
 export const removeSessionStorage = () => {
     return localStorage.removeItem('Auth_token')
 }
+
+// --------------------- Ejercicios Realizados ---------------------
+
+export const setSessionStorageEjerciciosRealizados = (ejercicios) => {
+    localStorage.setItem('Ejercicios_Realizados', JSON.stringify(ejercicios));
+}
+
+export const getSessionStorageEjerciciosRealizados = () => {
+    return JSON.parse(localStorage.getItem('Ejercicios_Realizados'))
+}
+
+export const updateSessionStorageEjerciciosRealizados = (updateProperty, property) => {
+    let ejercicios = JSON.parse(localStorage.getItem('Ejercicios_Realizados'))
+    ejercicios = updateProperty
+    localStorage.setItem('Ejercicios_Realizados', JSON.stringify(ejercicios));
+}
+
+export const removeSessionStorageEjerciciosRealizados = () => {
+    return localStorage.removeItem('Ejercicios_Realizados')
+}
 // export const setSessionStorage = (user) => {
 //     sessionStorage.setItem('Auth_token', JSON.stringify(user));
 // }

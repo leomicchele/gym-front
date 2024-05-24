@@ -50,6 +50,7 @@ function App() {
         <Route path='/menu/alumnos' element={<Alumnos/>}/>
         <Route path='/menu/profesores' element={<Profesores/>}/>
         <Route path='/menu/rutina' element={<Rutinas/>}/>
+        <Route path='/menu/rutina/*' element={<Rutinas/>}/>
         <Route path='/menu/historial' element={<Historial/>}/>
       </Route>
 
