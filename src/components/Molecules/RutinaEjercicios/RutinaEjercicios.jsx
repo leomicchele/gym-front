@@ -92,6 +92,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
   const handleFinalizarEntrenamiento = async () => {
 
     // console.log(ejerciciosRealizados[dia-1])
+    setEjerciciosRealizados(getSessionStorageEjerciciosRealizados())
     const diaNumber = dia - 1
 
 
@@ -108,16 +109,12 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
     }
 
     historial.historial.ejerciciosRealizados = ejerciciosRealizados[diaNumber].map(ejercicio => {
-      return {
-        ejercicio: ejercicio.ejercicio,
-        kilos: ejercicio.kilos
+        return {
+          ejercicio: ejercicio.ejercicio,
+          kilos: ejercicio.kilos
+        }
       }
-    }
     )
-
-    
-
-
     try {
       const response = await historialUpdateFetch(id, historial)
       dispatch({type: "FORM_SUCCESS"})

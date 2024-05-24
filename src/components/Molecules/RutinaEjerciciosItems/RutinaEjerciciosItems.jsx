@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { Edit } from "../../Atoms/icons/Edit"
 import { useContext, useEffect, useState } from "react";
-import { getSessionStorage, getSessionStorageEjerciciosRealizados, updateSessionStorage } from "../../helpers/storage";
+import { getSessionStorage, getSessionStorageEjerciciosRealizados, updateSessionStorage, updateSessionStorageEjerciciosRealizados } from "../../helpers/storage";
 import { RutinaContext } from "../../../context/RutinaContext";
 import { CheckOk } from "../../Atoms/icons/CheckOk";
 import { CheckOkEdit } from "../../Atoms/icons/CheckOkEdit";
@@ -34,8 +34,12 @@ export const RutinaEjerciciosItems = ({
   const [errorFetch, setErrorFetch] = useState(false)
   
   
-  let ejerciciosRealizados = getSessionStorageEjerciciosRealizados()
-  const [ejerciciosCheckeado, setEjerciciosCheckeado] = useState(ejerciciosRealizados[dia-1][index] || false)
+  let ejerciciosRealizadosSession = getSessionStorageEjerciciosRealizados()
+  let ejerciciosCheckeadoSession = ejerciciosRealizadosSession[dia-1].find(ejercicioSession => ejercicioSession.ejercicio === ejercicio.ejercicio)
+  const [ejerciciosCheckeado, setEjerciciosCheckeado] = useState(ejerciciosCheckeadoSession?.ejercicio === ejercicio.ejercicio ? true : false)
+  // console.log(ejerciciosCheckeadoSession?.ejercicio)
+  // console.log(ejercicio.ejercicio)
+
 
 
   const [isEdit, setIsEdit] = useState(false);
@@ -62,7 +66,6 @@ export const RutinaEjerciciosItems = ({
     });
 
     setKilosState(updatedKilosState);
-
     const updatedRutinaAlumno = rutinaAlumno.map((dia, i) => {
       if (i === pageDia) {
         return {
@@ -79,11 +82,27 @@ export const RutinaEjerciciosItems = ({
         };
       }
       return dia;
-    });
+    }); 
   
     // Finalmente, actualizar la rutinaAlumno con el estado actualizado
     setRutinaAlumno(updatedRutinaAlumno);
 
+  }
+
+  const handleUpdateSotageEjerciciosRealizados = () => {
+    const updatedKilosState = kilosState.map(kilo => {
+      if (kilo === "") {
+        return "0";
+      }
+      return kilo;
+    });
+    // actualiza los ejercicios realizados de localStorage
+    ejerciciosRealizadosSession[dia-1].map((ejercicioSession, index) => {
+      if (ejercicioSession.ejercicio === ejercicio.ejercicio) {
+        ejerciciosRealizadosSession[dia-1][index].kilos = updatedKilosState
+      }
+    })
+    updateSessionStorageEjerciciosRealizados(ejerciciosRealizadosSession)
   }
 
   const handleUpdateRutina = async () => {
@@ -94,7 +113,7 @@ export const RutinaEjerciciosItems = ({
     }
     dispatch({type: "LOADING"})
       try {
-      const response = await alumnoUpdateFetch(datosAlumno); 
+        const response = await alumnoUpdateFetch(datosAlumno); 
 
         if (response.error) {
           // dispatch({type: "ERROR"})
@@ -103,13 +122,11 @@ export const RutinaEjerciciosItems = ({
           // setResponseMsg(response.message)
         } else {         
           // setResponseMsg(response.message)
-          updateSessionStorage(rutinaAlumno, "rutina")
-          
+          updateSessionStorage(rutinaAlumno, "rutina")          
           dispatch({type: "FORM_SUCCESS"})
           setIsEdit(!isEdit)
           setErrorFetch(false)
-
-
+          handleUpdateSotageEjerciciosRealizados()
         }
       } catch (error) {
         dispatch({type: "ERROR"})
