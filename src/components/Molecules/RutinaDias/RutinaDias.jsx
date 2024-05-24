@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { ChevronRight } from "../../Atoms/icons/ChevronRight"
 import { LoginContext } from "../../../context/LoginContext"
 import CustomDatePicker from "../CustomDatePicker/CustomDatePicker"
+import { calcularDiasRestantes } from "../../helpers/diasRestantes"
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -14,12 +15,15 @@ const variants = {
 
 export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
   const {state, dispatch} = useContext(LoginContext)
+  const diasRestantes = caducacionRutina === "0" ? "0" : calcularDiasRestantes(caducacionRutina)
   return (
     <motion.div initial={"closed"} animate={"open"} exit={"closed"} transition={{ duration: 0.5 }} variants={variants}>
       <TopBar titulo={"Mi Rutina"} />
-      <Fecha caducacionRutina={caducacionRutina} />
+      {/* <Fecha caducacionRutina={caducacionRutina} /> */}
+      <CustomDatePicker />
+      <div class="card-footer mb-3 text-end fw-medium">La rutina expira en {diasRestantes} día/s</div>
       {/* <CustomDatePicker selectDate={new Date("2020-04-30")} /> */}
-      <h5 className="text-start text-uppercase text-dark fw-semibold mb-3">Selecciona el día de tu rutina: </h5>
+      <h6 className="text-start text-uppercase text-dark fw-semibold mb-3">Selecciona el día de tu rutina: </h6>
       <ul  className="list-group">
         {
           state.loading && 
@@ -45,7 +49,7 @@ export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
           {
             rutina.map((rutina, index) => {
               return (
-                <li style={{cursor: "pointer"}} className="list-group-item list-group-item-action list-group-item-success mb-2 py-3 d-flex justify-content-between align-items-center border border-success-subtle rounded" key={index} onClick={() => handleChangePage(index)}>
+                <li style={{cursor: "pointer"}} className="list-group-item list-group-item-action list-group-item-success mb-2 py-3 d-flex justify-content-between align-items-center border border-secondary-subtle bg-body-secondary rounded" key={index} onClick={() => handleChangePage(index)}>
                   <h5 className="mb-0 text-start text-secondary fst-italic">{rutina.titulo ? <span className="text-secondary fst-italic">{rutina.titulo}</span> : <span className="text-secondary fst-italic">{`Dia ${index+1}`}</span>}</h5>
                   {/* <h5 className="mb-0 text-start">Dia {index+1} - <span className="text-secondary fst-italic">{rutina.titulo}</span></h5> */}
                   <div className="d-flex gap-2">
@@ -56,7 +60,7 @@ export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
               )
             })
           }
-        </ul>
+        </ul> 
     </motion.div>
   )
 }

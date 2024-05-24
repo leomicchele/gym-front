@@ -11,6 +11,12 @@ import { getRutina } from "../../helpers/fetch";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
+const variants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0, x: "-100%" },
+}
+
+
 export const Rutinas = () => {
 
     const [pageDia, setPageDia] = useState(0);
@@ -38,6 +44,7 @@ export const Rutinas = () => {
         updateSessionStorage(response.rutina, "rutina")
         updateSessionStorage(response.caducacionRutina, "caducacionRutina")
         dispatch({type: "SUCCESS"})
+        removeSessionStorageEjerciciosRealizados()
         handleSessionEjercicios(response.rutina.length)
       } catch (error) {
         dispatch({type: "ERROR"})
@@ -48,7 +55,7 @@ export const Rutinas = () => {
     const handleSessionEjercicios = (numeroItems) => {
       const ejerciciosRealizadosSession = getSessionStorageEjerciciosRealizados()
       if (ejerciciosRealizadosSession === null) {
-        // removeSessionStorageEjerciciosRealizados()
+        
         setSessionStorageEjerciciosRealizados(new Array(numeroItems).fill([]))
       }
     }
@@ -72,8 +79,14 @@ export const Rutinas = () => {
       <RutinaContext.Provider value={{rutinaAlumno, setRutinaAlumno, pageDia}}>
       <AnimatePresence>
       {
-        diasOEjercicios === "dias" ?        
+        diasOEjercicios === "dias" ?  
+        <>
           <RutinaDias rutina={rutinaAlumno} handleChangePage={handleChangePage} caducacionRutina={caducacionRutina || "0"}/>
+          <motion.div initial={"closed"} animate={"open"} exit={"closed"} transition={{ duration: 0.5 }} variants={variants}>
+            <span className="text-start fst-italic d-flex w-100">Si tu entrenador te comunicó que modificó tu rutina de ejercicios, puedes actualizarla fácilmente presionando el botón 'Actualizar'"</span>
+            <button className="btn btn-dark mb-4 mt-2 col-12" onClick={() => handleTraerRutina()}>Actualizar Entrenamiento</button>
+          </motion.div>
+        </>      
         :        
           <RutinaEjercicios setDiasOEjercicios={setDiasOEjercicios} ejercicios={rutinaAlumno[pageDia].ejercicios} dia={pageDia+1} diaNombre={rutinaAlumno[pageDia].titulo}/>
       }
