@@ -199,11 +199,11 @@ export const RutinaEjerciciosItems = ({
                         isEdit ? 
                         <>
                             <span className="d-flex gap-1 mx-1" > 
-                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 0) } value={kilosState[0]} class="form-control px-2" aria-describedby="basic-addon1"/> 
-                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 1) } value={kilosState[1]} class="form-control px-2" aria-describedby="basic-addon1"/> 
-                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 2) } value={kilosState[2]} class="form-control px-2" aria-describedby="basic-addon1"/> 
-                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 3) } value={kilosState[3]} class="form-control px-2" aria-describedby="basic-addon1"/> 
-                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 4) } value={kilosState[4]} class="form-control px-2" aria-describedby="basic-addon1"/> 
+                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 0) } value={kilosState[0]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 1) } value={kilosState[1]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 2) } value={kilosState[2]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 3) } value={kilosState[3]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                                <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 4) } value={kilosState[4]} className="form-control px-2" aria-describedby="basic-addon1"/> 
                             </span> 
                         </>
                         :

@@ -42,20 +42,20 @@ export const Historial = () => {
     {
           state.loading && 
           <>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
           
           </>

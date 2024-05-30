@@ -12,7 +12,7 @@ export const Fecha = ({caducacionRutina}) => {
       <div className="card-body">
         <h5 className="card-title">{`${nombreDiaSemana}, ${dia} de ${nombreMes}`}</h5>
       </div>
-      <div class="card-footer">La rutina expira en {diasRestantes} días</div>
+      <div className="card-footer">La rutina expira en {diasRestantes} días</div>
     </div>
   );
 };

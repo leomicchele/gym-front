@@ -44,7 +44,7 @@ export const ModalViewBodyHistorial = ({historialDia, indexDia}) => {
 
                 <AnimatePresence>
               <div className="collapse show" id="collapseExample">
-              <table class="table">
+              <table className="table">
                 <thead>
                   <tr>
                     <th className="col-1" scope="col">#</th>

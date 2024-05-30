@@ -21,27 +21,27 @@ export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
       <TopBar titulo={"Mi Rutina"} />
       {/* <Fecha caducacionRutina={caducacionRutina} /> */}
       <CustomDatePicker />
-      <div class="card-footer mb-3 text-end fw-medium">La rutina expira en {diasRestantes} día/s</div>
+      <div className="card-footer mb-3 text-end fw-medium">La rutina expira en {diasRestantes} día/s</div>
       {/* <CustomDatePicker selectDate={new Date("2020-04-30")} /> */}
       <h6 className="text-start text-uppercase text-dark fw-semibold mb-3">Selecciona el día de tu rutina: </h6>
       <ul  className="list-group">
         {
           state.loading && 
           <>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
-          <p class="placeholder-glow my-1">
-            <span class="placeholder col-12"></span>
+          <p className="placeholder-glow my-1">
+            <span className="placeholder col-12"></span>
           </p>
           
           </>
