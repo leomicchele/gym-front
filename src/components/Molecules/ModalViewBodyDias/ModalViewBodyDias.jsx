@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Edit } from "../../Atoms/icons/Edit"
 import "./ModalViewBodyDias.css"
 import { CheckOkEdit } from "../../Atoms/icons/CheckOkEdit"
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -18,7 +19,7 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
 
   const handleShowDias = (e) => {
     const divShow = document.querySelector(`#collapse${e.target.id}`)
-    divShow.classList.toggle("show")
+    divShow?.classList.toggle("show")
   }
 
   const handleAddDay = () => {
@@ -36,9 +37,10 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
       reps: [],
       descanso: 0,
       kilos: [],
+      rir: [],
       metodo: "",
       observaciones: "",
-      precalentamiento: isPrecalentamiento
+      precalentamiento: isPrecalentamiento,
     }
     if (rutinas[dia].length === 0) {
       rutinas[dia].ejercicios = [newEjercicio]
@@ -87,10 +89,21 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
     setDatosUsuario({...datosUsuario, rutina: rutinas})
   }
 
+  // DRAG AND DROP - Reordenar ejercicios
+  const handleDragDrop = (result) => {
+    const { source, destination } = result
+    if (!destination) return
+    if(source.index === destination.index) return
+    const rutinas = datosUsuario.rutina
+    const [reorderedItem] = rutinas[indexDia][source.droppableId].splice(source.index, 1)
+    rutinas[indexDia][destination.droppableId].splice(destination.index, 0, reorderedItem)
+    setDatosUsuario({...datosUsuario, rutina: rutinas})
+  }
+
   
   
   return (
-    
+    <DragDropContext onDragEnd={(result) => handleDragDrop(result)}>
     <motion.div initial={"closed"} animate={"open"} exit={{opacity: 0}} variants={variants}  key={`dia${+indexDia}`} className="accordion mb-2" id={`acordionDia${indexDia}`}>
         <div  className="accordion-item">
           <h2 className="accordion-header">
@@ -112,33 +125,39 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
             </button>           
           </h2>
           <motion.div initial={{opacity: 0}} animate={{opacity: 1}}  id={`collapse${indexDia+1}`}  className={` border border-primary-subtle accordion-collapse collapse`} data-bs-parent="#accordionExample">
-            <div className="accordion-body py-2 px-1">    
-
-
-                <AnimatePresence>
-              <div className="collapse show" id="collapseExample">
-                {
-                  rutina.ejercicios?.map((ejercicio, index) => {
-                    return (
-                        <ModalViewBodyRutinas key={index} datosUsuario={ejercicio} handleSetDatosUsuario={handleSetDatosUsuario} handleRemoveEjercicio={handleRemoveEjercicio} dia={indexDia} index={index}/>
-                    )
-                  })
-                  
-                }     
-                  {/* <ModalViewBodyRutinas datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} isEdit={isEdit}/> */}
-                  
-                  <button className="btn btn-outline-warning d-flex align-item p-2 gap-2 w-100 mb-2 text-orange" onClick={() => handleAddEjercicio(indexDia, true)}><Add/> Precalentamiento</button>
-                  <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia, false)}><Add/> Ejercicio</button>
-                {/* <div className="card card-body p-0">
-                </div> */}
-              </div>  
-                </AnimatePresence>           
+            <div className="accordion-body py-2 px-1">   
+              <Droppable droppableId="ejercicios">
+                {(droppableProvided) => <AnimatePresence>
+                  <div {...droppableProvided.droppableProps} ref={droppableProvided.innerRef} className="collapse show" id="collapseExample">
+                    {
+                      rutina.ejercicios?.map((ejercicio, index) => {
+                        return (
+                          <Draggable draggableId={ejercicio.ejercicio || `${index}-draggable`} index={index} key={index}>
+                            {(draggableProvided) =>
+                              (
+                                <div {...draggableProvided.draggableProps} ref={draggableProvided.innerRef} {...draggableProvided.dragHandleProps}>
+                                  <ModalViewBodyRutinas key={index} datosUsuario={ejercicio} handleSetDatosUsuario={handleSetDatosUsuario} handleRemoveEjercicio={handleRemoveEjercicio} dia={indexDia} index={index}/>
+                                </div>
+                            )
+                            }
+                          </Draggable>     
+                        )
+                      })
+                      
+                    }
+                    {droppableProvided.placeholder}
+                    <button className="btn btn-outline-warning d-flex align-item p-2 gap-2 w-100 mb-2 text-orange" onClick={() => handleAddEjercicio(indexDia, true)}><Add/> Precalentamiento</button>
+                    <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia, false)}><Add/> Ejercicio</button>
+                  </div>  
+                </AnimatePresence>   }
+              </Droppable>        
             </div>
             <button type="button" className="btn btn-warning mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>Eliminar dia {indexDia + 1 }</button>                   
           </motion.div>
         </div>
         
     </motion.div>
+    </DragDropContext>
   )                  
 
 }
