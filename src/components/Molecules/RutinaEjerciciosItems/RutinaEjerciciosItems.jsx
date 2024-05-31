@@ -10,6 +10,7 @@ import { LoginContext } from "../../../context/LoginContext";
 import { Loader } from "../../Atoms/Loader/Loader";
 import { Alert } from "../../Atoms/Alert/Alert";
 import { XCircle } from "../../Atoms/icons/XCircle";
+// import "./RutinaEjerciciosItems.css"
 
 
 const variants = {
@@ -157,7 +158,7 @@ export const RutinaEjerciciosItems = ({
             <h2 className="accordion-header">
 
             <button
-              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index} ${ejerciciosCheckeado && "bg-success-subtle"}`}
+              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index} ${ejerciciosCheckeado && "bg-success-subtle"} ${ejercicio.precalentamiento && "bg-warning"}`}
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={"#panelsStayOpen-collapseOne" + index}
@@ -183,7 +184,7 @@ export const RutinaEjerciciosItems = ({
             transition={{ duration: 0.5 }}
             variants={variants}
             id="panelsStayOpen-collapseOne"
-            className={`accordion-collapse border border-primary-subtle collapse-${index} collapse`}
+            className={`accordion-collapse border ${ejercicio.precalentamiento ? "border-warning-subtle" :"border-primary-subtle"}  collapse-${index} collapse`}
           >
 
             <div className="accordion-body px-2">
@@ -242,12 +243,20 @@ export const RutinaEjerciciosItems = ({
                 
                 
               </li>
+
+              {
+                ejercicio.precalentamiento ?
+              <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">TIEMPO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
+              :
               <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">R.I.R: </span></div>  <div className="text-start d-flex justify-content-between w-100 gap-1">{ejercicio.rir?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
+              }
 
               <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">METODO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.metodo}</span></div></li>
               <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">OBS: </span></div>  <div className="observaciones-input"><span className="fw-medium text-info-emphasis">{ejercicio.observaciones}</span></div></li>
-              {/* <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div></li> */}
-              <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
+              {
+                !ejercicio.precalentamiento &&
+                <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
+              }
               
             {/* <Cronometro key={index} index={index} descanso={ejercicio.descanso}/> */}
              

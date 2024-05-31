@@ -28,7 +28,7 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
     setDatosUsuario({...datosUsuario, rutina: [...datosUsuario.rutina, newDay]})
   }
 
-  const handleAddEjercicio = (dia) => {
+  const handleAddEjercicio = (dia, isPrecalentamiento) => {
     const rutinas = datosUsuario.rutina
     const newEjercicio = {
       ejercicio: "",
@@ -37,7 +37,8 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
       descanso: 0,
       kilos: [],
       metodo: "",
-      observaciones: ""
+      observaciones: "",
+      precalentamiento: isPrecalentamiento
     }
     if (rutinas[dia].length === 0) {
       rutinas[dia].ejercicios = [newEjercicio]
@@ -126,7 +127,8 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
                 }     
                   {/* <ModalViewBodyRutinas datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} isEdit={isEdit}/> */}
                   
-                  <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia)}><Add/> Ejercicio</button>
+                  <button className="btn btn-outline-warning d-flex align-item p-2 gap-2 w-100 mb-2 text-orange" onClick={() => handleAddEjercicio(indexDia, true)}><Add/> Precalentamiento</button>
+                  <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia, false)}><Add/> Ejercicio</button>
                 {/* <div className="card card-body p-0">
                 </div> */}
               </div>  

@@ -6,6 +6,8 @@ import { Edit } from "../../Atoms/icons/Edit";
 import { CheckOk } from "../../Atoms/icons/CheckOk";
 import { CheckOkEdit } from "../../Atoms/icons/CheckOkEdit";
 import { ChevronRight } from "../../Atoms/icons/ChevronRight";
+import "./ModalViewBodyRutinas.css"
+import { da } from "date-fns/locale";
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -26,22 +28,38 @@ export const ModalViewBodyRutinas = ({
   const styleDisplayNone = "d-none"
   const styleDisplayFlex = "list-group-item d-flex align-items-center gap-2"
 
+  const colorPrecalentamiento = () => {
+    let color = {}
+    if (datosUsuario.precalentamiento) {
+      color.listColor = "list-group-item-warning"
+      color.borderColor = "border-warning"
+      color.textColor = "text-orange"
+      color.backGroundColor = "bg-warning-subtle"
+    } else {
+      color.listColor = "list-group-item-success"
+      color.borderColor = "border-success"
+      color.textColor = "text-success"
+      color.backGroundColor = "bg-success-subtle"
+    }
+    return color
+  }
+
   return (                  
-    <motion.ul initial={"closed"} animate={"open"} exit={"closed"} variants={variants} className="list-group fs-6 text-start mb-2 border border-success" id="card-ejercicio">
-      <li className={`list-group-item-action list-group-item-success d-flex ${!show ? styleDisplayFlex : styleDisplayNone} `} >
-          <span className="fw-semibold col-11" onClick={() => setShow(true)}>{!datosUsuario.ejercicio ? <span className="text-secondary fst-italic"><ChevronRight/> Nuevo ejercicio</span> : <span className="text-success"><ChevronRight/> {datosUsuario.ejercicio}</span> }</span>
+    <motion.ul initial={"closed"} animate={"open"} exit={"closed"} variants={variants} className={`list-group fs-6 text-start mb-2 border ${colorPrecalentamiento().borderColor}`} id="card-ejercicio">
+      <li className={`list-group-item-action ${colorPrecalentamiento().listColor}  d-flex ${!show ? styleDisplayFlex : styleDisplayNone} `} >
+          <span className="fw-semibold col-11" onClick={() => setShow(true)}>{!datosUsuario.ejercicio ? <span className="text-secondary fst-italic"><ChevronRight/> {datosUsuario.precalentamiento ? "Nuevo precalentamiento" : "Nuevo ejercicio"}</span> : <span className={colorPrecalentamiento().textColor}><ChevronRight/> {datosUsuario.ejercicio}</span> }</span>
           {/* <button type="button" className="btn-close col" data-bs-dismiss="modal" aria-label="Close" onClick={(e) => handleRemoveEjercicioCSS(e)}></button> */}
           
           <button type="button" className="btn-close col" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveEjercicio(dia, index)}></button>
         
       </li>
       
-      <li  className={show ? `${styleDisplayFlex} ${isEdit ? "bg-white" : "bg-success-subtle"} borde-3 border-success border-top-0 border-end-0 border-start-0 ` : styleDisplayNone} >
+      <li  className={show ? `${styleDisplayFlex} ${isEdit ? "bg-white" : `${colorPrecalentamiento().backGroundColor}`} borde-3 ${colorPrecalentamiento().borderColor} border-top-0 border-end-0 border-start-0 ` : styleDisplayNone} >
         <div className="d-flex justify-content-between align-items-center gap-2 w-100 " >
           <div onClick={() => {if(!isEdit) setShow(false)}} className="d-flex  align-items-center gap-2 w-100 ">
             <span className="fw-semibold" >EJERCICIO: </span>
             { !isEdit ? 
-              <span className="text-success" onClick={() => setShow(false)}>{datosUsuario.ejercicio}</span> 
+              <span className={colorPrecalentamiento().textColor} onClick={() => setShow(false)}>{datosUsuario.ejercicio}</span> 
               : 
               <input type="text" className="form-control p-1" value={datosUsuario.ejercicio} onChange={(e) => handleSetDatosUsuario(dia, index, "ejercicio", e.target.value)}/>}
 
@@ -104,7 +122,7 @@ export const ModalViewBodyRutinas = ({
         }
       </li>
       <li className={show ? styleDisplayFlex : styleDisplayNone}>
-        <span className="fw-semibold">DESCANSO: </span>
+        <span className="fw-semibold">{datosUsuario.precalentamiento ? "TIEMPO:" : "DESCANSO:"} </span>
         {
           !isEdit ?
             <>
@@ -137,28 +155,31 @@ export const ModalViewBodyRutinas = ({
         }
         <span>Kg</span>
       </li>
-      <li className={show ? styleDisplayFlex : styleDisplayNone}>
-        <span className="fw-semibold">R.I.R: </span>
-        {
-          !isEdit ?
-          <>
-            <span>{datosUsuario?.rir?.[0] || ""}</span>
-            <span>- {datosUsuario?.rir?.[1] || ""}</span>
-            <span>- {datosUsuario?.rir?.[2] || ""}</span>
-            <span>- {datosUsuario?.rir?.[3] || ""}</span>
-            <span>- {datosUsuario?.rir?.[4] || ""}</span>
-          </>
-          :
-            <>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[0]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 0 )}/>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[1]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 1 )}/>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[2]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 2 )}/>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[3]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 3 )}/>
-              <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[4]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 4 )}/>
-            </>
-        }
-        <span></span>
-      </li>
+      {
+        !datosUsuario.precalentamiento &&
+            <li className={show ? styleDisplayFlex : styleDisplayNone}>
+              <span className="fw-semibold">R.I.R: </span>
+              {
+                !isEdit ?
+                <>
+                  <span>{datosUsuario?.rir?.[0] || ""}</span>
+                  <span>- {datosUsuario?.rir?.[1] || ""}</span>
+                  <span>- {datosUsuario?.rir?.[2] || ""}</span>
+                  <span>- {datosUsuario?.rir?.[3] || ""}</span>
+                  <span>- {datosUsuario?.rir?.[4] || ""}</span>
+                </>
+                :
+                  <>
+                    <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[0]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 0 )}/>
+                    <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[1]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 1 )}/>
+                    <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[2]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 2 )}/>
+                    <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[3]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 3 )}/>
+                    <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[4]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 4 )}/>
+                  </>
+              }
+              <span></span>
+            </li>
+      }
       <li className={show ? styleDisplayFlex : styleDisplayNone}>
         <span className="fw-semibold">METODO: </span>
         {

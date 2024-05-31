@@ -1,3 +1,11 @@
 .icon-edit {    
     left: 75%;
 }
+.text-orange {
+    color: #c06500;
+}
+
+.btn-outline-orange {
+    border-color: #cb820c;
+    color: #cb820c;
+}

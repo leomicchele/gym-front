@@ -189,7 +189,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
 
       <div className="form-floating">
         <textarea className="form-control" value={observaciones} placeholder="Leave a comment here" id="floatingTextarea" onChange={(e) => setObservaciones(e.target.value)}  ></textarea>
-        <label for="floatingTextarea">Observaciones</label>
+        <label htmlFor="floatingTextarea">Observaciones</label>
         <span className="mt-2 text-start fst-italic d-flex w-100">Registra todo lo que consideres importante sobre tu día de entrenamiento: lo que no pudiste hacer o cualquier otro detalle relevante.</span>
 
       </div>
