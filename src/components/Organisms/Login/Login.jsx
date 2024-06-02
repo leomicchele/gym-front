@@ -49,7 +49,7 @@ export const Login = () => {
     <div className="align d-flex flex-column">
       <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} className="grid  ">
         <div>
-          <img src="/imagenes/kairossLogo.svg" alt="" style={{width: "200px"}}/>
+          <img src="/imagenes/kairossLogo.svg" alt="" style={{width: "250px"}}/>
         </div>
         <form className="form login">
           <div className="form__field">
@@ -107,7 +107,7 @@ export const Login = () => {
             {/* <input type="submit" value="Sign In"/> */}
             <button
               type="button"
-              className="btn btn-success"
+              className="btn btn-warning"
               onClick={handlerSubmit}
               disabled={state.loading}
             >
@@ -122,7 +122,7 @@ export const Login = () => {
               }
         </form>
       </motion.div>
-        <div className="text-secondary fs-6 mt-3 contacto-text fw-medium text-break text-wrap fst-italic">Si eres propietario de un gimnasio o entrenador personal, puedes consultarnos a nuestro <a href="https://wa.link/6vqz7y" className="text-success">WhatsApp</a>. </div>
+        <div className="text-secondary fs-6 mt-3 contacto-text fw-medium text-break text-wrap fst-italic ">Si eres dueño de un gimnasio o trabajas como entrenador personal, no dudes en contactarnos a través de nuestro <a href="https://wa.link/6vqz7y" className="text-success">WhatsApp</a>. </div>
     </div>
   );
 }

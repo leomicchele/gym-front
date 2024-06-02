@@ -32,7 +32,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   .grid {
     width: 90%;
     max-width: 380px;
-    padding: 20px;
+    /* padding: 20px; */
     /* background-color: #2c3338; */
     border-radius: 20px;
     /* inline-size: 90%;
