@@ -47,7 +47,7 @@ export const ModalViewBodyRutinas = ({
   return (                  
     <motion.ul initial={"closed"} animate={"open"} exit={"closed"} variants={variants} className={`list-group fs-6 text-start mb-2 border ${colorPrecalentamiento().borderColor}`} id="card-ejercicio">
       <li className={`list-group-item-action ${colorPrecalentamiento().listColor}  d-flex ${!show ? styleDisplayFlex : styleDisplayNone} `} >
-          <span className="fw-semibold col-11" onClick={() => setShow(true)}>{!datosUsuario.ejercicio ? <span className="text-secondary fst-italic"><ChevronRight/> {datosUsuario.precalentamiento ? "Nuevo precalentamiento" : "Nuevo ejercicio"}</span> : <span className={colorPrecalentamiento().textColor}><ChevronRight/> {datosUsuario.ejercicio}</span> }</span>
+          <span className="fw-semibold col-11" onClick={() => setShow(true)}>{!datosUsuario.ejercicio ? <span className="text-secondary fst-italic"><ChevronRight/> {datosUsuario.precalentamiento ? "Nuevo calentamiento" : "Nuevo ejercicio"}</span> : <span className={colorPrecalentamiento().textColor}><ChevronRight/> {datosUsuario.ejercicio}</span> }</span>
           {/* <button type="button" className="btn-close col" data-bs-dismiss="modal" aria-label="Close" onClick={(e) => handleRemoveEjercicioCSS(e)}></button> */}
           
           <button type="button" className="btn-close col" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveEjercicio(dia, index)}></button>

@@ -146,7 +146,7 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
                       
                     }
                     {droppableProvided.placeholder}
-                    <button className="btn btn-outline-warning d-flex align-item p-2 gap-2 w-100 mb-2 text-orange" onClick={() => handleAddEjercicio(indexDia, true)}><Add/> Precalentamiento</button>
+                    <button className="btn btn-outline-warning d-flex align-item p-2 gap-2 w-100 mb-2 text-orange" onClick={() => handleAddEjercicio(indexDia, true)}><Add/> Calentamiento</button>
                     <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia, false)}><Add/> Ejercicio</button>
                   </div>  
                 </AnimatePresence>   }
