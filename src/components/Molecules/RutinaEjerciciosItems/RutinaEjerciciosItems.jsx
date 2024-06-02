@@ -11,7 +11,7 @@ import { Loader } from "../../Atoms/Loader/Loader";
 import { Alert } from "../../Atoms/Alert/Alert";
 import { XCircle } from "../../Atoms/icons/XCircle";
 import { Fire } from "../../Atoms/icons/Fire";
-// import "./RutinaEjerciciosItems.css"
+import "./RutinaEjerciciosItems.css"
 
 
 const variants = {
@@ -159,7 +159,7 @@ export const RutinaEjerciciosItems = ({
             <h2 className="accordion-header">
 
             <button
-              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index} ${ejerciciosCheckeado && "bg-success-subtle"} ${ejercicio.precalentamiento && "bg-warning fs-6"}`}
+              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index} ${ejerciciosCheckeado && "bg-success-subtle"} ${ejercicio.precalentamiento && "bg-warning bg-warning2 fs-6"}`}
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={"#panelsStayOpen-collapseOne" + index}

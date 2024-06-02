@@ -1,5 +1,11 @@
-.orange {
-	border-color: #c06500 !important;
+
+.bg-warning2 {
+	background-color: rgb(255, 231, 160) !important;
+}
+
+.bg-warning2:focus {
+	box-shadow: 0 0 0 0.2rem rgba(239, 188, 36, 0.5) !important;
+
 }
 
 /* .show > div {
