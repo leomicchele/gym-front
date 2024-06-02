@@ -158,7 +158,7 @@ export const RutinaEjerciciosItems = ({
             <h2 className="accordion-header">
 
             <button
-              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index} ${ejerciciosCheckeado && "bg-success-subtle"} ${ejercicio.precalentamiento && "bg-warning"}`}
+              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index} ${ejerciciosCheckeado && "bg-success-subtle"} ${ejercicio.precalentamiento && "bg-warning fs-6"}`}
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={"#panelsStayOpen-collapseOne" + index}
@@ -167,11 +167,14 @@ export const RutinaEjerciciosItems = ({
               onClick={(e) => handleAbrirCollapse(e, index)}
             >
               <div className="form-check">
-                <input checked={ejerciciosCheckeado ? true : false} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={(e) => {
-                    handleEjercicioRealizado(e, index, ejercicio.ejercicio)
-                    setEjerciciosCheckeado(!ejerciciosCheckeado)
-                  }
-                  } />
+                {
+                  !ejercicio.precalentamiento &&
+                    <input checked={ejerciciosCheckeado ? true : false} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={(e) => {
+                        handleEjercicioRealizado(e, index, ejercicio.ejercicio)
+                        setEjerciciosCheckeado(!ejerciciosCheckeado)
+                      }
+                      } />
+                }
               </div>
 
                 {/* Nombre del ejercicio */}

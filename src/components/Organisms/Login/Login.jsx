@@ -46,7 +46,7 @@ export const Login = () => {
 
 
   return (
-    <div className="align">
+    <div className="align d-flex flex-column">
       <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} className="grid  ">
         <div>
           <img src="/imagenes/kairossLogo.svg" alt="" style={{width: "200px"}}/>
@@ -122,6 +122,7 @@ export const Login = () => {
               }
         </form>
       </motion.div>
+        <div className="text-secondary fs-6 mt-3 contacto-text fw-medium text-break text-wrap fst-italic">Si eres propietario de un gimnasio o entrenador personal, puedes consultarnos a nuestro <a href="https://wa.link/6vqz7y" className="text-success">WhatsApp</a>. </div>
     </div>
   );
 }
