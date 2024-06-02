@@ -10,6 +10,7 @@ import { LoginContext } from "../../../context/LoginContext";
 import { Loader } from "../../Atoms/Loader/Loader";
 import { Alert } from "../../Atoms/Alert/Alert";
 import { XCircle } from "../../Atoms/icons/XCircle";
+import { Fire } from "../../Atoms/icons/Fire";
 // import "./RutinaEjerciciosItems.css"
 
 
@@ -166,16 +167,20 @@ export const RutinaEjerciciosItems = ({
               aria-controls={"panelsStayOpen-collapseOne" + index}
               onClick={(e) => handleAbrirCollapse(e, index)}
             >
-              <div className="form-check">
-                {
-                  !ejercicio.precalentamiento &&
-                    <input checked={ejerciciosCheckeado ? true : false} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={(e) => {
+              {
+                !ejercicio.precalentamiento ?
+                <div className="form-check">
+                  <input checked={ejerciciosCheckeado ? true : false} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={(e) => {
                         handleEjercicioRealizado(e, index, ejercicio.ejercicio)
                         setEjerciciosCheckeado(!ejerciciosCheckeado)
                       }
-                      } />
-                }
-              </div>
+                      } />                      
+                </div>
+                : 
+                <div className="pe-2">
+                  <Fire/>
+                </div>
+              }
 
                 {/* Nombre del ejercicio */}
               {ejercicio.ejercicio}
