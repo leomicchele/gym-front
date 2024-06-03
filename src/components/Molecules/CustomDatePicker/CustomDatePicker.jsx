@@ -8,13 +8,13 @@ const CustomDatePicker = () => {
 
 const fechaActual = new Date();
     let fechaNueva = new Date(fechaActual);
-    fechaNueva.setDate(fechaNueva.getDate() - 3)
+    // fechaNueva.setDate(fechaNueva.getDate() - 3)
 
 return (
   <div className="d-flex justify-content-center my-3">
       <DatePicker startDate={new Date(fechaNueva)} 
-                  days={6}
-                  endDate={6}
+                  days={5}
+                  endDate={5}
                   selectDate={new Date()}
                   getSelectedDay={selectedDay} 
                   labelFormat={"MMMM"} 

@@ -59,22 +59,22 @@ const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor
             let start, end;
             const month = startOfMonth(addMonths(startDate, i));
 
-            // start = i === 0 ? Number(format(startDate, dateFormat)) - 1 : 0;
-            // end = i === differenceInMonths(lastDate, startDate) ? Number(format(lastDate, "d")) : Number(format(lastDayOfMonth(month), "d"));
+            start = i === 0 ? Number(format(startDate, dateFormat)) - 1 : 0;
+            end = i === differenceInMonths(lastDate, startDate) ? Number(format(lastDate, "d")) : Number(format(lastDayOfMonth(month), "d"));
 
-            if (i === 0) {
-                // Primer mes
-                start = Number(format(startDate, dateFormat)) - 1;
-                end = Number(format(lastDayOfMonth(month), "d"));
-            } else if (i === differenceInMonths(lastDate, startDate)) {
-                // Último mes
-                start = 0;
-                end = Number(format(lastDate, "d"));
-            } else {
-                // Meses intermedios
-                start = 0;
-                end = Number(format(lastDayOfMonth(month), "d"));
-            }
+            // if (i === 0) {
+            //     // Primer mes
+            //     start = Number(format(startDate, dateFormat)) - 1;
+            //     end = Number(format(lastDayOfMonth(month), "d"));
+            // } else if (i === differenceInMonths(lastDate, startDate)) {
+            //     // Último mes
+            //     start = 0;
+            //     end = Number(format(lastDate, "d"));
+            // } else {
+            //     // Meses intermedios
+            //     start = 0;
+            //     end = Number(format(lastDayOfMonth(month), "d"));
+            // }
 
             for (let j = start; j < end; j++) {
                 let currentDay = addDays(month, j);
