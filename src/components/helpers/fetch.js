@@ -2,7 +2,8 @@
 
 import { getSessionStorage } from "./storage";
 
-const urlAmbientes = () => "https://gym-back-production.up.railway.app"
+// const urlAmbientes = () => "https://gym-back-production.up.railway.app"
+const urlAmbientes = () => process.env.REACT_APP_API_SERVER
 // const urlAmbientes = () => "http://localhost:3000"
 
 // REGEX EMAIL
