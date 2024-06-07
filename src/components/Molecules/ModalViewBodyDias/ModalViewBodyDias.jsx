@@ -15,6 +15,8 @@ const variants = {
 
 export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDia}) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [eliminiteDay, setEliminiteDay] = useState(false);
+
   
 
   const handleShowDias = (e) => {
@@ -58,6 +60,12 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
     setDatosUsuario({...datosUsuario, rutina: rutinas})
   }
   const handleRemoveDia = (indexDia) => {
+    if (!eliminiteDay) {
+      setEliminiteDay(true)
+      return
+    }    
+    setEliminiteDay(false)
+
     const rutinas = datosUsuario.rutina
     rutinas.splice(indexDia, 1)
     setDatosUsuario({...datosUsuario, rutina: rutinas})    
@@ -152,7 +160,20 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
                 </AnimatePresence>   }
               </Droppable>        
             </div>
-            <button type="button" className="btn btn-warning mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>Eliminar dia {indexDia + 1 }</button>                   
+            {
+              !eliminiteDay ?
+                <motion.button initial={{opacity: 0}} animate={{opacity: 1}} type="button" className="btn btn-warning mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>Eliminar: {rutina.titulo ? `${rutina.titulo.substring(0, 7)}...` : "nuevo"}</motion.button>                   
+              :
+              <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="d-flex justify-content-around align-items-center pb-2">
+                <span className="fw-medium">¿Estás seguro?</span>
+                <button type="button" className="btn btn-secondary " data-bs-dismiss="modal" aria-label="Close" onClick={() => setEliminiteDay(false)}>Cancelar</button>
+                <button type="button" className="btn btn-danger " data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>SI</button>
+
+                {/* <button type="button" className="btn btn-danger mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => setEliminiteDay(false)}>¿Estás seguro?</button> */}
+
+              </motion.div>
+
+            }
           </motion.div>
         </div>
         
