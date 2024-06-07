@@ -66,8 +66,9 @@ export const Alumnos = () => {
     const handleInputSearch = (e) => {
       const query = e.target.value
       setInputSearch(query)  
+      // Filtra por nombre y apellido
       const usuariosFilter = usuariosAll.filter(usuario => {
-        return usuario.apellido.toLowerCase().indexOf(query.toLowerCase()) !== -1     
+        return usuario.nombre.toLowerCase().indexOf(query.toLowerCase()) !== -1 || usuario.apellido.toLowerCase().indexOf(query.toLowerCase()) !== -1
       });
       setUsuariosState(usuariosFilter)  
     }
