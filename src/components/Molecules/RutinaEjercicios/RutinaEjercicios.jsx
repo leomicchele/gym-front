@@ -22,6 +22,8 @@ const variants = {
 export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre }) => {
 
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenVideo, setIsOpenVideo] = useState(false)
+  const [linkVideo, setLinkVideo] = useState("")
   const [responseMsg, setResponseMsg] = useState("");
   const [ejerciciosRealizadosCheck, setEjerciciosRealizadosCheck] = useState(0)
   const [ejerciciosRealizados, setEjerciciosRealizados] = useState(getSessionStorageEjerciciosRealizados())
@@ -83,15 +85,26 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
     return frase
   }
 
+  // abre o cierra modal de finalizar entrenamiento
   const handleOpenModal = () => {
     dispatch({ type: "FORM_NEUTRAL"})
     setIsOpen(!isOpen)
+  }
+
+  // abre o cierra modal del video
+  const handleOpenModalVideo = (link) => {
+    dispatch({ type: "FORM_NEUTRAL"})
+    if(!isOpenVideo) {
+      setLinkVideo(link)
+      setIsOpenVideo(true)
+    } else {
+      setIsOpenVideo(false)
+    }
   }
   
 
   const handleFinalizarEntrenamiento = async () => {
 
-    // console.log(ejerciciosRealizados[dia-1])
     setEjerciciosRealizados(getSessionStorageEjerciciosRealizados())
     const diaNumber = dia - 1
 
@@ -137,6 +150,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
       
     } catch (error) {
       dispatch({type: "ERROR"})
+      setResponseMsg(response.message)
       console.info({error})      
       
     }
@@ -180,7 +194,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
       <div className="accordion" id="accordionPanelsStayOpenExample">
         {ejercicios.map((ejercicio, index) => {
           return (
-            <RutinaEjerciciosItems key={index} ejercicio={ejercicio} index={index} handleAbrirCollapse={handleAbrirCollapse} handleEjercicioRealizado={handleEjercicioRealizado} dia={dia}/>
+            <RutinaEjerciciosItems key={index} ejercicio={ejercicio} index={index} handleAbrirCollapse={handleAbrirCollapse} handleEjercicioRealizado={handleEjercicioRealizado} dia={dia} handleModalVideo={handleOpenModalVideo}/>
           );
         })}
         
@@ -197,6 +211,9 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
       <button className="btn btn-dark my-4 col-12" onClick={() => handleOpenModal()}>Finalizar Entrenamiento</button>
       {
         isOpen && <Modal tipoModal={"terminar"} handleFunction={handleFinalizarEntrenamiento}  handleIsOpen={setIsOpen} title={`Has realizado ${ejerciciosRealizadosCheck} ejercicio/s, ${handleFrases()}`} msg={responseMsg}/>
+      }
+      {
+        isOpenVideo && <Modal tipoModal={"video"} handleFunction={handleFinalizarEntrenamiento}  handleIsOpen={setIsOpenVideo} title={`Video`} msg={linkVideo}/>
       }
 
     </motion.div>

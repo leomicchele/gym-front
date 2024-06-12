@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import { LoginContext } from "../../../context/LoginContext"
 import { Alert } from "../../Atoms/Alert/Alert"
 import { Loader } from "../../Atoms/Loader/Loader"
@@ -6,6 +6,7 @@ import { ModalViewBody } from "../ModalViewBody/ModalViewBody"
 import { Button } from "../../Atoms/Button/Button"
 import { ModalCreateBody } from "../ModalCreateBody/ModalCreateBody"
 import { motion, AnimatePresence } from "framer-motion"
+import { ModalVideo } from "../ModalVideo/ModalVideo"
 
 
 
@@ -21,6 +22,11 @@ export const Modal = (
     setDatosUsuario,
   }) => {
 
+    //Guardar el titulo del modal con usememo
+    const tituloFijo = useMemo(() => {
+      return title
+    }
+    ,[])
 
     const {state, dispatch} = useContext(LoginContext)
 
@@ -45,7 +51,7 @@ export const Modal = (
     <motion.div initial={{opacity: 0, y: -100}} animate={{opacity: 1, y: 0}} transition={{duration: 0.3, ease: "easeOut"}} className="modal-dialog ">
       <div className="modal-content">
         <div className="modal-header gap-2">
-          <h5 className="modal-title">{title}</h5>
+          <h5 className="modal-title">{tituloFijo}</h5>
           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleIsOpen(false)}></button>
         </div>
         {  tipoModal === "editar" ? 
@@ -60,13 +66,15 @@ export const Modal = (
         }
         {  tipoModal === "eliminar" && <p className="fs-6 mx-2">{""}</p> }
         {  tipoModal === "terminar" && <p className="fs-6 px-1">{"Al aceptar, tu entrenador podrá recibir un registro detallado de tu día de entrenamiento."}</p> }
+        {  tipoModal === "video" && <ModalVideo link={msg} />}
 
         <div className="modal-footer">
-            { state.error &&  <Alert type={"danger"} msg={msg}/> }
+            { state.error &&  <Alert type={"danger"}/> }
             { state.formInputSuccess && tipoModal === "editar" && <Alert type={"success"} msg={"Actualizado"}/> }
             { state.formInputSuccess && tipoModal === "crear" && <Alert type={"success"} msg={msg}/> }
             { state.formInputSuccess && tipoModal === "eliminar" && <Alert type={"success"} msg={msg}/> }
             { state.formInputSuccess && tipoModal === "terminar" && <Alert type={"success"} msg={msg}/> }
+            
             
 
             {

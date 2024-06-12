@@ -85,6 +85,7 @@ export const Alumnos = () => {
       if (!isOpen){
         setModalCrate(false)
         dispatch({type: "SUCCESS"})
+        handlerUpdate()
       } 
     }
 

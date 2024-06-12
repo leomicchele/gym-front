@@ -24,7 +24,8 @@ export const RutinaEjerciciosItems = ({
     index, 
     handleAbrirCollapse, 
     handleEjercicioRealizado,
-    dia
+    dia,
+    handleModalVideo
   }) => {
 
   const {id, rol, token, rutina, caducacionRutina, rutinaId} = getSessionStorage()
@@ -144,6 +145,14 @@ export const RutinaEjerciciosItems = ({
     setIsEdit(!isEdit)
   }
 
+  const handleLinkObs = (observaciones) => {
+    if (observaciones.includes("https://youtu.be")) {
+      return <span onClick={() => handleModalVideo(observaciones)} className="text-primary">Mira este video</span>
+    } else {
+      return <span>{observaciones}</span>
+    }    
+}
+
 
   useEffect(() => {
     if(isEdit) {
@@ -260,7 +269,7 @@ export const RutinaEjerciciosItems = ({
               }
 
               <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">METODO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.metodo}</span></div></li>
-              <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">OBS: </span></div>  <div className="observaciones-input"><span className="fw-medium text-info-emphasis">{ejercicio.observaciones}</span></div></li>
+              <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">OBS: </span></div>  <div className="observaciones-input"><span className="fw-medium text-info-emphasis">{handleLinkObs(ejercicio.observaciones)}</span></div></li>
               {
                 !ejercicio.precalentamiento &&
                 <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
