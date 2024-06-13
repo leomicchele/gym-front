@@ -71,10 +71,26 @@ export const ModalViewBodyDatosAlumno = ({
                     }                    
                   </li>
                   <li className="list-group-item d-flex align-items-center gap-2">
-                    <span className="fw-semibold">DEPORTE: </span> 
+                    <span className="fw-semibold">ALTURA: </span> 
                     { 
-                      !isEdit ? <span className="py-md-2">{datosUsuario.deporte}</span> : <input type="text" className="form-control py-1 py-md-2" value={datosUsuario.deporte} onChange={(e) => setDatosUsuario({...datosUsuario, deporte: e.target.value})}/>
+                      !isEdit ? <span className="py-md-2">{datosUsuario.altura}</span> : <input type="text" className="form-control py-1 py-md-2" value={datosUsuario.altura} onChange={(e) => setDatosUsuario({...datosUsuario, altura: e.target.value})}/>
+                    }      
+                    <span className="fw-normal fst-italic">Cm </span> 
+                  </li>
+                  <li className="list-group-item d-flex align-items-center gap-2">
+                    <span className="fw-semibold">PESO: </span> 
+                    { 
+                      !isEdit ? <span className="py-md-2">{datosUsuario.peso}</span> : <input type="text" className="form-control py-1 py-md-2" value={datosUsuario.peso} onChange={(e) => setDatosUsuario({...datosUsuario, peso: e.target.value})}/>
+                    }                 
+                    <span className="fw-normal fst-italic"> Kg </span> 
+
+                  </li>
+                  <li className="list-group-item d-flex align-items-center gap-2">
+                    <span className="fw-semibold">GRASA CORP: </span> 
+                    { 
+                      !isEdit ? <span className="py-md-2">{datosUsuario.grasaCorporal}</span> : <input type="text" className="form-control py-1 py-md-2" value={datosUsuario.grasaCorporal} onChange={(e) => setDatosUsuario({...datosUsuario, grasaCorporal: e.target.value})}/>
                     }                    
+                    <span className="fw-normal fst-italic"> % </span> 
                   </li>
                   <li className="list-group-item d-flex align-items-center gap-2">
                     <span className="fw-semibold">PASSWORD: </span> 
