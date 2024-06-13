@@ -12,6 +12,7 @@ import { Alumnos } from './components/Organisms/Alumnos/Alumnos';
 import { Profesores } from './components/Organisms/Profesores/Profesores';
 import { Rutinas } from './components/Organisms/Rutinas/Rutinas';
 import { Historial } from './components/Organisms/Historial/Historial';
+import { Ficha } from './components/Organisms/Ficha/Ficha';
 // import './scss/styles.scss'
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
         <Route path='/menu/rutina' element={<Rutinas/>}/>
         <Route path='/menu/rutina/*' element={<Rutinas/>}/>
         <Route path='/menu/historial' element={<Historial/>}/>
+        <Route path='/menu/ficha' element={<Ficha/>}/>
       </Route>
 
       </Routes>

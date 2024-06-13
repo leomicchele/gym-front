@@ -81,6 +81,35 @@ export const getFetch = async (idProfesor, idGimnasio) => {
   }
 
 }
+
+export const getAlumno = async (usuario) => {
+  const path = urlAmbientes();
+  const idAlumno = usuario._id;
+
+  var requestOptions = {
+    method: 'GET',
+    // redirect: 'follow',
+    headers: {
+      'accept': 'application/json', 
+      // "Authorization": `Bearer ${user.token}`,
+      
+    }
+  };
+  try {
+    const response = await fetch(`${path}/api/alumnos/${idAlumno}`, requestOptions);
+    if (response.status == 401) {
+      return false
+    }
+    const result = await response.json()
+
+    return result
+    
+  } catch (error) {
+    throw new Error ( `Failed to connect to api` );
+  }
+
+}
+
 export const alumnoCreateFetch = async (usuario, idProfesor, idGimnasio) => {
   const path = urlAmbientes();
   let raw = {
