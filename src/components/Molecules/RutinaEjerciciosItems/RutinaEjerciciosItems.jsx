@@ -3,7 +3,7 @@ import { Edit } from "../../Atoms/icons/Edit"
 import { useContext, useEffect, useState } from "react";
 import { getSessionStorage, getSessionStorageEjerciciosRealizados, updateSessionStorage, updateSessionStorageEjerciciosRealizados } from "../../helpers/storage";
 import { RutinaContext } from "../../../context/RutinaContext";
-import { CheckOk } from "../../Atoms/icons/CheckOk";
+import { ArrowCloud } from "../../Atoms/icons/ArrowCloud";
 import { CheckOkEdit } from "../../Atoms/icons/CheckOkEdit";
 import { alumnoUpdateFetch } from "../../helpers/fetch";
 import { LoginContext } from "../../../context/LoginContext";
@@ -182,6 +182,7 @@ export const RutinaEjerciciosItems = ({
                   <input checked={ejerciciosCheckeado ? true : false} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={(e) => {
                         handleEjercicioRealizado(e, index, ejercicio.ejercicio)
                         setEjerciciosCheckeado(!ejerciciosCheckeado)
+                        setIsEdit(false)
                       }
                       } />                      
                 </div>
@@ -234,25 +235,24 @@ export const RutinaEjerciciosItems = ({
                         state.loading ? <Loader/> 
                         :
                         <>
-                        {
-                          !isEdit ? 
-                                <span  onClick={() => setIsEdit(!isEdit)} className="text-primary d-flex align-items-center">
-                                  <Edit/>
-                                </span> 
-                            : 
-                                <>
-                                  {
-                                  errorFetch ? 
-                                    <span onClick={() => handleCleanError()} className="text-danger d-flex align-items-center">
-                                      <XCircle/>
-                                    </span> 
-                                  : 
-                                  <span onClick={() => handleEditarkilos()} className="text-success d-flex align-items-center">
-                                    <CheckOkEdit/>
-                                  </span>
-                                } 
-                                </>
-                        }
+                          {
+                            isEdit && !ejerciciosCheckeado && !errorFetch && 
+                            <span onClick={() => handleEditarkilos()} className="text-success d-flex align-items-center">
+                              <ArrowCloud/>
+                            </span>
+                          }
+                          {
+                            !isEdit && !ejerciciosCheckeado && !errorFetch && 
+                            <span  onClick={() => setIsEdit(!isEdit)} className="text-primary d-flex align-items-center">
+                              <Edit/>
+                            </span> 
+                          }
+                          {
+                            errorFetch && 
+                            <span onClick={() => handleEditarkilos()} className="text-success d-flex align-items-center">
+                              <XCircle/>
+                            </span> 
+                          }
                         </>
                       }
                     </>
