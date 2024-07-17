@@ -159,8 +159,9 @@ export const alumnoCreateFetch = async (usuario, idProfesor, idGimnasio) => {
 export const alumnoUpdateFetch = async (usuario, idProfesor) => {
   const path = urlAmbientes();
   const idUsuario = usuario._id;
-  let raw = usuario; 
-  delete raw.password;
+  let raw = usuario;
+  if (raw.password === "" || raw.password === undefined || raw.password.length < 6) delete raw.password;
+  
 
   let requestOptions = {
     method: 'PUT',
@@ -384,7 +385,6 @@ export const getRutina = async (usuario) => {
 
 // ---------------- HISTORIAL ----------------
 export const getHistorial = async (usuario) => {
-  console.log("object");
   const path = urlAmbientes();
   const idAlumno = usuario._id;
 

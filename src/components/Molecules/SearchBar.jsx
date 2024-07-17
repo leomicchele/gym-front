@@ -32,6 +32,7 @@ export const SearchBar = ({ usuario, stateInput, setStateInput, handlerUpdate, h
             aria-describedby="basic-addon1"
             value={stateInput}
             onChange={handleInputSearch}
+            autoComplete="off"
           />
 
         </div>

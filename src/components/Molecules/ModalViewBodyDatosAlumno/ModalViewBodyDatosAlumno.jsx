@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CheckOkEdit } from "../../Atoms/icons/CheckOkEdit";
 import { Edit } from "../../Atoms/icons/Edit";
 
@@ -10,7 +10,23 @@ export const ModalViewBodyDatosAlumno = ({
   emptyInput}) => {
 
   const [isEdit, setIsEdit] = useState(false);
-  
+  const [isEditPassword, setIsEditPassword] = useState(false);
+  const [passwordColorInput, setPasswordColorInput] = useState("form-control text-primary-emphasis is-invalid")
+
+
+  const handlePassword = (e) => {
+    setDatosUsuario({...datosUsuario, password: e.target.value})
+  }
+
+  useEffect(() => {
+    if (datosUsuario.password === "" || datosUsuario.password?.length < 6 || datosUsuario.password === undefined) {
+      setPasswordColorInput("form-control text-primary-emphasis is-invalid")
+    } else {
+      setPasswordColorInput("form-control py-1 py-md-2")
+    }
+  }, [datosUsuario.password])
+
+    
   return (
     
                 <ul className="list-group fs-6 text-start">
@@ -94,7 +110,16 @@ export const ModalViewBodyDatosAlumno = ({
                   </li>
                   <li className="list-group-item d-flex align-items-center gap-2">
                     <span className="fw-semibold">PASSWORD: </span> 
-                    <span>{"******"}</span>
+                    { 
+                      !isEditPassword ? <span className="py-md-2">{"******"}</span> : <input type="password" autoComplete="off" className={`${passwordColorInput} form-control py-1 py-md-2`} onChange={(e) => handlePassword(e)}/>
+                    }
+                    <button type="button" className="btn btn-link px-1 d-flex aling-item-center"  onClick={() => setIsEditPassword(!isEditPassword)}>
+                      {
+                        isEditPassword ? <CheckOkEdit /> : <Edit />
+                      }
+                      
+                    </button>  
+                    {/* <span>{"******"}</span> */}
                                         
                   </li>
                   <li className="list-group-item d-flex align-items-center gap-2">
