@@ -49,7 +49,7 @@ export const ModalInputAlumno = ({datosUsuario, setDatosUsuario}) => {
             <input autoComplete="off" type="number" disabled={state.loading} className="form-control text-primary-emphasis" placeholder="" value={datosUsuario.edad} onChange={(e) => setDatosUsuario({...datosUsuario, edad: e.target.value})} id="edad" name="edad"/>
             <label htmlFor="edad">Fecha Nac.</label>
         </div>  */}
-        <div className="border rounded p-1 gap-1 d-flex flex-column">
+        <div className="border rounded p-2 gap-1 d-flex flex-column">
         <label htmlFor="edad">Fecha Nac.</label>
             <div className="d-flex gap-1 align-items-center justify-content-between">
                 <input  type="number" value={fechaNacimiento.dia} className="form-control px-2" placeholder="Dia" aria-label="Dia" aria-describedby="basic-addon1" name="dia" onChange={(e) => handleFechaNacimiento(e)}/>                

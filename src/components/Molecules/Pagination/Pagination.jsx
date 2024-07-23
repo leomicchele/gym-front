@@ -57,7 +57,7 @@ export const Pagination = ({usuariosState, numerPage, setNumerPage}) => {
   return (
     <div className="py-3">
         <nav aria-label="Page navigation example p-3">
-            <ul className="pagination justify-content-center">
+            <ul className="pagination justify-content-center d-flex flex-wrap">
                 <li className="page-item" style={{cursor: "pointer"}} onClick={(e) => handlePagesPrevius(e)}>
                     <a className="page-link" >Anterior</a>
                 </li>
