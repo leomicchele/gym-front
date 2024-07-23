@@ -45,9 +45,9 @@ export const ModalViewBodyDatosAlumno = ({
                     </button>                    
                   </li>
                   <li className="list-group-item d-flex align-items-center gap-2">
-                    <span className="fw-semibold">EDAD: </span> 
+                    <span className="fw-semibold">F. de Nac: </span> 
                     { 
-                      !isEdit ? <span>{datosUsuario.edad}</span> : <input type="number" className="form-control py-1 py-md-2" value={datosUsuario.edad} onChange={(e) => setDatosUsuario({...datosUsuario, edad: e.target.value})}/>
+                      !isEdit ? <span>{datosUsuario.edad}</span> : <input type="text" className="form-control py-1 py-md-2" value={datosUsuario.edad} onChange={(e) => setDatosUsuario({...datosUsuario, edad: e.target.value})}/>
                     }                    
                   </li>
                   <li className="list-group-item d-flex align-items-center gap-2">
