@@ -12,7 +12,8 @@ export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, han
   const [orden, setOrden] = useState({
     apellido: true,
     nombre: true,
-    estado: true  
+    estado: true,
+    diasRestantes: true  
   })
 
   const handleApellido = () => {
@@ -30,6 +31,16 @@ export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, han
     const usuariosOrdenados = usuariosState.sort((a, b) => OrderListEstado(a, b, orden.estado))
     setUsuariosState([...usuariosOrdenados])
   }
+  const handleDiasRestantes = () => {
+    // ordenar los usuarios por dias restantes, si el orden es true, se ordena de menor a mayor, si es false, de mayor a menor
+    setOrden({...orden, diasRestantes: !orden.diasRestantes})
+    const usuariosOrdenados = usuariosState.sort((a, b) => a.diasRestantes - b.diasRestantes)
+    if (!orden.diasRestantes) {
+      usuariosOrdenados.reverse()
+    }
+    setUsuariosState([...usuariosOrdenados])
+
+  }
 
   const handleNumberItems = () => {
     let pageItems = [];
@@ -42,6 +53,7 @@ export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, han
             estado={e.estado}
             key={e._id}
             id={e._id}
+            diasRestantes={e.diasRestantes}
             handleModalAlumnoOpen={handleModalAlumnoOpen}
             handleModalSeguroOpen={handleModalSeguroOpen}
           />
@@ -56,9 +68,10 @@ export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, han
       <table className="table table-striped  table-hover">
         <thead>
           <tr>
-            <th scope="col" ><span onClick={handleApellido} style={{cursor: "pointer"}}><ArrowOrder/>  Apellido</span></th>
-            <th scope="col"><span onClick={handleNombre} style={{cursor: "pointer"}}><ArrowOrder/>  Nombre</span></th>
-            <th scope="col"><span onClick={handleEstado} style={{cursor: "pointer"}}><ArrowOrder/>  Estado</span></th>
+            <th scope="col" ><span onClick={handleApellido} style={{cursor: "pointer"}}><ArrowOrder/>  Apell.</span></th>
+            <th scope="col"><span onClick={handleNombre} style={{cursor: "pointer"}}><ArrowOrder/>  Nomb.</span></th>
+            <th scope="col"><span onClick={handleDiasRestantes} style={{cursor: "pointer"}}><ArrowOrder/>  Venc.</span></th>
+            <th scope="col"><span onClick={handleEstado} style={{cursor: "pointer"}}><ArrowOrder/>  Est.</span></th>
             <th scope="col"></th>
             {/* <th scope="col"></th> */}
           </tr>

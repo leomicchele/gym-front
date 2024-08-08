@@ -10,6 +10,7 @@ import { TableContainer } from "../../Molecules/TableContainer/TableContainer";
 import { Alert } from "../../Atoms/Alert/Alert";
 import { Modal } from "../../Molecules/Modal/Modal";
 import { Pagination } from "../../Molecules/Pagination/Pagination";
+import { diasParaVencimiento } from "../../helpers/getDate";
 
 export const Alumnos = () => {
 
@@ -50,8 +51,13 @@ export const Alumnos = () => {
       const idProfesor  = rol === "PROFESOR_ROL" ? id : null
       const idGimnasio  = rol === "GYM_ROL" ? id : null
       try {
-        const alumnoResponse = await getFetch(idProfesor, idGimnasio);  
-        const usuariosResponse = alumnoResponse.body.Usuarios        
+        const alumnoResponse = await getFetch(idProfesor, idGimnasio);         
+        alumnoResponse.body.Usuarios.forEach( // Calcula los dias restantes de la rutina y los agrega al objeto
+          usuario => {
+            usuario.diasRestantes = diasParaVencimiento(usuario.caducacionRutina || "")
+          }
+        )     
+        const usuariosResponse = alumnoResponse.body.Usuarios   
         setUsuariosAll(usuariosResponse)
         setUsuariosState(usuariosResponse)
         dispatch({type: "SUCCESS"})

@@ -40,3 +40,27 @@ return {
     anio,
     mes}
 }
+
+export function diasParaVencimiento(fechaVencimiento) {
+
+    if(fechaVencimiento === "" || fechaVencimiento === null || fechaVencimiento === undefined){ 
+        return 0;
+    }
+    // Convertir el string a un objeto Date
+    const partes = fechaVencimiento.split('/');
+    const dia = parseInt(partes[0], 10);
+    const mes = parseInt(partes[1], 10) - 1; // Los meses empiezan desde 0 en JavaScript
+    const anio = parseInt(partes[2], 10);
+    const fechaVenc = new Date(anio, mes, dia);
+
+    // Obtener la fecha actual
+    const hoy = new Date();
+
+    // Calcular la diferencia en milisegundos
+    const diferenciaMilisegundos = fechaVenc - hoy;
+
+    // Convertir la diferencia a días
+    const diferenciaDias = Math.ceil(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
+
+    return diferenciaDias;
+}

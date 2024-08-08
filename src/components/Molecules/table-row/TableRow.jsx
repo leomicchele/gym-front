@@ -8,6 +8,7 @@ export const TableRow = ({
   apellido,
   estado,
   id,
+  diasRestantes,
   handleModalAlumnoOpen,
   handleModalSeguroOpen  
 }) => {
@@ -21,11 +22,23 @@ export const TableRow = ({
     }
   }
 
+  const colorDiasRestantes = (dias) => {
+    if (dias <= 0) {
+      return "text-danger fw-semibold"
+    } else if (dias <= 7) {
+      return "text-warning fw-semibold"
+    } else {
+      return "text-success fw-semibold"
+    }
+  }
+
   return (
     <tr style={{cursor: "pointer"}} onClick={(e) => handleCLick(e)}>
     {/* <tr style={{cursor: "pointer"}} onClick={() => handleModalAlumnoOpen(true, id)}> */}
       <td style={{padding: "0.6rem 0.5rem"}}>{apellido}</td>
-      <td style={{padding: "0.6rem 0.5rem"}}>{nombre}</td>
+      {/* {es solo el primer nombre} */}
+      <td style={{padding: "0.6rem 0.5rem"}}>{nombre.split(' ')[0]}</td> 
+      <td style={{padding: "0.6rem 0.5rem"}} className={colorDiasRestantes(diasRestantes)}>{diasRestantes}</td> 
       <td style={{padding: "0.6rem 0.5rem"}} className={estado ? "text-success" : "text-warning"}>{estado ? <CheckOk/> : <CheckWarning/>}</td>
       
       <td style={{padding: "0.6rem 0.5rem"}} className="text-danger"><DeleteIcon/></td>
