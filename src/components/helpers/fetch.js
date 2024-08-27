@@ -436,7 +436,7 @@ export const historialUpdateFetch = async (id, historial) => {
     if (response.status === 400) return { message: "Error en los datos", error: true};
     if (response.ok === false) return { message: "Error en la peticion", error: true};
 
-    if (response.ok === true) return { message: "Rutina Enviada 3..2..1", error: false};
+    if (response.ok === true) return { message: "Rutina Enviada", error: false};
     
   } catch (error) {
     console.log({error})

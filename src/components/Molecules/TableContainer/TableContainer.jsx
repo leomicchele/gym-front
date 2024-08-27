@@ -70,7 +70,7 @@ export const TableContainer = ({usuariosState, setUsuariosState, stateFetch, han
           <tr>
             <th scope="col" ><span onClick={handleApellido} style={{cursor: "pointer"}}><ArrowOrder/>  Apell.</span></th>
             <th scope="col"><span onClick={handleNombre} style={{cursor: "pointer"}}><ArrowOrder/>  Nomb.</span></th>
-            <th scope="col"><span onClick={handleDiasRestantes} style={{cursor: "pointer"}}><ArrowOrder/>  Venc.</span></th>
+            <th scope="col"><span onClick={handleDiasRestantes} style={{cursor: "pointer"}}><ArrowOrder/>  Vto.</span></th>
             <th scope="col"><span onClick={handleEstado} style={{cursor: "pointer"}}><ArrowOrder/>  Est.</span></th>
             <th scope="col"></th>
             {/* <th scope="col"></th> */}
