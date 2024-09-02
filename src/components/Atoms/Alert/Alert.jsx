@@ -22,9 +22,9 @@ export const Alert = ({type, msg = "Error en la peticion"}) => {
         <div className="d-flex align-items-center gap-2">
           <span>{msg}</span> <LoaderTime />
         </div>
-      ) : (
-        { msg }
-      )}
+      ) : 
+         msg 
+      }
     </motion.div>
   );
 }
