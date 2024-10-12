@@ -35,6 +35,7 @@ export const RutinaEjerciciosItems = ({
   const filledKilos = [...initialKilos, ...Array(5 - initialKilos.length).fill("0")];
   const [kilosState, setKilosState] = useState(filledKilos)
   const [errorFetch, setErrorFetch] = useState(false)
+ const [errorMsg, setErrorMsg] = useState("")
   
   
   let ejerciciosRealizadosSession = getSessionStorageEjerciciosRealizados()
@@ -54,10 +55,7 @@ export const RutinaEjerciciosItems = ({
       }
       return kilo
     }))
-  }
-  
-
-
+  }  
 
   const handleEditarkilos = async () => {
     // si algun elemento de kilosState esta vacio, lo rellena con un 0
@@ -120,6 +118,7 @@ export const RutinaEjerciciosItems = ({
 
         if (response.error) {
           // dispatch({type: "ERROR"})
+          setErrorMsg(response.message)
           setErrorFetch(true)
 
           // setResponseMsg(response.message)
@@ -132,6 +131,7 @@ export const RutinaEjerciciosItems = ({
           handleUpdateSotageEjerciciosRealizados()
         }
       } catch (error) {
+        setErrorMsg(response.message)
         dispatch({type: "ERROR"})
         setErrorFetch(true)
 
@@ -280,7 +280,7 @@ export const RutinaEjerciciosItems = ({
             </ul>
             </div>
             {
-              errorFetch ? <Alert type="danger" msg="Error, Intente de nuevo"/> : <></>
+              errorFetch ? <Alert type="danger" msg={errorMsg}/> : <></>
             }
 
 

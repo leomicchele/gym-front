@@ -13,6 +13,7 @@ import { RutinaContext } from "../../../context/RutinaContext";
 import { getSessionStorage, getSessionStorageEjerciciosRealizados, updateSessionStorageEjerciciosRealizados } from "../../helpers/storage";
 import { historialUpdateFetch } from "../../helpers/fetch";
 import { getDate } from "../../helpers/getDate";
+import { Alert } from "../../Atoms/Alert/Alert";
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -31,6 +32,10 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
   const {state, dispatch} = useContext(LoginContext)
   const {id} = getSessionStorage()
   const [observaciones, setObservaciones] = useState("")
+  const [msg, setMsg] = useState({
+    msg: "Descarga tu rutina nuevamente",
+    isError: false 
+  })
 
 
   const handleEjercicioRealizado = (e, index, nombre) => {
@@ -177,11 +182,20 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
     document.querySelector(".collapse-" + index).classList.add("show")
   }
   
-  useEffect(() => {
+  useEffect(() => { // Actualizar el estado de ejerciciosRealizadosCheck
     setEjerciciosRealizadosCheck(ejerciciosRealizados[dia-1].length)
     updateSessionStorageEjerciciosRealizados(ejerciciosRealizados)
 
   }, [ejerciciosRealizados])
+
+  useEffect(() => { // Verficar si se ha descargado la rutina
+    const verificaDescagarRutina = getSessionStorage();
+    if (verificaDescagarRutina.fechaDescargaRutina === undefined) {
+      setMsg({...msg, isError: true})
+    } else {
+      setMsg({...msg, isError: false})
+    }
+  }, []);
 
 
   return (
@@ -191,6 +205,9 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
       <h5 className="text-start mb-2 text-secondary text-uppercase">Lista de ejercicios: </h5>
       <span className="mb-2 text-start fst-italic d-flex w-100">Asegúrate de completar el día de entrenamiento para que tu entrenador pueda revisar lo que has hecho.</span>
 
+      {
+        msg.isError && <Alert type="danger" msg={msg.msg}/> 
+      }
       <div className="accordion" id="accordionPanelsStayOpenExample">
         {ejercicios.map((ejercicio, index) => {
           return (

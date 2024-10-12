@@ -43,6 +43,8 @@ export const Rutinas = () => {
         setRutinaAlumno(response.rutina)
         updateSessionStorage(response.rutina, "rutina")
         updateSessionStorage(response.caducacionRutina, "caducacionRutina")
+        updateSessionStorage(response?.fechaActualizacionProfesor, "fechaActualizacionProfesor")
+        updateSessionStorage(response?.fechaDescargaRutina, "fechaDescargaRutina")
         dispatch({type: "SUCCESS"})
         removeSessionStorageEjerciciosRealizados()
         handleSessionEjercicios(response.rutina.length)

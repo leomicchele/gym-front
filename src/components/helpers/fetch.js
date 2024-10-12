@@ -179,7 +179,7 @@ export const alumnoUpdateFetch = async (usuario, idProfesor) => {
     if (response.status === 401) return { message: "No autorizado", error: true};
     if (response.status === 500) return { message: "Error en el servidor", error: true};
     if (response.status === 404) return { message: "No encontrado", error: true};
-    if (response.status === 400) return { message: "Error en los datos", error: true};
+    if (response.status === 400) return { message: result.msg, error: true};
     if (response.ok === false) return { message: "Error en la peticion", error: true};
 
     if (response.ok === true) return { message: "Alumno Actualizado", error: false, data: result};
@@ -357,6 +357,7 @@ export const profesorDeleteFetch = async (id) => {
 // ---------------- RUTINAS ----------------
 export const getRutina = async (usuario) => {
   const path = urlAmbientes();
+  const {rol} = getSessionStorage()
   const idRutina = usuario.rutinaId;
 
   var requestOptions = {
@@ -369,7 +370,7 @@ export const getRutina = async (usuario) => {
     }
   };
   try {
-    const response = await fetch(`${path}/api/rutina/${idRutina}`, requestOptions);
+    const response = await fetch(`${path}/api/rutina/${idRutina}?tipoUsuario=${rol}`, requestOptions);
     if (response.status == 401) {
       return false
     }
