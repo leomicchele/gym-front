@@ -73,4 +73,4 @@ La aplicación está configurada para ser desplegada en Netlify, utilizando los 
 Este software es de propiedad privada. No se permite su redistribución, copia, modificación o uso sin autorización explícita por escrito del propietario. El código fuente y todos los componentes asociados están protegidos por leyes de propiedad intelectual y derechos de autor.
 
 ## Contacto
-[Información de contacto del desarrollador o equipo] 
+[Información de contacto del desarrollador o equipo]
