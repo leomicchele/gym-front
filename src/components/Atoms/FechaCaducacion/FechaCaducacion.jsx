@@ -40,9 +40,10 @@ export const FechaCaducacion = ({datosUsuario, setDatosUsuario}) => {
   };
 
   return (
-    <div  className="input-group mb-2 d-flex flex-column text-start">
-      {/* <span className="input-group-text px-2" id="basic-addon1">Caduca:</span> */}
-      <label htmlFor="basic-url" className="form-label fs-6 text-success-emphasis fw-medium text-uppercase text-decoration-underline mb-2 ">Fecha de actualizacion: </label>
+    <div className="input-group mb-2 d-flex flex-column text-start">
+      <label htmlFor="basic-url" className="fecha-label">
+        Fecha de actualización
+      </label>
       <motion.div initial={"closed"} animate={"open"} exit={"closed"} variants={variants} className="input-group-text gap-2 d-flex justify-content-between container-caducacion">
 
         {
@@ -72,9 +73,6 @@ export const FechaCaducacion = ({datosUsuario, setDatosUsuario}) => {
         }
         
       </motion.div>
-
-    
-                
     </div>
   );
 };

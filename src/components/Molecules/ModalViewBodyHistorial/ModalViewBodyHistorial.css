@@ -1,3 +1,112 @@
 .icon-edit {    
     left: 75%;
 }
+
+/* Modern styling for the accordion */
+.container-historial-item {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.20);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.container-historial-item:hover {
+    transform: translateY(-2px);
+    /* box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); */
+    /* box shadow celeste  */
+    box-shadow: 0 4px 8px rgba(0, 59, 122, 0.2);
+}
+
+.container-historial-item > .accordion-item {
+    border: none;
+    background-color: transparent;
+}
+
+.container-historial-item > .accordion-header button {
+    border-radius: 8px !important;
+    padding: 16px !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.container-historial-item > .accordion-header button:not(.collapsed) {
+    background: linear-gradient(to right, #f8f9fa, #e9ecef) !important;
+    color: #212529 !important;
+}
+
+.container-historial-item > .accordion-header button:hover {
+    background-color: #e9ecef !important;
+}
+
+.container-historial-item > .accordion-header button::after {
+    transition: transform 0.3s ease;
+}
+
+/* Table styling */
+.container-historial-item .table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.container-historial-item  .table thead th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    /* padding: 12px; */
+    border-bottom: 2px solid #dee2e6;
+}
+
+.container-historial-item  .table tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.container-historial-item  .table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.04);
+}
+
+.container-historial-item  .table tbody td, .table tbody th {
+    /* padding: 12px; */
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Observations section */
+.container-historial-item  .accordion-body {
+    padding-top: 0 !important;
+    background-color: #ffffff;
+}
+
+.container-historial-item  .accordion-body p {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px !important;
+    margin-top: 12px !important;
+}
+
+/* Animation enhancements */
+.container-historial-item  .collapse-animation-enter {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.collapse-animation-enter-active {
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.collapse-animation-exit {
+    max-height: 1000px;
+    overflow: hidden;
+}
+
+.container-historial-item  .collapse-animation-exit-active {
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
+}

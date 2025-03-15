@@ -174,12 +174,8 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
       }
       return
     }
-
-    if (document.querySelector(".collapse-" + index).classList.contains("show")) {
-      document.querySelector(".collapse-" + index).classList.remove("show")
-      return      
-    }
-    document.querySelector(".collapse-" + index).classList.add("show")
+    
+    // The actual toggling of the accordion is now handled by the isOpen state in RutinaEjerciciosItems
   }
   
   useEffect(() => { // Actualizar el estado de ejerciciosRealizadosCheck
@@ -225,7 +221,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
 
       </div>
 
-      <button className="btn btn-dark my-4 col-12" onClick={() => handleOpenModal()}>Finalizar Entrenamiento</button>
+      <button className="btn btn-dark my-4 col-12" onClick={() => handleOpenModal()}>FINALIZAR ENTRENAMIENTO</button>
       {
         isOpen && <Modal tipoModal={"terminar"} handleFunction={handleFinalizarEntrenamiento}  handleIsOpen={setIsOpen} title={`Has realizado ${ejerciciosRealizadosCheck} ejercicio/s, ${handleFrases()}`} msg={responseMsg}/>
       }

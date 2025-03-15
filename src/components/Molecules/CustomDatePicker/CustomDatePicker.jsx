@@ -11,17 +11,14 @@ const fechaActual = new Date();
     // fechaNueva.setDate(fechaNueva.getDate() - 3)
 
 return (
-  <div className="d-flex justify-content-center my-3">
+  <div className="d-flex justify-content-center mb-4">
       <DatePicker startDate={new Date(fechaNueva)} 
-                  days={5}
-                  endDate={5}
+                  days={7}
+                  endDate={7}
                   selectDate={new Date()}
                   getSelectedDay={selectedDay} 
                   labelFormat={"MMMM"} 
-                  color={"#374e8c"}/>
-
-
-     
+                  color={"#3498db"}/>
   </div>
 );
   }

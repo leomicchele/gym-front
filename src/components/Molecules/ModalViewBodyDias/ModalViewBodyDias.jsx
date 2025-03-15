@@ -13,15 +13,34 @@ const variants = {
   closed: { opacity: 0, x: "-100%" },
 }
 
+// Variantes para la animación del acordeón
+const accordionVariants = {
+  open: { 
+    opacity: 1, 
+    height: "auto",
+    transition: { 
+      duration: 0.3,
+      ease: "easeInOut"
+    }
+  },
+  closed: { 
+    opacity: 0, 
+    height: "0px",
+    transition: { 
+      duration: 0.3,
+      ease: "easeInOut"
+    }
+  }
+}
+
 export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDia}) => {
   const [isEdit, setIsEdit] = useState(false);
   const [eliminiteDay, setEliminiteDay] = useState(false);
-
-  
+  const [isOpen, setIsOpen] = useState(false);
+  const [ejerciciosToRemove, setEjerciciosToRemove] = useState([]); // Estado para controlar los ejercicios a eliminar
 
   const handleShowDias = (e) => {
-    const divShow = document.querySelector(`#collapse${e.target.id}`)
-    divShow?.classList.toggle("show")
+    setIsOpen(!isOpen);
   }
 
   const handleAddDay = () => {
@@ -51,14 +70,22 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
     }
     rutinas[dia].ejercicios.push(newEjercicio)
     setDatosUsuario({...datosUsuario, rutina: rutinas})
-
   }
 
   const handleRemoveEjercicio = (dia, ejercicio) => {
-    const rutinas = datosUsuario.rutina
-    rutinas[dia].ejercicios.splice(ejercicio, 1)
-    setDatosUsuario({...datosUsuario, rutina: rutinas})
+    // Añadimos el ejercicio a la lista de ejercicios a eliminar
+    setEjerciciosToRemove([...ejerciciosToRemove, ejercicio]);
+    
+    // Esperamos a que la animación termine antes de eliminar el ejercicio
+    setTimeout(() => {
+      const rutinas = datosUsuario.rutina
+      rutinas[dia].ejercicios.splice(ejercicio, 1)
+      setDatosUsuario({...datosUsuario, rutina: rutinas})
+      // Eliminamos el ejercicio de la lista de ejercicios a eliminar
+      setEjerciciosToRemove(ejerciciosToRemove.filter(e => e !== ejercicio));
+    }, 300); // Tiempo suficiente para que la animación se complete
   }
+
   const handleRemoveDia = (indexDia) => {
     if (!eliminiteDay) {
       setEliminiteDay(true)
@@ -89,7 +116,6 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
       rutinas[dia].ejercicios[ejercicioIndex][ejercicioNombre][campoIndex] = value
       setDatosUsuario({...datosUsuario, rutina: rutinas})
       return
-      
     }
 
     // SI EL NOMBRE DEL EJERCICIO ES EJERCICIO, METODO O OBSERVACIONES
@@ -107,24 +133,25 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
     rutinas[indexDia][destination.droppableId].splice(destination.index, 0, reorderedItem)
     setDatosUsuario({...datosUsuario, rutina: rutinas})
   }
-
-  
   
   return (
     <DragDropContext onDragEnd={(result) => handleDragDrop(result)}>
     <motion.div initial={"closed"} animate={"open"} exit={{opacity: 0}} variants={variants}  key={`dia${+indexDia}`} className="accordion mb-2" id={`acordionDia${indexDia}`}>
         <div  className="accordion-item">
           <h2 className="accordion-header">
-            <button onClick={(e) => handleShowDias(e)} className=" position-relative accordion-button d-flex justify-content-between gap-3" type="button" data-bs-toggle="collapse" id={`${indexDia+1}`} data-bs-target={`#collapse${indexDia+1}`} aria-expanded="true" aria-controls="collapseOne">
+            <button onClick={(e) => handleShowDias(e)} className=" position-relative accordion-button d-flex justify-content-between gap-3" type="button" id={`${indexDia+1}`} aria-expanded={isOpen} aria-controls={`collapse${indexDia+1}`}>
               <div className="overflow-x-hidden overflow-y-hidden">
                 {
                   !isEdit ?
                   <motion.span  initial={{opacity: 0}} animate={{opacity: 1}}>{rutina.titulo ? rutina.titulo : <span className="fst-italic text-secondary">Día Nuevo</span>}</motion.span>   
                   :
-                  <motion.input initial={{opacity: 0}} animate={{opacity: 1}} type="text" className="form-control" placeholder="Nombre del día" value={rutina.titulo} onChange={(e) => handleSetNombreDia(indexDia, e.target.value)}/>                              
+                  <motion.input initial={{opacity: 0}} animate={{opacity: 1}} type="text" className="form-control" placeholder="Nombre del día" value={rutina.titulo} onClick={(e) => e.stopPropagation()} onChange={(e) => handleSetNombreDia(indexDia, e.target.value)}/>                              
                 }
               </div>
-              <div className="d-flex align-item-center"  onClick={() => setIsEdit(!isEdit)}>
+              <div className="d-flex align-item-center" onClick={(e) => {
+                e.stopPropagation(); // Detiene la propagación del evento
+                setIsEdit(!isEdit);
+              }}>
                 {
                   isEdit ? <CheckOkEdit/> : <Edit/>
                 }
@@ -132,53 +159,76 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
               {/* <span>Día: {indexDia + 1} {rutina.titulo}</span>    */}
             </button>           
           </h2>
-          <motion.div initial={{opacity: 0}} animate={{opacity: 1}}  id={`collapse${indexDia+1}`}  className={` border border-primary-subtle accordion-collapse collapse`} data-bs-parent="#accordionExample">
-            <div className="accordion-body py-2 px-1">   
-              <Droppable droppableId="ejercicios">
-                {(droppableProvided) => <AnimatePresence>
-                  <div {...droppableProvided.droppableProps} ref={droppableProvided.innerRef} className="collapse show" id="collapseExample">
-                    {
-                      rutina.ejercicios?.map((ejercicio, index) => {
-                        return (
-                          <Draggable draggableId={ejercicio.ejercicio || `${index}-draggable`} index={index} key={index}>
-                            {(draggableProvided) =>
-                              (
-                                <div {...draggableProvided.draggableProps} ref={draggableProvided.innerRef} {...draggableProvided.dragHandleProps}>
-                                  <ModalViewBodyRutinas key={index} datosUsuario={ejercicio} handleSetDatosUsuario={handleSetDatosUsuario} handleRemoveEjercicio={handleRemoveEjercicio} dia={indexDia} index={index}/>
-                                </div>
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div 
+                initial="closed"
+                animate="open"
+                exit="closed"
+                variants={accordionVariants}
+                id={`collapse${indexDia+1}`}  
+                className={`border border-primary-subtle accordion-collapse`} 
+                data-bs-parent="#accordionExample"
+              >
+                <div className="accordion-body py-2 px-1">   
+                  <Droppable droppableId="ejercicios">
+                    {(droppableProvided) => (
+                      <div {...droppableProvided.droppableProps} ref={droppableProvided.innerRef} className="collapse show" id="collapseExample">
+                        <AnimatePresence>
+                        {
+                          rutina.ejercicios?.map((ejercicio, index) => {
+                            // Verificamos si el ejercicio está en la lista de ejercicios a eliminar
+                            const isRemoving = ejerciciosToRemove.includes(index);
+                            
+                            return (
+                              <Draggable draggableId={ejercicio.ejercicio || `${index}-draggable`} index={index} key={index} isDragDisabled={isRemoving}>
+                                {(draggableProvided) => (
+                                  <motion.div 
+                                    {...draggableProvided.draggableProps} 
+                                    ref={draggableProvided.innerRef} 
+                                    {...draggableProvided.dragHandleProps}
+                                    exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                  >
+                                    <ModalViewBodyRutinas 
+                                      key={index} 
+                                      datosUsuario={ejercicio} 
+                                      handleSetDatosUsuario={handleSetDatosUsuario} 
+                                      handleRemoveEjercicio={handleRemoveEjercicio} 
+                                      dia={indexDia} 
+                                      index={index}
+                                      isRemoving={isRemoving}
+                                    />
+                                  </motion.div>
+                                )}
+                              </Draggable>     
                             )
-                            }
-                          </Draggable>     
-                        )
-                      })
-                      
-                    }
-                    {droppableProvided.placeholder}
-                    <button className="btn btn-outline-warning d-flex align-item p-2 gap-2 w-100 mb-2 text-orange" onClick={() => handleAddEjercicio(indexDia, true)}><Add/> Calentamiento</button>
-                    <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia, false)}><Add/> Ejercicio</button>
-                  </div>  
-                </AnimatePresence>   }
-              </Droppable>        
-            </div>
-            {
-              !eliminiteDay ?
-                <motion.button initial={{opacity: 0}} animate={{opacity: 1}} type="button" className="btn btn-warning mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>Eliminar: {rutina.titulo ? `${rutina.titulo.substring(0, 7)}...` : "nuevo"}</motion.button>                   
-              :
-              <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="d-flex justify-content-around align-items-center pb-2">
-                <span className="fw-medium">¿Estás seguro?</span>
-                <button type="button" className="btn btn-secondary " data-bs-dismiss="modal" aria-label="Close" onClick={() => setEliminiteDay(false)}>Cancelar</button>
-                <button type="button" className="btn btn-danger " data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>SI</button>
-
-                {/* <button type="button" className="btn btn-danger mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => setEliminiteDay(false)}>¿Estás seguro?</button> */}
-
+                          })
+                        }
+                        </AnimatePresence>
+                        {droppableProvided.placeholder}
+                        <button className="btn btn-outline-warning d-flex align-item p-2 gap-2 w-100 mb-2 text-orange" onClick={() => handleAddEjercicio(indexDia, true)}><Add/> Calentamiento</button>
+                        <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia, false)}><Add/> Ejercicio</button>
+                      </div>  
+                    )}
+                  </Droppable>        
+                </div>
+                {
+                  !eliminiteDay ?
+                    <motion.button initial={{opacity: 0}} animate={{opacity: 1}} type="button" className="btn btn-warning mb-2" data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>Eliminar: {rutina.titulo ? `${rutina.titulo.substring(0, 7)}...` : "nuevo"}</motion.button>                   
+                  :
+                  <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="d-flex justify-content-around align-items-center pb-2">
+                    <span className="fw-medium">¿Estás seguro?</span>
+                    <button type="button" className="btn btn-secondary " data-bs-dismiss="modal" aria-label="Close" onClick={() => setEliminiteDay(false)}>Cancelar</button>
+                    <button type="button" className="btn btn-danger " data-bs-dismiss="modal" aria-label="Close" onClick={() => handleRemoveDia(indexDia)}>SI</button>
+                  </motion.div>
+                }
               </motion.div>
-
-            }
-          </motion.div>
+            )}
+          </AnimatePresence>
         </div>
         
     </motion.div>
     </DragDropContext>
   )                  
-
 }

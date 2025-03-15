@@ -58,12 +58,12 @@ const MenuPrincipal = () => {
          </div>
        </nav>
        <div>
-         <motion.div initial="closedRight" animate="open" transition={{ duration: 0.7 }} variants={variants} className="d-flex flex-column justify-content-start mt-3 p-4 mx-3 bg-white container_cards border border-1">
+         <motion.div initial="closedRight" animate="open" transition={{ duration: 0.7 }} variants={variants} className="d-flex flex-column justify-content-start mt-3 p-4 bg-white container_cards border border-1">
            <h4 className="text-start text-dark">Mis tableros</h4>
            <div className="d-flex justify-content-start gap-3 flex-wrap container_cards">
             {
               rol === "ALUMNO_ROL" &&
-              <div className="d-flex justify-content-center mt-3 gap-3 flex-wrap flex-column">
+              <div className="d-flex justify-content-center mt-3 gap-2 flex-wrap flex-column">
                 <CardMenu
                   title={"Rutina"}
                   description={"Entrá y consultá tu rutina."}

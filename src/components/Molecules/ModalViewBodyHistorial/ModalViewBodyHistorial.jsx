@@ -1,5 +1,6 @@
 
 import { motion, AnimatePresence } from "framer-motion"
+import { useState } from "react"
 import "./ModalViewBodyHistorial.css"
 
 const variants = {
@@ -7,15 +8,33 @@ const variants = {
   closed: { opacity: 0, x: "-100%" },
 }
 
+const accordionVariants = {
+  open: { 
+    opacity: 1, 
+    height: "auto",
+    transition: { duration: 0.4, ease: "easeInOut" }
+  },
+  closed: { 
+    opacity: 0, 
+    height: 0,
+    overflow: "hidden",
+    transition: { duration: 0.4, ease: "easeInOut", opacity: { duration: 0.3 } }
+  }
+}
+
 export const ModalViewBodyHistorial = ({historialDia, indexDia}) => {
-  
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleShowDias = (e) => {
-
+    // Toggle the accordion state with a slight delay to allow animations to complete
+    setIsOpen(!isOpen)
+    
+    // We still need this for Bootstrap compatibility
     // Si el target no es un boton, buscar el boton
     if (e.target.tagName !== "BUTTON") {
       const button = e.target.closest("button")
       const divShow = document.querySelector(`#collapse${button.id}`)
+      // Toggle the class after state change to ensure animations work properly
       divShow.classList.toggle("show")
       return
     }
@@ -28,22 +47,32 @@ export const ModalViewBodyHistorial = ({historialDia, indexDia}) => {
   
   return (
     
-    <motion.div initial={"closed"} animate={"open"} exit={{opacity: 0}} variants={variants}  key={`diaHistorial${+indexDia}`} className="accordion mb-2" id={`acordionDia${indexDia}`}>
+    <motion.div initial={"closed"} animate={"open"} exit={{opacity: 0}} variants={variants}  key={`diaHistorial${+indexDia}`} className="container-historial-item accordion mb-2" id={`acordionDia${indexDia}`}>
         <div  className="accordion-item">
           <h2 className="accordion-header">
-            <button onClick={(e) => handleShowDias(e)} className="bg-body-secondary position-relative p-2 accordion-button d-flex justify-content-between gap-3" type="button" data-bs-toggle="collapse" id={`${indexDia+1}`} data-bs-target={`#collapse${indexDia+1}`} aria-expanded="true" aria-controls="collapseOne">
+            <button onClick={(e) => handleShowDias(e)} className="bg-body-secondary position-relative p-3 accordion-button d-flex justify-content-between gap-3" type="button" data-bs-toggle="collapse" id={`${indexDia+1}`} data-bs-target={`#collapse${indexDia+1}`} aria-expanded="true" aria-controls="collapseOne">
               <div className="overflow-x-hidden overflow-y-hidden">
-                <motion.span  initial={{opacity: 0}} animate={{opacity: 1}}>{<span className="fst-italic text-secondary">{historialDia.fecha} {historialDia.nombreDia}</span>}</motion.span>   
+                <motion.span initial={{opacity: 0}} animate={{opacity: 1}}>{<span className="fst-italic text-secondary">{historialDia.fecha} <span className="text-dark fw-bold">{historialDia.nombreDia}</span></span>}</motion.span>   
                 
               </div>
             </button>           
           </h2>
-          <motion.div initial={{opacity: 0}} animate={{opacity: 1}}  id={`collapse${indexDia+1}`}  className={` border border-secondary-subtle accordion-collapse collapse`} data-bs-parent="#accordionExample">
-            <div className="accordion-body py-2 px-1">    
-
-
-                <AnimatePresence>
-              <div className="collapse show" id="collapseExample">
+          <motion.div 
+            initial={{opacity: 0}} 
+            animate={{opacity: 1}}  
+            id={`collapse${indexDia+1}`}  
+            className={`border border-secondary-subtle accordion-collapse collapse`} 
+            data-bs-parent="#accordionExample">
+            <div className="accordion-body py-1 px-1">    
+                <AnimatePresence mode="wait" initial={false}>
+                  {isOpen && (
+                    <motion.div 
+                      initial="closed"
+                      animate="open"
+                      exit="closed"
+                      variants={accordionVariants}
+                      className="collapse show" 
+                      id="collapseExample">
               <table className="table">
                 <thead>
                   <tr>
@@ -77,7 +106,8 @@ export const ModalViewBodyHistorial = ({historialDia, indexDia}) => {
                 <span className="fw-semibold">Observaciones: </span> <span>{historialDia.observaciones}</span>
                 
               </p>
-              </div>  
+                    </motion.div>
+                  )}
                 </AnimatePresence>           
             </div>
           </motion.div>

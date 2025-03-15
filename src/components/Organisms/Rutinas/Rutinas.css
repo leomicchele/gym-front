@@ -1,0 +1,17 @@
+.actualizar-entrenamiento {
+    background-color: #2b7cd1;
+    color: white;
+    border-color: #1a5fa8;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.actualizar-entrenamiento:hover {
+    background-color: #1a5fa8;
+    border-color: #124a85;
+    color: white;
+}
+
+.actualizar-entrenamiento:focus {
+    box-shadow: 0 0 0 0.2rem rgba(43, 124, 209, 0.5);
+}

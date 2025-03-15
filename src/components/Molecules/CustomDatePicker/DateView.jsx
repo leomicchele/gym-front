@@ -16,7 +16,7 @@ import { es, enUS } from 'date-fns/locale';
 const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor, labelFormat, marked}) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const firstSection = {marginLeft: '0px'};
-    const selectedStyle = {fontWeight:"bold",width:"55px",height:"55px",borderRadius:"50%",border:`2px solid ${primaryColor}`,color:primaryColor};
+    const selectedStyle = {fontWeight:"bold",width:"55px",height:"60px",borderRadius:"12px",background:primaryColor,color:"white",boxShadow:"0 3px 8px rgba(0, 0, 0, 0.15)"};
     const labelColor = {color: primaryColor};
     const markedStyle = {color: "#8c3737", padding: "2px", fontSize: 12};
 

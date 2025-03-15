@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { getSessionStorage, getSessionStorageEjerciciosRealizados, removeSessionStorageEjerciciosRealizados, setSessionStorage, setSessionStorageEjerciciosRealizados, updateSessionStorage } from "../../helpers/storage";
 import { LoginContext } from "../../../context/LoginContext";
 import "./Alumnos.css"
+import "./Rutinas.css"
 import { RutinaDias } from "../../Molecules/RutinaDias/RutinaDias";
 import { RutinaEjercicios } from "../../Molecules/RutinaEjercicios/RutinaEjercicios";
 import { AnimatePresence, motion } from "framer-motion"
@@ -85,8 +86,8 @@ export const Rutinas = () => {
         <>
           <RutinaDias rutina={rutinaAlumno} handleChangePage={handleChangePage} caducacionRutina={caducacionRutina || "0"}/>
           <motion.div initial={"closed"} animate={"open"} exit={"closed"} transition={{ duration: 0.5 }} variants={variants}>
-            <span className="text-start fst-italic d-flex w-100">Si tu entrenador te comunicó que modificó tu rutina de ejercicios, puedes actualizarla fácilmente presionando el botón 'Actualizar'"</span>
-            <button className="btn btn-dark mb-4 mt-2 col-12" onClick={() => handleTraerRutina()}>Actualizar Entrenamiento</button>
+            <span className="text-start fst-italic d-flex w-100">Si tu entrenador te comunicó que modificó tu rutina de ejercicios, puedes actualizarla fácilmente presionando el botón Actualizar"</span>
+            <button className="btn actualizar-entrenamiento mb-4 mt-2 col-12" onClick={() => handleTraerRutina()}>Actualizar Entrenamiento</button>
           </motion.div>
         </>      
         :        
