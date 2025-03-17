@@ -101,9 +101,9 @@ export const ModalViewBody = ({
               datosUsuario={datosUsuario}
               setDatosUsuario={setDatosUsuario}
             />
-            <p className="fs-6 text-success-emphasis fw-medium text-uppercase text-decoration-underline mt-3 mb-2 text-start">
-              Días:{" "}
-            </p>
+            <span className="custom-label mt-3">
+              Días
+            </span>
             {datosUsuario.rutina.length > 0 &&
               datosUsuario.rutina.map((rutina, indexDia) => {
                 return (
@@ -124,9 +124,9 @@ export const ModalViewBody = ({
       {datosOrRutinas === "historial" ?
       (
         <>
-          <p className="fs-6 text-success-emphasis fw-medium text-uppercase text-decoration-underline mt-3 mb-2 text-start">
-                Asistencias y ejercicios realizados:{" "}
-          </p>
+          <span className="custom-label mt-3">
+            Asistencias y ejercicios realizados
+          </span>
           {
             datosUsuario.historial.map((historialDia, indexDia) => {
               return (

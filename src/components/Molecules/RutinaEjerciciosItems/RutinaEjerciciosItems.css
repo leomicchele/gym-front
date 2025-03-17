@@ -8,6 +8,15 @@
 
 }
 
+.list-group-item > div > span.border {
+	background-color: #f5f5f5;
+    border-radius: 7px;
+}
+
+.list-group-item > div > span {
+	font-style: italic;
+}
+
 /* .show > div {
   animation: show 2s ease 0s 1 normal forwards;
 }

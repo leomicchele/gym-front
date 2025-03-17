@@ -1,4 +1,4 @@
-import { motion } from "framer-motion"
+import { motion, transform } from "framer-motion"
 import { Edit } from "../../Atoms/icons/Edit"
 import { useContext, useEffect, useState } from "react";
 import { getSessionStorage, getSessionStorageEjerciciosRealizados, updateSessionStorage, updateSessionStorageEjerciciosRealizados } from "../../helpers/storage";
@@ -17,6 +17,28 @@ import "./RutinaEjerciciosItems.css"
 const variants = {
     open: { opacity: 1, x: 0 },
     closed: { opacity: 0, x: "-100%" },
+  }
+
+const accordionVariants = {
+    open: { 
+      opacity: 1, 
+      height: "auto",
+      overflow: "visible",
+      transition: {
+        duration: 0.5,
+        ease: "easeInOut"
+      }
+    },
+    closed: { 
+      opacity: 0, 
+      height: "0px",
+      overflow: "hidden",
+      transform: "none",
+      transition: {
+        duration: 0.5,
+        ease: "easeInOut"
+      }
+    }
   }
 
 export const RutinaEjerciciosItems = ({
@@ -47,6 +69,7 @@ export const RutinaEjerciciosItems = ({
 
 
   const [isEdit, setIsEdit] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleOnChangeKilos = (e, index) => {
     setKilosState(kilosState.map((kilo, i) => {
@@ -151,7 +174,7 @@ export const RutinaEjerciciosItems = ({
     } else {
       return <span>{observaciones}</span>
     }    
-}
+  }
 
 
   useEffect(() => {
@@ -168,13 +191,16 @@ export const RutinaEjerciciosItems = ({
             <h2 className="accordion-header">
 
             <button
-              className={`accordion-button p-3 rounded fs-5  ${"boton-ejercicio-" + index} ${ejerciciosCheckeado && "bg-success-subtle"} ${ejercicio.precalentamiento && "bg-warning bg-warning2 fs-6"}`}
+              className={`accordion-button p-3 rounded fs-5  ${'boton-ejercicio-' + index} ${ejerciciosCheckeado && 'bg-success-subtle'} ${ejercicio.precalentamiento && 'bg-warning bg-warning2 fs-6'} ${isOpen ? '' : 'collapsed bg-primary-subtle'}`}
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target={"#panelsStayOpen-collapseOne" + index}
-              aria-expanded="false"
+              aria-expanded={isOpen ? "true" : "false"}
               aria-controls={"panelsStayOpen-collapseOne" + index}
-              onClick={(e) => handleAbrirCollapse(e, index)}
+              onClick={(e) => {
+                if (!e.target.classList.contains("form-check-input")) {
+                  setIsOpen(!isOpen);
+                }
+                handleAbrirCollapse(e, index);
+              }}
             >
               {
                 !ejercicio.precalentamiento ?
@@ -198,11 +224,10 @@ export const RutinaEjerciciosItems = ({
           </h2>
           <motion.div
             initial="closed"
-            animate="open"
-            transition={{ duration: 0.5 }}
-            variants={variants}
-            id="panelsStayOpen-collapseOne"
-            className={`accordion-collapse border ${ejercicio.precalentamiento ? "border-warning-subtle" :"border-primary-subtle"}  collapse-${index} collapse`}
+            animate={isOpen ? "open" : "closed"}
+            variants={accordionVariants}
+            id={"panelsStayOpen-collapseOne" + index}
+            className={`accordion-collapse border ${ejercicio.precalentamiento ? "border-warning-subtle" :"border-primary-subtle"}  collapse-${index}`}
           >
 
             <div className="accordion-body px-2">

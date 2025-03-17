@@ -42,7 +42,7 @@ const TopBar = ({titulo, ruta = "/", callback = null}) => {
                </li>
              </ol> */}
              <div className="d-flex gap-3 align-items-center " >
-              <div className="d-flex align-items-center " style={{cursor: "pointer"}} onClick={handleGoHome}>
+              <div className="back-icon d-flex align-items-center " style={{cursor: "pointer"}} onClick={handleGoHome}>
                   <ArrowBack />
               </div>
                   {/* <Button msg={""} estilo={"volver"} /> */}

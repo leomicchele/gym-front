@@ -1,0 +1,57 @@
+.rutina-container {
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.rutina-container > div {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 993px) {
+    .rutina-container {
+        width: 80%;
+    }
+}
+
+/* .card-footer {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    padding: 1.2rem;
+    transition: all 0.8s ease;
+    margin-bottom: 1.5rem;
+    border: none;
+} */
+
+.list-dias-item {
+    border-radius: 16px !important;
+    border: none !important;
+    background: #ffffff !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s ease !important;
+    overflow: hidden !important;
+    /* margin-bottom: 1.5rem !important; */
+    padding: 0.2 rem !important;
+}
+
+.list-dias-item:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12) !important;
+    transform: translateY(-2px);
+    background-color: #f8f9fa !important;
+}
+
+.list-dias-item:active {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+    transform: translateY(1px);
+    background-color: #f0f0f0 !important;
+}
+
+.list-dias-item h5 {
+    font-weight: 600;
+    color: #333;
+}
+
+.list-dias-item .text-secondary {
+    color: #666 !important;
+}

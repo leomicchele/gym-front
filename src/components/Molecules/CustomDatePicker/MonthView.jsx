@@ -39,7 +39,6 @@ const MonthView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColo
                      className={styles.monthContainer} 
                      key={month}
                      style={getStyles(month)}
-                     onClick={() => onDateClick(month)}
                 >
                     <span className={styles.monthYearLabel}>
                         {format(month, labelFormat || "MMMM yyyy")}
