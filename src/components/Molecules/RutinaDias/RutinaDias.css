@@ -41,6 +41,12 @@
     background-color: #f8f9fa !important;
 }
 
+.list-dias-item:active {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+    transform: translateY(1px);
+    background-color: #f0f0f0 !important;
+}
+
 .list-dias-item h5 {
     font-weight: 600;
     color: #333;
