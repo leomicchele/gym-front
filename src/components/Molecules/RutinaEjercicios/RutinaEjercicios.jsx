@@ -73,20 +73,23 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
 
   const handleFrases = () => {
     let frase = ""
-    switch (ejerciciosRealizadosCheck) {
-      case 0:
-        frase = "¿solo eso? 🤔"
-        break;    
-      case 1:
-        frase = "Vamos por más! 💪"
-        break;      
-      case 2:
-        frase = "sigue así! 😉"
-        break;  
-      default: 
-        frase = "Enhorabuena! 🎉"
-        break;
+    const totalEjercicios = ejercicios.length;
+    const porcentajeCompletado = Math.round((ejerciciosRealizadosCheck / totalEjercicios) * 100);
+    
+    if (porcentajeCompletado === 0) {
+      frase = "¡Ánimo, puedes empezar ahora! 🤔"
+    } else if (porcentajeCompletado < 30) {
+      frase = "¡Buen comienzo! ¡Vamos por más! 💪"
+    } else if (porcentajeCompletado < 60) {
+      frase = "¡Vas por buen camino! ¡Sigue así! 😉"
+    } else if (porcentajeCompletado < 90) {
+      frase = "¡Excelente esfuerzo! ¡Casi completas todo! 🔥"
+    } else if (porcentajeCompletado < 100) {
+      frase = "¡Gran trabajo! ¡Estás a un paso de completar todo! 🌟"
+    } else {
+      frase = "¡Increíble! ¡Has completado todos los ejercicios! 🎉"
     }
+    
     return frase
   }
 
@@ -223,7 +226,13 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
 
       <button className="btn btn-dark my-4 col-12" onClick={() => handleOpenModal()}>FINALIZAR ENTRENAMIENTO</button>
       {
-        isOpen && <Modal tipoModal={"terminar"} handleFunction={handleFinalizarEntrenamiento}  handleIsOpen={setIsOpen} title={`Has realizado ${ejerciciosRealizadosCheck} ejercicio/s, ${handleFrases()}`} msg={responseMsg}/>
+        isOpen && <Modal 
+          tipoModal={"terminar"} 
+          handleFunction={handleFinalizarEntrenamiento}  
+          handleIsOpen={setIsOpen} 
+          title={`¡Entrenamiento Día ${dia}!`} 
+          msg={`Has completado ${ejerciciosRealizadosCheck} de ${ejercicios.length} ejercicios. ${handleFrases()} ${responseMsg ? ` ${responseMsg}` : ''}`}
+        />
       }
       {
         isOpenVideo && <Modal tipoModal={"video"} handleFunction={handleFinalizarEntrenamiento}  handleIsOpen={setIsOpenVideo} title={`Video`} msg={linkVideo}/>
