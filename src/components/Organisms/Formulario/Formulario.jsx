@@ -25,6 +25,10 @@ export const Formulario = () => {
     success: false
   })  
 
+  const handlerClickLogin = () => {
+    navigate(`/login`)
+ }
+
   const handlerSubmit = async(e) => {    
     // Validar que todos los campos obligatorios estén completos
     if (!inputs.nombre || !inputs.email || !inputs.telefono || !inputs.tipoGimnasio) {
@@ -248,7 +252,7 @@ export const Formulario = () => {
       </motion.div>
       
       <div className="text-secondary fs-6 mb-3 contacto-text fw-medium text-break text-wrap fst-italic ">
-        ¿Ya tienes una cuenta? <a href="/login" className="text-warning">Iniciar sesión</a>
+        ¿Ya tienes una cuenta? <a href="" onClick={handlerClickLogin} className="text-warning pe-auto">Iniciar sesión</a>
       </div>
     </div>
   );

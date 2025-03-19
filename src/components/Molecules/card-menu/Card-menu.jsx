@@ -14,7 +14,7 @@ export const CardMenu = ({ title, description, handler }) => {
     </div>
     <div className="col-7">
       <div className="card-body py-3 px-1">
-        <h5 className="card-title text-start">{title}</h5>
+        <h5 className="card-title text-start">{title === "Historial" ? "Progreso" : title}</h5>
         <p className="card-text text-start">{description}</p>
       </div>
     </div>

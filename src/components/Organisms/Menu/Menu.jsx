@@ -70,15 +70,15 @@ const MenuPrincipal = () => {
                   handler={handlerClickCardMenu}
                 />
                 <CardMenu
-                    title={"Ficha"}
-                    description={"Entrá y consultá tu ficha."}
-                    handler={handlerClickCardMenu}
-                  />
-                <CardMenu
                   title={"Historial"}
                   description={"Entrá y consultá tus progresos."}
                   handler={handlerClickCardMenu}
                 />
+                <CardMenu
+                    title={"Ficha"}
+                    description={"Entrá y consultá tu ficha."}
+                    handler={handlerClickCardMenu}
+                  />                
                 <div className="filtro-bn">
                   <CardMenu
                     title={"Pagos"}

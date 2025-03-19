@@ -31,10 +31,20 @@
 
 }
 
+.bi-search {
+  /* color: #cf9d07; */
+  /* color: rgb(102 102 102); */
+  /* color: black; */
+}
+
 .chart-controls .form-select {
   padding: 10px;
   font-size: 16px; /* Tamaño de fuente más grande para móviles */
   height: auto;
+  /* color: #cf9d07; */
+  color: rgb(102 102 102);
+  border-color: rgb(102 102 102);
+  font-weight: 600;
 }
 
 .chart-controls .btn {
