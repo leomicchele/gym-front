@@ -1,5 +1,3 @@
-
-
 import { getSessionStorage } from "./storage";
 
 const urlAmbientes = () => import.meta.env.VITE_REACT_APP_API_SERVER
@@ -8,6 +6,51 @@ const urlAmbientes = () => import.meta.env.VITE_REACT_APP_API_SERVER
 const validateEmail = (userName) => {
   const  re = /\S+@\S+\.\S+/;
   return re.test(userName);
+};
+
+// ---------------- FORMULARIO ----------------
+export const enviarFormulario = async (data) => {
+  const path = urlAmbientes();
+  
+  const raw = JSON.stringify({
+    nombre: data.nombre,
+    telefono: data.telefono,
+    mail: data.email,
+    tipoGimnasio: data.tipoGimnasio,
+    comentario: data.mensaje
+  });
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    body: raw
+  };
+
+  try {
+    const response = await fetch(`${path}/api/formulario`, requestOptions);
+    const result = await response.json();
+    
+    if (!response.ok) {
+      return { 
+        error: true, 
+        message: result.msg || "Error al enviar el formulario" 
+      };
+    }
+    
+    return { 
+      error: false, 
+      message: "Formulario enviado correctamente" 
+    };
+    
+  } catch (error) {
+    console.error("Error al enviar formulario:", error);
+    return { 
+      error: true, 
+      message: "Error de conexión al servidor" 
+    };
+  }
 };
 
 // ---------------- LOGIN ----------------

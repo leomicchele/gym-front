@@ -123,7 +123,8 @@ export const Login = () => {
         </form>
       </motion.div>
         <div className="text-secondary fs-6 mt-3 contacto-text fw-medium text-break text-wrap fst-italic ">
-          ¿No tienes una cuenta? <a href="/registro" className="text-warning">Regístrate</a> | Si eres dueño de un gimnasio o trabajas como entrenador personal, <a href="/formulario" className="text-warning">contáctanos</a> o escríbenos por <a href="https://wa.link/6vqz7y" className="text-success">WhatsApp</a>.
+        Si eres dueño de un gimnasio o trabajas como entrenador personal, <a href="/formulario" className="text-warning">contáctanos</a>
+          {/* Si eres dueño de un gimnasio o trabajas como entrenador personal, <a href="/formulario" className="text-warning">contáctanos</a> o escríbenos por <a href="https://wa.link/6vqz7y" className="text-success">WhatsApp</a>. */}
         </div>
     </div>
   );

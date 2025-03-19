@@ -5,6 +5,7 @@ import { LoginContext } from "../../../context/LoginContext";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../../Atoms/Loader/Loader.tsx";
 import { motion } from "framer-motion"
+import { enviarFormulario } from "../../../components/helpers/fetch";
 
 export const Formulario = () => {
   const navigate = useNavigate()
@@ -45,26 +46,33 @@ export const Formulario = () => {
       return
     }
     
-    // Aquí iría la lógica para enviar el formulario
     dispatch({type: "LOADING"})
+    
     try {
-      // Simular una petición de envío (esto debería cambiarse por la petición real)
+      // Enviar datos al servidor utilizando la función de fetch.js
+      const resultado = await enviarFormulario(inputs);
+      
+      if (resultado.error) {
+        dispatch({type: "ERROR"})
+        setErrorFetch({error: true, errorMsg: resultado.message, success: false})
+        return
+      }
+      
+      dispatch({type: "SUCCESS"})
+      setErrorFetch({error: false, errorMsg: "", success: true})
+      
+      // Resetear el formulario después de 3 segundos
       setTimeout(() => {
-        dispatch({type: "SUCCESS"})
-        setErrorFetch({error: false, errorMsg: "", success: true})
-        
-        // Resetear el formulario después de 3 segundos
-        setTimeout(() => {
-          setInputs({
-            nombre: "",
-            email: "",
-            telefono: "",
-            tipoGimnasio: "",
-            mensaje: ""
-          })
-          setErrorFetch({error: false, errorMsg: "", success: false})
-        }, 3000)
-      }, 1500)
+        setInputs({
+          nombre: "",
+          email: "",
+          telefono: "",
+          tipoGimnasio: "",
+          mensaje: ""
+        })
+        setErrorFetch({error: false, errorMsg: "", success: false})
+      }, 3000)
+      
     } catch (error) {
       dispatch({type: "ERROR"})
       setErrorFetch({error: true, errorMsg: "Error al enviar el formulario", success: false})
@@ -240,7 +248,7 @@ export const Formulario = () => {
       </motion.div>
       
       <div className="text-secondary fs-6 mb-3 contacto-text fw-medium text-break text-wrap fst-italic ">
-        ¿Ya tienes una cuenta? <a href="/login" className="text-warning">Iniciar sesión</a> | ¿No tienes una cuenta? <a href="/registro" className="text-warning">Regístrate</a>
+        ¿Ya tienes una cuenta? <a href="/login" className="text-warning">Iniciar sesión</a>
       </div>
     </div>
   );
