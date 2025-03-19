@@ -40,6 +40,26 @@ export default defineConfig({
       registerType: 'prompt',
       devOptions: {
         enabled: true
+      },
+      // Configuración para precache de recursos adicionales
+      workbox: {
+        globPatterns: [
+          '**/*.{js,css,html,ico,png,svg}',
+        ],
+        // Precache específico para las imágenes del menú
+        runtimeCaching: [
+          {
+            urlPattern: /^\/imagenes\/.*\.png$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'menu-images-cache',
+              expiration: {
+                maxEntries: 20,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 días
+              },
+            },
+          },
+        ],
       }
     })
   ],

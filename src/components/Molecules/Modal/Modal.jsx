@@ -65,7 +65,10 @@ export const Modal = (
           <></>
         }
         {  tipoModal === "eliminar" && <p className="fs-6 mx-2">{""}</p> }
-        {  tipoModal === "terminar" && <p className="fs-6 px-1">{"Al aceptar, tu entrenador podrá recibir un registro detallado de tu día de entrenamiento."}</p> }
+        {  tipoModal === "terminar" && <div className="px-3 py-2">
+          <p className="fs-6 mb-2">{msg}</p>
+          <p className="fs-6 text-secondary fst-italic">Al aceptar, tu entrenador recibirá un registro detallado de tu día de entrenamiento.</p>
+        </div> }
         {  tipoModal === "video" && <ModalVideo link={msg} />}
 
         <div className="modal-footer">
@@ -73,7 +76,7 @@ export const Modal = (
             { state.formInputSuccess && tipoModal === "editar" && <Alert type={"success"} msg={"Actualizado"}/> }
             { state.formInputSuccess && tipoModal === "crear" && <Alert type={"success"} msg={msg}/> }
             { state.formInputSuccess && tipoModal === "eliminar" && <Alert type={"success"} msg={msg}/> }
-            { state.formInputSuccess && tipoModal === "terminar" && <Alert type={"success"} msg={msg}/> }
+            { state.formInputSuccess && tipoModal === "terminar" && <Alert type={"success"} msg={"Enviado a tu profesor"}/> }
             
             
 

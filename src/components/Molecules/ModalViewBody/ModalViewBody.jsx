@@ -13,6 +13,7 @@ import { FechaCaducacion } from "../../Atoms/FechaCaducacion/FechaCaducacion"
 import { LoginContext } from "../../../context/LoginContext"
 import { Loader } from "../../Atoms/Loader/Loader"
 import { ModalViewBodyHistorial } from "../ModalViewBodyHistorial/ModalViewBodyHistorial"
+import ProgressChart from "../ProgressChart/ProgressChart"
 
 const variants = {
   open: { opacity: 1, x: 0 },
@@ -124,6 +125,10 @@ export const ModalViewBody = ({
       {datosOrRutinas === "historial" ?
       (
         <>
+          {/* Componente de gráfico estadístico */}
+          {datosUsuario.historial.length > 0 && !state.loading && (
+            <ProgressChart historial={datosUsuario.historial} />
+          )}
           <span className="custom-label mt-3">
             Asistencias y ejercicios realizados
           </span>

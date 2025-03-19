@@ -6,6 +6,7 @@ import { getHistorial } from "../../helpers/fetch"
 import { useContext, useEffect, useState } from "react"
 import { ModalViewBodyHistorial } from "../../Molecules/ModalViewBodyHistorial/ModalViewBodyHistorial"
 import { LoginContext } from "../../../context/LoginContext"
+import ProgressChart from "../../Molecules/ProgressChart/ProgressChart"
 
 const variants = {
     open: { opacity: 1, x: 0 },
@@ -17,6 +18,7 @@ export const Historial = () => {
   const {state, dispatch} = useContext(LoginContext)
 
   const [historial, setHistorial] = useState([])
+  console.info({historial})
 
   useEffect(() => {
     const handleTraerHistorial = async() => {
@@ -29,16 +31,23 @@ export const Historial = () => {
         console.log({error})
       }
     }
+
     handleTraerHistorial()
   }, [])
 
 
   return (
     <motion.div initial={"closed"} animate={"open"} exit={"closed"} transition={{ duration: 0.5 }} variants={variants} className="container">
-    <TopBar titulo={"Mi Historial"} />
+    <TopBar titulo={"Mi Progreso"} />
       <CustomDatePicker />
+    {/* Componente de gráfico estadístico */}
+    {historial.length > 0 && !state.loading && (
+      <ProgressChart historial={historial} />
+    )}
     <h6 className="text-uppercase text-dark fw-semibold text-start mb-1">Selecciona el día de tu historial: </h6>
     <span className="text-start fst-italic d-flex w-100 mb-3">En esta sección podrás ver tu historial de entrenamientos.</span>
+    
+    
     {
           state.loading && 
           <>
@@ -63,7 +72,7 @@ export const Historial = () => {
         <div className="pb-3">
           {historial.map((historialDia, indexDia) => {
                     return (
-                      <ModalViewBodyHistorial historialDia={historialDia} indexDia={indexDia} />
+                      <ModalViewBodyHistorial historialDia={historialDia} indexDia={indexDia} key={`historial-dia-${indexDia}`} />
                     );
                   })}      
 
