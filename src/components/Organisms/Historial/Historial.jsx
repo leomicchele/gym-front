@@ -38,7 +38,7 @@ export const Historial = () => {
 
   return (
     <motion.div initial={"closed"} animate={"open"} exit={"closed"} transition={{ duration: 0.5 }} variants={variants} className="container">
-    <TopBar titulo={"Mi Historial"} />
+    <TopBar titulo={"Mi Progreso"} />
       <CustomDatePicker />
     {/* Componente de gráfico estadístico */}
     {historial.length > 0 && !state.loading && (
