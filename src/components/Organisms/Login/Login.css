@@ -8,7 +8,7 @@
   
   .align {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,6 +151,8 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   
   .form input[type="password"],
   .form input[type="text"],
+  .form input[type="email"],
+  .form input[type="tel"],
   .form button[type="button"] {
     inline-size: 100%;
   }
@@ -186,7 +188,11 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   .login label,
   .login input[type="text"],
   .login input[type="password"],
-  .login button[type="button"] {
+  .login button[type="button"],
+  .login input[type="email"],
+  .login input[type="tel"],
+  .login textarea[type="text"],
+  .login select   {
     border-radius: var(--loginBorderRadus);
     padding: 1rem;
   }
@@ -199,7 +205,11 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
   
   .login input[type="password"],
-  .login input[type="text"] {
+  .login input[type="text"],
+  .login input[type="email"],
+  .login input[type="tel"],
+  .login textarea[type="text"],
+  .login select {
     background-color: var(--loginInputBackgroundColor);
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
@@ -208,7 +218,13 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   .login input[type="password"]:focus,
   .login input[type="password"]:hover,
   .login input[type="text"]:focus,
-  .login input[type="text"]:hover {
+  .login input[type="text"]:hover,
+  .login input[type="email"]:focus,
+  .login input[type="email"]:hover,
+  .login input[type="tel"]:focus,
+  .login input[type="tel"]:hover,
+  .login select:focus,
+  .login select:hover {
     background-color: var(--loginInputHoverBackgroundColor);
   }
   

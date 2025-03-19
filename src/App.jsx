@@ -2,6 +2,8 @@ import { useReducer } from 'react'
 import './App.css'
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Login } from './components/Organisms/Login/Login';
+import { Registro } from './components/Organisms/Registro/Registro';
+import { Formulario } from './components/Organisms/Formulario/Formulario';
 import Hero from './components/Hero';
 import MenuPrincipal from './components/Organisms/Menu/Menu';
 import { LoginContext } from './context/LoginContext';
@@ -43,6 +45,8 @@ function App() {
       <Route  element={ <HeroLogin/>}>
         <Route path='/' element={<Login/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/registro' element={<Registro/>}/>
+        <Route path='/formulario' element={<Formulario/>}/>
       </Route>
 
       <Route  element={ <Hero/>}>
