@@ -29,7 +29,9 @@ export const Historial = () => {
         dispatch({type: "SUCCESS"})
       } catch (error) {
         console.log({error})
+        dispatch({type: "ERROR", payload: "Ha ocurrido un error al cargar tu historial. Por favor, intenta nuevamente más tarde."})
       }
+
     }
 
     handleTraerHistorial()
@@ -44,9 +46,14 @@ export const Historial = () => {
     {historial.length > 0 && !state.loading && (
       <ProgressChart historial={historial} />
     )}
-    <h6 className="text-uppercase text-dark fw-semibold text-start mb-1">Selecciona el día de tu historial: </h6>
-    <span className="text-start fst-italic d-flex w-100 mb-3">En esta sección podrás ver tu historial de entrenamientos.</span>
+    <h6 className="text-uppercase text-dark fw-semibold text-start mb-1" style={{maxWidth: "800px", margin: "0 auto"}}>Selecciona el día de tu historial: </h6>
+    <span className="text-start fst-italic d-flex w-100 mb-3" style={{maxWidth: "800px", margin: "0 auto"}}>En esta sección podrás ver tu historial de entrenamientos.</span>
     
+    {state.error && (
+      <div className="alert alert-danger">
+        <p className="m-0">{"Ha ocurrido un error al cargar tu historial. Por favor, intenta nuevamente más tarde."}</p>
+      </div>
+    )}
     
     {
           state.loading && 
@@ -69,7 +76,7 @@ export const Historial = () => {
           
           </>
         }
-        <div className="pb-3">
+        <div className="pb-3" style={{maxWidth: "800px", margin: "0 auto"}}>
           {historial.map((historialDia, indexDia) => {
                     return (
                       <ModalViewBodyHistorial historialDia={historialDia} indexDia={indexDia} key={`historial-dia-${indexDia}`} />

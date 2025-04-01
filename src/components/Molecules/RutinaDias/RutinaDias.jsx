@@ -28,8 +28,8 @@ export const RutinaDias = ({rutina, handleChangePage, caducacionRutina}) => {
           : `Tu rutina expira en ${diasRestantes} día/s`}
       </div>
       {/* <CustomDatePicker selectDate={new Date("2020-04-30")} /> */}
-      <h6 className="text-start text-uppercase text-dark fw-semibold mb-3">Selecciona el día de tu rutina: </h6>
-      <ul className="list-group">
+      <h6 className="text-start text-uppercase text-dark fw-semibold mb-3" style={{maxWidth: "800px", margin: "0 auto"}}>Selecciona el día de tu rutina: </h6>
+      <ul className="list-group" style={{maxWidth: "800px", margin: "0 auto"}}>
         {
           state.loading ? (
             <>

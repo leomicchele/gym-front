@@ -85,7 +85,7 @@ export const Rutinas = () => {
         diasOEjercicios === "dias" ?  
         <>
           <RutinaDias rutina={rutinaAlumno} handleChangePage={handleChangePage} caducacionRutina={caducacionRutina || "0"}/>
-          <motion.div initial={"closed"} animate={"open"} exit={"closed"} transition={{ duration: 0.5 }} variants={variants}>
+          <motion.div initial={"closed"} animate={"open"} exit={"closed"} transition={{ duration: 0.5 }} variants={variants} style={{maxWidth: "800px", margin: "0 auto"}}>
             <span className="text-start fst-italic d-flex w-100">Si tu entrenador te comunicó que modificó tu rutina de ejercicios, puedes actualizarla fácilmente presionando el botón Actualizar"</span>
             <button className="btn actualizar-entrenamiento mb-4 mt-2 col-12" onClick={() => handleTraerRutina()}>Actualizar Entrenamiento</button>
           </motion.div>

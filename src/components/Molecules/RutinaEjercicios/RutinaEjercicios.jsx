@@ -201,13 +201,13 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
     <motion.div initial={"closed"} animate={"open"} transition={{ duration: 0.5 }} exit={"closed"} variants={variants}>
       <TopBar titulo={`Ejercicios - Día ${dia}`} ruta="/menu/rutina" callback={() => setDiasOEjercicios("dias")} />
 
-      <h5 className="text-start mb-2 text-secondary text-uppercase">Lista de ejercicios: </h5>
-      <span className="mb-2 text-start fst-italic d-flex w-100">Asegúrate de completar el día de entrenamiento para que tu entrenador pueda revisar lo que has hecho.</span>
+      <h5 className="text-start mb-2 text-secondary text-uppercase" style={{maxWidth: "800px", margin: "0 auto"}}>Lista de ejercicios: </h5>
+      <span className="mb-2 text-start fst-italic d-flex w-100" style={{maxWidth: "800px", margin: "0 auto"}}>Asegúrate de completar el día de entrenamiento para que tu entrenador pueda revisar lo que has hecho.</span>
 
       {
         msg.isError && <Alert type="danger" msg={msg.msg}/> 
       }
-      <div className="accordion" id="accordionPanelsStayOpenExample">
+      <div className="accordion" id="accordionPanelsStayOpenExample" style={{maxWidth: "800px", margin: "0 auto"}}>
         {ejercicios.map((ejercicio, index) => {
           return (
             <RutinaEjerciciosItems key={index} ejercicio={ejercicio} index={index} handleAbrirCollapse={handleAbrirCollapse} handleEjercicioRealizado={handleEjercicioRealizado} dia={dia} handleModalVideo={handleOpenModalVideo}/>
@@ -217,14 +217,14 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
         
       </div>
 
-      <div className="form-floating">
+      <div className="form-floating" style={{maxWidth: "800px", margin: "0 auto"}}>
         <textarea className="form-control" value={observaciones} placeholder="Leave a comment here" id="floatingTextarea" onChange={(e) => setObservaciones(e.target.value)}  ></textarea>
         <label htmlFor="floatingTextarea">Observaciones</label>
         <span className="mt-2 text-start fst-italic d-flex w-100">Registra todo lo que consideres importante sobre tu día de entrenamiento: lo que no pudiste hacer o cualquier otro detalle relevante.</span>
 
       </div>
 
-      <button className="btn btn-dark my-4 col-12" onClick={() => handleOpenModal()}>FINALIZAR ENTRENAMIENTO</button>
+      <button className="btn btn-dark my-4 col-12" style={{maxWidth: "800px", margin: "0 auto"}} onClick={() => handleOpenModal()}>FINALIZAR ENTRENAMIENTO</button>
       {
         isOpen && <Modal 
           tipoModal={"terminar"} 

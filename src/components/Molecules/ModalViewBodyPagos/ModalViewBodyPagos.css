@@ -1,0 +1,152 @@
+.container-button-add-pago button {
+  width: 100%;
+}
+
+.container-pago-item {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Estilo para la animación de eliminación */
+.container-pago-item.deleting {
+  transform: translateX(-100%);
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.container-pago-item .accordion-button {
+  border-radius: 0;
+}
+
+.accordion-button:not(.collapsed)::after {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+/* Transición suave para el icono de flecha */
+.accordion-button::after {
+  transition: transform 0.3s ease;
+}
+
+/* Animación para el acordeón */
+.accordion-collapse {
+  will-change: height, opacity;
+  transform-origin: top;
+}
+
+/* Color de fondo para el acordeón en modo edición */
+.accordion-button-editing {
+  background-color: rgba(25, 135, 84, 0.1) !important;
+}
+
+/* Evitar que se oculte el contenido del acordeón si está en modo edición */
+.editing-active {
+  display: block !important;
+  opacity: 1 !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.pago-badge-estado {
+  background-color: #198754;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.pago-badge-estado-pendiente {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+/* Estilos para elementos editables */
+.edit-icon {
+  cursor: pointer;
+  padding: 0 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.edit-icon:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.accordion-button input.form-control {
+  width: auto;
+  padding: 2px 8px;
+  font-size: 0.9rem;
+}
+
+.accordion-body .form-control, 
+.accordion-body .form-select {
+  font-size: 0.9rem;
+  padding: 4px 8px;
+}
+
+/* Estilos para el skeleton loader */
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.skeleton-item {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-line-sm {
+  height: 16px;
+  width: 40%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-line-xs {
+  height: 12px;
+  width: 30%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-badge {
+  height: 18px;
+  width: 60px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  align-self: flex-end;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-line-md {
+  height: 20px;
+  width: 60%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+} 
