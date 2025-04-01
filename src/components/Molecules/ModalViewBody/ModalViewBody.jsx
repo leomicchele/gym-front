@@ -13,6 +13,7 @@ import { FechaCaducacion } from "../../Atoms/FechaCaducacion/FechaCaducacion"
 import { LoginContext } from "../../../context/LoginContext"
 import { Loader } from "../../Atoms/Loader/Loader"
 import { ModalViewBodyHistorial } from "../ModalViewBodyHistorial/ModalViewBodyHistorial"
+import { ModalViewBodyPagos } from "../ModalViewBodyPagos/ModalViewBodyPagos"
 import ProgressChart from "../ProgressChart/ProgressChart"
 
 const variants = {
@@ -62,9 +63,9 @@ export const ModalViewBody = ({
           <li            
             className="nav-item" 
             style={{cursor: "pointer"}} 
-            // onClick={() => !state.loading && setDatosOrRutinas("rutinas")}
+            onClick={() => !state.loading && setDatosOrRutinas("pagos")}
           > 
-            <span className={`nav-link text-secondary ${datosOrRutinas === "pagos" && "active"} fs-6`}>{state.loading ? <Loader/> :  "Pagos"  }</span> 
+            <span className={`nav-link ${datosOrRutinas === "pagos" && "active"} fs-6`}>{state.loading ? <Loader/> :  "Pagos"  }</span> 
           </li>
         </> 
       )
@@ -145,6 +146,13 @@ export const ModalViewBody = ({
       : <></>
         
       }
+      {datosOrRutinas === "pagos" ? (
+        <AnimatePresence>
+          <ModalViewBodyPagos datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} />
+        </AnimatePresence>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

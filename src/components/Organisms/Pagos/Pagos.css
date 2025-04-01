@@ -1,0 +1,420 @@
+/* Contenedor principal */
+.pagos-container {
+  --primary-color: #5664d2;
+  --primary-light: #eef0ff;
+  --success-color: #32d583;
+  --danger-color: #ff5252;
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-500: #adb5bd;
+  --gray-700: #495057;
+  --gray-900: #212529;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --transition-fast: 0.2s ease;
+  
+  font-family: var(--font-main);
+  padding-bottom: 24px;
+}
+
+/* Tarjeta de resumen */
+.resumen-card {
+  background: linear-gradient(135deg, var(--primary-color), #4351b8);
+  color: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
+}
+
+.resumen-header {
+  padding: 20px 20px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resumen-header h5 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.mes-actual {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.resumen-body {
+  padding: 10px 20px 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.resumen-item {
+  text-align: center;
+}
+
+.resumen-label {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-bottom: 5px;
+}
+
+.resumen-value {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.badge-estado {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.pago-badge-pagado {
+  background-color: #198754;
+  color: white;
+}
+
+.pago-badge-pendiente {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.badge-estado.al-dia {
+  background-color: rgba(50, 213, 131, 0.3);
+  color: white;
+}
+
+.badge-estado.pendiente {
+  background-color: rgba(255, 161, 22, 0.3);
+  color: white;
+}
+
+/* Títulos de sección */
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 20px 0 5px;
+  text-transform: uppercase;
+}
+
+.section-subtitle {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  margin-bottom: 20px;
+  display: block;
+}
+
+/* Lista de pagos */
+.pagos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 auto;
+  margin-bottom: 24px;
+  max-width: 600px;
+}
+
+.pago-item {
+  background-color: white;
+  /* background-color: #e9ecef; */
+  border-radius: var(--radius-sm);
+  /* box-shadow: var(--shadow-sm); */
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all var(--transition-fast);
+  border-left: 4px solid transparent;
+  cursor: pointer;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.20);
+  border-radius: 12px;
+
+}
+
+.pago-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-left-color: var(--primary-color);
+}
+
+.pago-info {
+  flex: 1;
+}
+
+.pago-concepto {
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 4px;
+}
+
+.pago-fecha {
+  font-size: 0.8rem;
+  color: var(--gray-700);
+}
+
+.pago-monto-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 10px;
+}
+
+.pago-estado {
+  margin-bottom: 5px;
+}
+
+.pago-badge {
+  /* background-color: var(--success-color); */
+  color: white;
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.pago-monto {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.pago-arrow {
+  color: var(--gray-500);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Esqueleto de carga */
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.skeleton-item {
+  background-color: white;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-line-sm, .skeleton-line-xs, .skeleton-line-md, .skeleton-badge {
+  background: linear-gradient(90deg, var(--gray-200) 0%, var(--gray-300) 50%, var(--gray-200) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-line-sm {
+  height: 14px;
+  width: 60%;
+  margin-bottom: 8px;
+}
+
+.skeleton-line-xs {
+  height: 10px;
+  width: 40%;
+}
+
+.skeleton-badge {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  height: 16px;
+  width: 60px;
+  border-radius: 8px;
+}
+
+.skeleton-line-md {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  height: 16px;
+  width: 80px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Detalle de pago */
+.detalle-container {
+  width: 100%;
+}
+
+.detalle-card {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.detalle-header {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.detalle-comprobante {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+  /* gap: 16px; */
+}
+
+.comprobante-icon {
+  width: 48px;
+  height: 48px;
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.comprobante-info h6 {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.detalle-fecha {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+
+.estado-badge {
+  background-color: var(--success-color);
+  color: white;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.detalle-body {
+  padding: 24px;
+}
+
+.detalle-monto {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.monto-label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+}
+
+.monto-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.detalle-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.detalle-info-item {
+  background-color: var(--gray-100);
+  padding: 10px;
+  border-radius: var(--radius-sm);
+}
+
+.info-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--gray-700);
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.detalle-footer {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.btn-volver, .btn-descargar {
+  flex: 1;
+  padding: 12px;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.btn-volver {
+  /* background-color: var(--gray-200); */
+  /* color: var(--gray-900); */
+}
+
+.btn-volver:hover {
+  /* background-color: var(--gray-300); */
+}
+
+.btn-descargar {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-descargar:hover {
+  background-color: #4351b8;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 576px) {
+  .resumen-body {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .detalle-info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .detalle-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .detalle-estado {
+    align-self: flex-start;
+  }
+} 

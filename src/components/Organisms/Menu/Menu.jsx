@@ -82,8 +82,8 @@ const MenuPrincipal = () => {
                 <div className="filtro-bn">
                   <CardMenu
                     title={"Pagos"}
-                    description={"Entrá y consultá tus pagos. (Proximamente)"}
-                    handler={() => console.log("pagos")}
+                    description={"Entrá y consultá tus pagos."}
+                    handler={handlerClickCardMenu}
                   />
 
                 </div>
@@ -106,6 +106,13 @@ const MenuPrincipal = () => {
                     handler={handlerClickCardMenu}
                   />
                 </div>
+                {/* <div>
+                  <CardMenu
+                    title={"Gimnasios"}
+                    description={"Entrá y consultá los gimnasios"}
+                    handler={handlerClickCardMenu}
+                  />
+                </div> */}
               </>              
             }
             {
@@ -125,13 +132,13 @@ const MenuPrincipal = () => {
                   handler={handlerClickCardMenu}
                 />
               </div>  
-              <div>
+              {/* <div>
                 <CardMenu
                   title={"Gimnasios"}
                   description={"Entrá y consultá los gimnasios"}
                   handler={handlerClickCardMenu}
                 />
-              </div>  
+              </div>   */}
               </>              
             }
             {
