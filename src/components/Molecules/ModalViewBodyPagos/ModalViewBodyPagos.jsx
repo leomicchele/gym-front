@@ -162,12 +162,10 @@ export const ModalViewBodyPagos = ({datosUsuario, setDatosUsuario}) => {
   };
   
   const handleEditarPago = (id) => {
-    // Solo permitir editar si es un pago recién creado
-    const pago = pagos.find(p => p.id === id);
-    if (pago.estado !== "Pendiente") {
-      return;
-    }
+    // No permitir editar ningún pago una vez creado
+    return;
     
+    // El siguiente código ya no se ejecutará
     // Asegurarse de que el acordeón esté abierto al editar
     if (openItemId !== id) {
       setOpenItemId(id);
@@ -282,7 +280,7 @@ export const ModalViewBodyPagos = ({datosUsuario, setDatosUsuario}) => {
                           />
                         ) : (
                           <span className="fst-italic text-secondary">
-                            {formatearFecha(pago.fecha)} 
+                            {/* {formatearFecha(pago.fecha)}  */}
                             <span className="text-dark fw-bold"> {pago.concepto}</span>
                           </span>
                         )}
@@ -457,17 +455,8 @@ export const ModalViewBodyPagos = ({datosUsuario, setDatosUsuario}) => {
                                     Cancelar
                                   </motion.button>
                                 </motion.div>
-                              ) : pago.estado === "Pendiente" ? (
+                              ) : (
                                 <div className="d-flex gap-2 w-100 mb-2">
-                                  <motion.button
-                                    initial={{opacity: 0}}
-                                    animate={{opacity: 1}}
-                                    type="button"
-                                    className="btn btn-primary flex-grow-1"
-                                    onClick={() => handleEditarPago(pago.id)}
-                                  >
-                                    Editar pago
-                                  </motion.button>
                                   {(!confirmEliminar || confirmEliminar !== pago.id) ? (
                                     <motion.button
                                       initial={{opacity: 0}}
@@ -502,38 +491,6 @@ export const ModalViewBodyPagos = ({datosUsuario, setDatosUsuario}) => {
                                     </motion.div>
                                   )}
                                 </div>
-                              ) : (!confirmEliminar || confirmEliminar !== pago.id) ? (
-                                <motion.button 
-                                  initial={{opacity: 0}} 
-                                  animate={{opacity: 1}} 
-                                  type="button" 
-                                  className="btn btn-warning mb-2" 
-                                  onClick={() => handleEliminarPago(pago.id)}
-                                >
-                                  Eliminar pago
-                                </motion.button>
-                              ) : (
-                                <motion.div 
-                                  initial={{opacity: 0}} 
-                                  animate={{opacity: 1}} 
-                                  className="d-flex justify-content-around align-items-center pb-2"
-                                >
-                                  <span className="fw-medium">¿Estás seguro?</span>
-                                  <button 
-                                    type="button" 
-                                    className="btn btn-secondary" 
-                                    onClick={handleCancelarEliminar}
-                                  >
-                                    Cancelar
-                                  </button>
-                                  <button 
-                                    type="button" 
-                                    className="btn btn-danger" 
-                                    onClick={() => handleEliminarPago(pago.id)}
-                                  >
-                                    SI
-                                  </button>
-                                </motion.div>
                               )}
                             </motion.div>
                           )}

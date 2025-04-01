@@ -79,14 +79,14 @@ const MenuPrincipal = () => {
                     description={"Entrá y consultá tu ficha."}
                     handler={handlerClickCardMenu}
                   />                
-                <div className="filtro-bn">
                   <CardMenu
                     title={"Pagos"}
                     description={"Entrá y consultá tus pagos."}
                     handler={handlerClickCardMenu}
                   />
+                {/* <div className="filtro-bn">
 
-                </div>
+                </div> */}
               </div>
             }
             {

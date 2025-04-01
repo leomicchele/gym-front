@@ -17,6 +17,7 @@ export const Pagos = () => {
   const { state, dispatch } = useContext(LoginContext);
   const {id} = getSessionStorage()
   const [pagos, setPagos] = useState([]);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,9 +26,11 @@ export const Pagos = () => {
     try {
       const response = await getPagos({_id: id})
       setPagos(response.pagos)
+      setError(null);
       dispatch({ type: "SUCCESS" });
     } catch (error) {
       console.log({error})
+      setError("No se pudieron cargar los pagos. Por favor, intenta nuevamente más tarde.");
       dispatch({ type: "ERROR" });
     }
     }
@@ -79,15 +82,15 @@ export const Pagos = () => {
     >
       <TopBar titulo="Mis Pagos" />
       
-      <h6 className="section-title">
+      <h6 className="text-uppercase text-dark fw-semibold text-start mb-1" style={{maxWidth: "800px", margin: "0 auto"}}>
         Historial de pagos
       </h6>
-      <span className="section-subtitle">
+      <span className="text-start fst-italic d-flex w-100 mb-3" style={{maxWidth: "800px", margin: "0 auto"}}>
         Aquí podrás ver el historial de tus pagos y los detalles de cada uno.
       </span>
 
       {state.loading ? (
-        <div className="skeleton-container">
+        <div className="skeleton-container" style={{maxWidth: "800px", margin: "0 auto"}}>
           {[...Array(5)].map((_, i) => (
             <div key={i} className="skeleton-item">
               <div className="skeleton-line-sm"></div>
@@ -97,8 +100,16 @@ export const Pagos = () => {
             </div>
           ))}
         </div>
+      ) : error ? (
+        <div className="alert alert-danger" style={{maxWidth: "800px", margin: "0 auto"}}>
+          <p className="m-0">{error}</p>
+        </div>
+      ) : pagos.length === 0 ? (
+        <div className="alert alert-secondary" style={{maxWidth: "800px", margin: "0 auto"}}>
+          <p className="m-0">No tienes pagos registrados.</p>
+        </div>
       ) : (
-        <div className="pagos-list">
+        <div className="pagos-list" style={{maxWidth: "800px", margin: "0 auto"}}>
           {pagos.map((pago) => (
             <div
               key={pago.id}
@@ -106,8 +117,9 @@ export const Pagos = () => {
               onClick={() => handleVerDetalle(pago)}
             >
               <div className="pago-info">
-                <div className="pago-concepto">{pago.concepto}</div>
-                <div className="pago-fecha">{formatearFecha(pago.fecha)}</div>
+                {/* <div className="pago-concepto">{pago.concepto}</div> */}
+                <h5 className="mb-0 text-start text-secondary fst-italic">{<span className="text-secondary fst-italic">{pago.concepto}</span>}</h5>
+                {/* <div className="pago-fecha">{formatearFecha(pago.fecha)}</div> */}
               </div>
               <div className="pago-monto-container">
                 <div className="pago-estado">

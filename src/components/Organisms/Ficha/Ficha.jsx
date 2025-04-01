@@ -71,13 +71,13 @@ export const Ficha = () => {
     >
       <TopBar titulo={"Mi Ficha"} />
       {/* <CustomDatePicker /> */}
-      <h6 className="text-uppercase text-dark fw-semibold text-start mb-1">
+      <h6 className="text-uppercase text-dark fw-semibold text-start mb-1" style={{maxWidth: "800px", margin: "0 auto"}}>
         Ficha Completa: {" "}
         {
           state.loading && <span className="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
         }
       </h6>
-      <span className="text-start fst-italic d-flex w-100 mb-3">
+      <span className="text-start fst-italic d-flex w-100 mb-3" style={{maxWidth: "800px", margin: "0 auto"}}>
         En esta sección podrás ver tu ficha y editar algunos datos personales. 
       </span>      
       <div>
@@ -92,7 +92,7 @@ export const Ficha = () => {
             <FichaAlumnoPlaceHolder/>
           </div>
         :
-          <div className="pb-3">
+          <div className="pb-3" style={{maxWidth: "800px", margin: "0 auto"}}>
             <FichaAlumno
               datosUsuario={datosUsuario}
               setDatosUsuario={setDatosUsuario}
@@ -106,7 +106,7 @@ export const Ficha = () => {
         {
             state.formInputSuccess && <Alert type={"success"} msg={responseMsg}/>
         }
-      <button disabled={state.error} className="btn btn-dark mt-1 mb-2 col-12" onClick={() => handleUpdateAlumno()}>
+      <button disabled={state.error} className="btn btn-dark mt-1 mb-2 col-12" style={{maxWidth: "800px", margin: "0 auto"}} onClick={() => handleUpdateAlumno()}>
       {
         state.loading ? 
           <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : "Actualizar Ficha"
