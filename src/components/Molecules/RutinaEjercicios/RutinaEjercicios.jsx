@@ -73,7 +73,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
 
   const handleFrases = () => {
     let frase = ""
-    const totalEjercicios = ejercicios.length;
+    const totalEjercicios = ejercicios.filter(ejercicio => !ejercicio.precalentamiento).length;
     const porcentajeCompletado = Math.round((ejerciciosRealizadosCheck / totalEjercicios) * 100);
     
     if (porcentajeCompletado === 0) {
@@ -231,7 +231,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
           handleFunction={handleFinalizarEntrenamiento}  
           handleIsOpen={setIsOpen} 
           title={`¡Entrenamiento Día ${dia}!`} 
-          msg={`Has completado ${ejerciciosRealizadosCheck} de ${ejercicios.length} ejercicios. ${handleFrases()} ${responseMsg ? ` ${responseMsg}` : ''}`}
+          msg={`Has completado ${ejerciciosRealizadosCheck} de ${ejercicios.filter(ejercicio => !ejercicio.precalentamiento).length} ejercicios. ${handleFrases()} ${responseMsg ? ` ${responseMsg}` : ''}`}
         />
       }
       {

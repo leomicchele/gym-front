@@ -42,7 +42,7 @@ export const ModalViewBody = ({
   }
 
   const handlePensañasTipoUsuario = () => {
-    if (tipoUsuario === "alumno") {
+    if (tipoUsuario === "alumno") { // Si es alumno, se muestran los datos, rutinas, historial y pagos
       return (
         <>
           <li li className="nav-item" style={{cursor: "pointer"}} onClick={() => setDatosOrRutinas("datos")}> <span className={`nav-link ${datosOrRutinas === "datos" && "active"} fs-6`}>Datos</span> </li>
@@ -69,8 +69,17 @@ export const ModalViewBody = ({
           </li>
         </> 
       )
-    } else {
-      return <li li className="nav-item" style={{cursor: "pointer"}}> <span className={`nav-link ${datosOrRutinas === "datos" && "active"} fs-6`}>Datos</span> </li>
+    } else { // Si es profesor, se muestran los datos y las rutinas
+      return (
+        <>
+          <li className="nav-item" style={{cursor: "pointer"}} onClick={() => setDatosOrRutinas("datos")}> 
+            <span className={`nav-link ${datosOrRutinas === "datos" && "active"} fs-6`}>Datos</span> 
+          </li>
+          <li className="nav-item" style={{cursor: "pointer"}} onClick={() => !state.loading && setDatosOrRutinas("alumnos")}> 
+            <span className={`nav-link ${datosOrRutinas === "alumnos" && "active"} fs-6`}>{state.loading ? <Loader/> : "Alumnos"}</span> 
+          </li>
+        </>
+      )
     }
   }
 
@@ -149,6 +158,33 @@ export const ModalViewBody = ({
       {datosOrRutinas === "pagos" ? (
         <AnimatePresence>
           <ModalViewBodyPagos datosUsuario={datosUsuario} setDatosUsuario={setDatosUsuario} />
+        </AnimatePresence>
+      ) : (
+        <></>
+      )}
+      {datosOrRutinas === "alumnos" ? (
+        <AnimatePresence>
+          <div className="container">
+            <span className="custom-label mt-3">
+              Lista de Alumnos
+            </span>
+            <div className="alumnos-container mt-3">
+              {/* Aquí se mostrarán los alumnos del profesor */}
+              {datosUsuario.alumnos && datosUsuario.alumnos.length > 0 ? (
+                datosUsuario.alumnos.map((alumno, index) => (
+                  <div key={index} className="card mb-3">
+                    <div className="card-body">
+                      <h5 className="card-title">{alumno.nombre} {alumno.apellido}</h5>
+                      <p className="card-text">Email: {alumno.email}</p>
+                      <Button msg={"Ver detalles"} functionHandle={() => {/* Función para ver detalles */}} />
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No hay alumnos asignados actualmente.</p>
+              )}
+            </div>
+          </div>
         </AnimatePresence>
       ) : (
         <></>

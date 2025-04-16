@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowDown } from "../../Atoms/icons/ArrowDown";
 import { ArrowUpBar } from "../../Atoms/icons/ArrowUpBar";
 import { motion, AnimatePresence } from "framer-motion"
@@ -64,8 +64,22 @@ export const ModalViewBodyRutinas = ({
 }) => {
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [tipoMedicion, setTipoMedicion] = useState(datosUsuario?.tipoMedicion || "R.I.R");
   const styleDisplayNone = "d-none"
   const styleDisplayFlex = "list-group-item d-flex align-items-center gap-2"
+
+  // Función para obtener el nombre de la propiedad según el tipo de medición
+  const getNombrePropiedad = () => {
+    // Convertimos el tipo de medición a minúsculas y sin puntos para usarlo como nombre de propiedad
+    return tipoMedicion.toLowerCase().replace(/\./g, '');
+  }
+
+  // Obtener los valores actuales según el tipo de medición seleccionado
+  const getValores = () => {
+    const propiedad = getNombrePropiedad();
+    // Si no existe la propiedad en los datos, usamos rir como fallback o un array vacío
+    return datosUsuario?.[propiedad] || datosUsuario?.rir || ["", "", "", "", ""];
+  }
 
   const colorPrecalentamiento = () => {
     let color = {}
@@ -82,6 +96,24 @@ export const ModalViewBodyRutinas = ({
     }
     return color
   }
+
+  const handleChangeTipoMedicion = (e) => {
+    const nuevoTipo = e.target.value;
+    const anteriorPropiedad = getNombrePropiedad();
+    const valoresAnteriores = datosUsuario?.[anteriorPropiedad] || ["", "", "", "", ""];
+    
+    setTipoMedicion(nuevoTipo);
+    
+    // Actualizamos el tipo de medición en los datos del usuario
+    handleSetDatosUsuario(dia, index, "tipoMedicion", nuevoTipo);
+    
+  //   // Creamos la nueva propiedad con los valores anteriores y eliminamos la anterior si es necesario
+  //   const nuevaPropiedad = nuevoTipo.toLowerCase().replace(/\./g, '');
+  //   if (nuevaPropiedad !== anteriorPropiedad) {
+  //     // Transferimos los valores a la nueva propiedad
+  //     handleSetDatosUsuario(dia, index, nuevaPropiedad, valoresAnteriores);
+  //   }
+  };
 
   return (                  
     <motion.ul 
@@ -223,23 +255,52 @@ export const ModalViewBodyRutinas = ({
             {
               !datosUsuario.precalentamiento &&
                   <motion.li variants={itemVariants} className={styleDisplayFlex}>
-                    <span className="fw-semibold">R.I.R: </span>
+                    {!isEdit ? (
+                      <span className="fw-semibold">{datosUsuario?.tipoMedicion || "R.I.R"}: </span>
+                    ) : (
+                      <select 
+                        className="form-select form-select-sm fw-semibold" 
+                        style={{ width: 'auto', minWidth: '75px' }}
+                        value={tipoMedicion}
+                        onChange={handleChangeTipoMedicion}
+                      >
+                        <option value="R.I.R">R.I.R</option>
+                        <option value="RPE">RPE</option>
+                        <option value="1RM">1RM</option>
+                        <option value="RM">RM</option>
+                      </select>
+                    )}
                     {
                       !isEdit ?
                       <>
-                        <span>{datosUsuario?.rir?.[0] || ""}</span>
-                        <span>- {datosUsuario?.rir?.[1] || ""}</span>
-                        <span>- {datosUsuario?.rir?.[2] || ""}</span>
-                        <span>- {datosUsuario?.rir?.[3] || ""}</span>
-                        <span>- {datosUsuario?.rir?.[4] || ""}</span>
+                        <span>{tipoMedicion === "1RM" ? "% " : ""}{getValores()[0] || ""}</span>
+                        <span>- {tipoMedicion === "1RM" ? "% " : ""}{getValores()[1] || ""}</span>
+                        <span>- {tipoMedicion === "1RM" ? "% " : ""}{getValores()[2] || ""}</span>
+                        <span>- {tipoMedicion === "1RM" ? "% " : ""}{getValores()[3] || ""}</span>
+                        <span>- {tipoMedicion === "1RM" ? "% " : ""}{getValores()[4] || ""}</span>
                       </>
                       :
                         <>
-                          <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[0]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 0 )}/>
-                          <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[1]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 1 )}/>
-                          <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[2]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 2 )}/>
-                          <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[3]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 3 )}/>
-                          <input type="text" className="form-control p-1" id="" value={datosUsuario.rir?.[4]} onChange={(e) => handleSetDatosUsuario(dia, index, "rir", e.target.value, 4 )}/>
+                          <div className="input-group p-1">
+                            {/* {tipoMedicion === "1RM" && <span className="input-group-text p-1">%</span>} */}
+                            <input type="text" className="form-control p-1" id="" value={getValores()[0] || ""} onChange={(e) => handleSetDatosUsuario(dia, index, 'rir', e.target.value, 0 )}/>
+                          </div>
+                          <div className="input-group p-1">
+                            {/* {tipoMedicion === "1RM" && <span className="input-group-text p-1">%</span>} */}
+                            <input type="text" className="form-control p-1" id="" value={getValores()[1] || ""} onChange={(e) => handleSetDatosUsuario(dia, index, 'rir', e.target.value, 1 )}/>
+                          </div>
+                          <div className="input-group p-1">
+                            {/* {tipoMedicion === "1RM" && <span className="input-group-text p-1">%</span>} */}
+                            <input type="text" className="form-control p-1" id="" value={getValores()[2] || ""} onChange={(e) => handleSetDatosUsuario(dia, index, 'rir', e.target.value, 2 )}/>
+                          </div>
+                          <div className="input-group p-1">
+                            {/* {tipoMedicion === "1RM" && <span className="input-group-text p-1">%</span>} */}
+                            <input type="text" className="form-control p-1" id="" value={getValores()[3] || ""} onChange={(e) => handleSetDatosUsuario(dia, index, 'rir', e.target.value, 3 )}/>
+                          </div>
+                          <div className="input-group p-1">
+                            {/* {tipoMedicion === "1RM" && <span className="input-group-text p-1">%</span>} */}
+                            <input type="text" className="form-control p-1" id="" value={getValores()[4] || ""} onChange={(e) => handleSetDatosUsuario(dia, index, 'rir', e.target.value, 4 )}/>
+                          </div>
                         </>
                     }
                     <span></span>

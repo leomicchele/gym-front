@@ -290,7 +290,7 @@ export const RutinaEjerciciosItems = ({
                 ejercicio.precalentamiento ?
               <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">TIEMPO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
               :
-              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">R.I.R: </span></div>  <div className="text-start d-flex justify-content-between w-100 gap-1">{ejercicio.rir?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
+              <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">{ejercicio?.tipoMedicion || "R.I.R"}: </span></div>  <div className="text-start d-flex w-100 gap-1">{ejercicio.rir?.filter(serie => serie !== "").map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {ejercicio.tipoMedicion === "1RM" ? "%" : ""}  {serie} </span>)}</div></li>
               }
 
               <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">METODO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.metodo}</span></div></li>
