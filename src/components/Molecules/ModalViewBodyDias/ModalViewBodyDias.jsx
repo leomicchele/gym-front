@@ -72,6 +72,33 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
     setDatosUsuario({...datosUsuario, rutina: rutinas})
   }
 
+  const handleAddBiserie = (dia) => {
+    const rutinas = datosUsuario.rutina
+    const newBiserie = {
+      ejercicio1: "",
+      ejercicio2: "",
+      series1: [],
+      series2: [],
+      reps1: [],
+      reps2: [],
+      descanso: 0,
+      kilos1: [],
+      kilos2: [],
+      rir1: [],
+      rir2: [],
+      metodo: "",
+      observaciones: "",
+      biserie: true,
+    }
+    if (rutinas[dia].length === 0) {
+      rutinas[dia].ejercicios = [newBiserie]
+      setDatosUsuario({...datosUsuario, rutina: rutinas})
+      return
+    }
+    rutinas[dia].ejercicios.push(newBiserie)
+    setDatosUsuario({...datosUsuario, rutina: rutinas})
+  }
+
   const handleRemoveEjercicio = (dia, ejercicio) => {
     // Añadimos el ejercicio a la lista de ejercicios a eliminar
     setEjerciciosToRemove([...ejerciciosToRemove, ejercicio]);
@@ -113,10 +140,20 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
       return
     }
 
+    if (ejercicioNombre === "tipoMedicion2") {
+      rutinas[dia].ejercicios[ejercicioIndex][ejercicioNombre] = value
+      setDatosUsuario({...datosUsuario, rutina: rutinas})
+      return
+    }
+
     // SI EL NOMBRE DEL EJERCICIO ES SERIES, REPS O KILOS
     if (ejercicioNombre === "series" || ejercicioNombre === "reps" || ejercicioNombre === "kilos" || 
         ejercicioNombre === "rir" || ejercicioNombre === "rpe" || 
-        ejercicioNombre === "rm" || ejercicioNombre === "1rm") {
+        ejercicioNombre === "rm" || ejercicioNombre === "1rm" ||
+        ejercicioNombre === "series1" || ejercicioNombre === "series2" ||
+        ejercicioNombre === "reps1" || ejercicioNombre === "reps2" ||
+        ejercicioNombre === "kilos1" || ejercicioNombre === "kilos2" ||
+        ejercicioNombre === "rir1" || ejercicioNombre === "rir2") {
       
       // Inicializamos la propiedad si no existe
       if (!rutinas[dia].ejercicios[ejercicioIndex][ejercicioNombre]) {
@@ -184,7 +221,7 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
                 exit="closed"
                 variants={accordionVariants}
                 id={`collapse${indexDia+1}`}  
-                className={`border border-primary-subtle accordion-collapse`} 
+                className={`border border-info-subtle accordion-collapse`} 
                 data-bs-parent="#accordionExample"
               >
                 <div className="accordion-body py-2 px-1">   
@@ -198,7 +235,7 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
                             const isRemoving = ejerciciosToRemove.includes(index);
                             
                             return (
-                              <Draggable draggableId={ejercicio.ejercicio || `${index}-draggable`} index={index} key={index} isDragDisabled={isRemoving}>
+                              <Draggable draggableId={ejercicio.ejercicio || ejercicio.ejercicio1 || `${index}-draggable`} index={index} key={index} isDragDisabled={isRemoving}>
                                 {(draggableProvided) => (
                                   <motion.div 
                                     {...draggableProvided.draggableProps} 
@@ -225,7 +262,8 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
                         </AnimatePresence>
                         {droppableProvided.placeholder}
                         <button className="btn btn-outline-warning d-flex align-item p-2 gap-2 w-100 mb-2 text-orange" onClick={() => handleAddEjercicio(indexDia, true)}><Add/> Calentamiento</button>
-                        <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddEjercicio(indexDia, false)}><Add/> Ejercicio</button>
+                        <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100 mb-2" onClick={() => handleAddEjercicio(indexDia, false)}><Add/> Ejercicio</button>
+                        <button className="btn btn-outline-info d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddBiserie(indexDia)}><Add/> Biserie</button>
                       </div>  
                     )}
                   </Droppable>        

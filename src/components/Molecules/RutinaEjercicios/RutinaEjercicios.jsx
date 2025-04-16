@@ -45,7 +45,27 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
         if (ejerciciosRealizados.find(ejercicio => ejercicio.ejercicio === nombre)) {
           return
         }
-        const nuevoEjercicio = {ejercicio: nombre, kilos: ejercicios[index].kilos}
+        
+        // Determinar qué kilos usar (para biserie o ejercicio normal)
+        const ejercicioActual = ejercicios[index];
+        let nuevoEjercicio;
+        
+        if (ejercicioActual.biserie) {
+          // Si es biserie, guardar tanto kilos1 como kilos2
+          const kilos1 = ejercicioActual.kilos1 || ["0", "0", "0", "0", "0"];
+          const kilos2 = ejercicioActual.kilos2 || ["0", "0", "0", "0", "0"];
+          nuevoEjercicio = {
+            ejercicio: nombre, 
+            kilos1: kilos1,
+            kilos2: kilos2,
+            esBiserie: true
+          }
+        } else {
+          // Si es ejercicio normal, usar kilos normal
+          const kilosEjercicio = ejercicioActual.kilos || ["0", "0", "0", "0", "0"];
+          nuevoEjercicio = {ejercicio: nombre, kilos: kilosEjercicio}
+        }
+        
         const arrayDia = ejerciciosRealizados[dia-1]
         arrayDia.push(nuevoEjercicio)
         setEjerciciosRealizados(ejerciciosRealizados.map((ejercicio, index) => {
@@ -130,6 +150,14 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
     }
 
     historial.historial.ejerciciosRealizados = ejerciciosRealizados[diaNumber].map(ejercicio => {
+        if (ejercicio.esBiserie) {
+          return {
+            ejercicio: ejercicio.ejercicio,
+            kilos1: ejercicio.kilos1,
+            kilos2: ejercicio.kilos2,
+            esBiserie: true
+          }
+        }
         return {
           ejercicio: ejercicio.ejercicio,
           kilos: ejercicio.kilos
