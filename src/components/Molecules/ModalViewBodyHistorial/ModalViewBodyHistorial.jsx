@@ -1,4 +1,3 @@
-
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import "./ModalViewBodyHistorial.css"
@@ -90,11 +89,26 @@ export const ModalViewBodyHistorial = ({historialDia, indexDia}) => {
                         <tr key={index}>
                           <th scope="row">{index + 1}</th>
                           <td>{ejercicio.ejercicio}</td>
-                          <td>{ejercicio.kilos.map((kilo, index) => {
-                            return (
-                              <span>{kilo} {index === ejercicio.kilos.length - 1 ? '' : '- '}</span>
-                            )
-                          })}</td>
+                          <td>
+                            {ejercicio.esBiserie ? (
+                              <>
+                                <div><span className="fw-semibold">Ejercicio 1: </span>
+                                  {ejercicio.kilos1.map((kilo, index) => (
+                                    <span key={`kilo1-${index}`}>{kilo} {index === ejercicio.kilos1.length - 1 ? '' : '- '}</span>
+                                  ))}
+                                </div>
+                                <div><span className="fw-semibold">Ejercicio 2: </span>
+                                  {ejercicio.kilos2.map((kilo, index) => (
+                                    <span key={`kilo2-${index}`}>{kilo} {index === ejercicio.kilos2.length - 1 ? '' : '- '}</span>
+                                  ))}
+                                </div>
+                              </>
+                            ) : (
+                              ejercicio.kilos.map((kilo, index) => (
+                                <span key={index}>{kilo} {index === ejercicio.kilos.length - 1 ? '' : '- '}</span>
+                              ))
+                            )}
+                          </td>
                         </tr>
                       )
                     })

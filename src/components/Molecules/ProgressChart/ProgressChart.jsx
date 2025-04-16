@@ -40,7 +40,10 @@ const ProgressChart = ({ historial }) => {
     const todosEjercicios = new Set();
     historial.forEach(dia => {
       dia.ejerciciosRealizados.forEach(ejercicio => {
-        todosEjercicios.add(ejercicio.ejercicio);
+        // Excluir ejercicios que son biseries
+        if (!ejercicio.esBiserie) {
+          todosEjercicios.add(ejercicio.ejercicio);
+        }
       });
     });
     const ejerciciosArray = Array.from(todosEjercicios);
@@ -99,6 +102,9 @@ const ProgressChart = ({ historial }) => {
       const ejerciciosDelDia = new Set(dia.ejerciciosRealizados.map(e => e.ejercicio));
       
       dia.ejerciciosRealizados.forEach(ejercicio => {
+        // Ignorar ejercicios que son biseries
+        if (ejercicio.esBiserie) return;
+        
         const nombreEjercicio = ejercicio.ejercicio;
         
         // Obtenemos el valor máximo de kilos para cada ejercicio

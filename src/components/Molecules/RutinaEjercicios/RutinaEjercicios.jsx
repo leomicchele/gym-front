@@ -45,7 +45,27 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
         if (ejerciciosRealizados.find(ejercicio => ejercicio.ejercicio === nombre)) {
           return
         }
-        const nuevoEjercicio = {ejercicio: nombre, kilos: ejercicios[index].kilos}
+        
+        // Determinar qué kilos usar (para biserie o ejercicio normal)
+        const ejercicioActual = ejercicios[index];
+        let nuevoEjercicio;
+        
+        if (ejercicioActual.biserie) {
+          // Si es biserie, guardar tanto kilos1 como kilos2
+          const kilos1 = ejercicioActual.kilos1 || ["0", "0", "0", "0", "0"];
+          const kilos2 = ejercicioActual.kilos2 || ["0", "0", "0", "0", "0"];
+          nuevoEjercicio = {
+            ejercicio: nombre, 
+            kilos1: kilos1,
+            kilos2: kilos2,
+            esBiserie: true
+          }
+        } else {
+          // Si es ejercicio normal, usar kilos normal
+          const kilosEjercicio = ejercicioActual.kilos || ["0", "0", "0", "0", "0"];
+          nuevoEjercicio = {ejercicio: nombre, kilos: kilosEjercicio}
+        }
+        
         const arrayDia = ejerciciosRealizados[dia-1]
         arrayDia.push(nuevoEjercicio)
         setEjerciciosRealizados(ejerciciosRealizados.map((ejercicio, index) => {
@@ -73,7 +93,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
 
   const handleFrases = () => {
     let frase = ""
-    const totalEjercicios = ejercicios.length;
+    const totalEjercicios = ejercicios.filter(ejercicio => !ejercicio.precalentamiento).length;
     const porcentajeCompletado = Math.round((ejerciciosRealizadosCheck / totalEjercicios) * 100);
     
     if (porcentajeCompletado === 0) {
@@ -130,6 +150,14 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
     }
 
     historial.historial.ejerciciosRealizados = ejerciciosRealizados[diaNumber].map(ejercicio => {
+        if (ejercicio.esBiserie) {
+          return {
+            ejercicio: ejercicio.ejercicio,
+            kilos1: ejercicio.kilos1,
+            kilos2: ejercicio.kilos2,
+            esBiserie: true
+          }
+        }
         return {
           ejercicio: ejercicio.ejercicio,
           kilos: ejercicio.kilos
@@ -231,7 +259,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
           handleFunction={handleFinalizarEntrenamiento}  
           handleIsOpen={setIsOpen} 
           title={`¡Entrenamiento Día ${dia}!`} 
-          msg={`Has completado ${ejerciciosRealizadosCheck} de ${ejercicios.length} ejercicios. ${handleFrases()} ${responseMsg ? ` ${responseMsg}` : ''}`}
+          msg={`Has completado ${ejerciciosRealizadosCheck} de ${ejercicios.filter(ejercicio => !ejercicio.precalentamiento).length} ejercicios. ${handleFrases()} ${responseMsg ? ` ${responseMsg}` : ''}`}
         />
       }
       {
