@@ -93,7 +93,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
 
   const handleFrases = () => {
     let frase = ""
-    const totalEjercicios = ejercicios.filter(ejercicio => !ejercicio.precalentamiento).length;
+    const totalEjercicios = ejercicios.filter(ejercicio => !ejercicio.precalentamiento && !ejercicio.esTiempo).length;
     const porcentajeCompletado = Math.round((ejerciciosRealizadosCheck / totalEjercicios) * 100);
     
     if (porcentajeCompletado === 0) {
@@ -229,6 +229,9 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
     <motion.div initial={"closed"} animate={"open"} transition={{ duration: 0.5 }} exit={"closed"} variants={variants}>
       <TopBar titulo={`Ejercicios - Día ${dia}`} ruta="/menu/rutina" callback={() => setDiasOEjercicios("dias")} />
 
+      {/* Cronómetro global para la rutina */}
+      
+
       <h5 className="text-start mb-2 text-secondary text-uppercase" style={{maxWidth: "800px", margin: "0 auto"}}>Lista de ejercicios: </h5>
       <span className="mb-2 text-start fst-italic d-flex w-100" style={{maxWidth: "800px", margin: "0 auto"}}>Asegúrate de completar el día de entrenamiento para que tu entrenador pueda revisar lo que has hecho.</span>
 
@@ -245,6 +248,10 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
         
       </div>
 
+        <Cronometro />
+      {/* <div className="mb-3 wrapper-cronometro-activo" style={{maxWidth: "800px", margin: "0 auto"}}>
+      </div> */}
+
       <div className="form-floating" style={{maxWidth: "800px", margin: "0 auto"}}>
         <textarea className="form-control" value={observaciones} placeholder="Leave a comment here" id="floatingTextarea" onChange={(e) => setObservaciones(e.target.value)}  ></textarea>
         <label htmlFor="floatingTextarea">Observaciones</label>
@@ -259,7 +266,7 @@ export const RutinaEjercicios = ({ setDiasOEjercicios, ejercicios, dia,diaNombre
           handleFunction={handleFinalizarEntrenamiento}  
           handleIsOpen={setIsOpen} 
           title={`¡Entrenamiento Día ${dia}!`} 
-          msg={`Has completado ${ejerciciosRealizadosCheck} de ${ejercicios.filter(ejercicio => !ejercicio.precalentamiento).length} ejercicios. ${handleFrases()} ${responseMsg ? ` ${responseMsg}` : ''}`}
+          msg={`Has completado ${ejerciciosRealizadosCheck} de ${ejercicios.filter(ejercicio => !ejercicio.precalentamiento && !ejercicio.esTiempo).length} ejercicios. ${handleFrases()} ${responseMsg ? ` ${responseMsg}` : ''}`}
         />
       }
       {

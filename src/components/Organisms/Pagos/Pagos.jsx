@@ -104,13 +104,19 @@ export const Pagos = () => {
         <div className="alert alert-danger" style={{maxWidth: "800px", margin: "0 auto"}}>
           <p className="m-0">{error}</p>
         </div>
-      ) : pagos.length === 0 ? (
+      ) :
+        !pagos ? (
+        <div className="alert alert-secondary" style={{maxWidth: "800px", margin: "0 auto"}}>
+          <p className="m-0">No tienes pagos registrados.</p>
+        </div>
+      ) : 
+      pagos && pagos.length === 0  ? (
         <div className="alert alert-secondary" style={{maxWidth: "800px", margin: "0 auto"}}>
           <p className="m-0">No tienes pagos registrados.</p>
         </div>
       ) : (
         <div className="pagos-list" style={{maxWidth: "800px", margin: "0 auto"}}>
-          {pagos.map((pago) => (
+          {pagos && pagos.map((pago) => (
             <div
               key={pago.id}
               className="pago-item"

@@ -11,6 +11,8 @@ import { Loader } from "../../Atoms/Loader/Loader";
 import { Alert } from "../../Atoms/Alert/Alert";
 import { XCircle } from "../../Atoms/icons/XCircle";
 import { Fire } from "../../Atoms/icons/Fire";
+import { Stopwatch } from "../../Atoms/icons/Stopwatch";
+import { Play } from "../../Atoms/icons/Play";
 import "./RutinaEjerciciosItems.css"
 
 
@@ -255,6 +257,47 @@ export const RutinaEjerciciosItems = ({
     }    
   }
 
+  // Nueva función para manejar el clic en el botón de iniciar tiempo
+  const handleIniciarTiempo = (tiempo) => {
+    // Disparar evento personalizado para configurar el cronómetro
+    window.dispatchEvent(new CustomEvent('set-cronometro-tiempo', { 
+      detail: tiempo 
+    }));
+  }
+
+  // Función para formatear tiempo de decimal a formato con dos puntos
+  const formatTiempo = (tiempo) => {
+    if (!tiempo) return "0";
+    
+    // Convertir a string para asegurar que podemos manipularlo
+    const tiempoStr = tiempo.toString();
+    
+    // Separar la parte entera y decimal
+    let [minutos, segundos] = tiempoStr.split('.');
+    
+    // Si solo tenemos un dígito en la parte decimal, añadir un cero al final
+    if (segundos && segundos.length === 1) {
+      segundos = segundos + '0';
+    }
+    
+    // Si no hay segundos o es undefined, establecer a "00"
+    if (!segundos) {
+      segundos = "00";
+    }
+    
+    // Si tenemos solo un dígito en minutos, añadir un cero delante
+    if (minutos && minutos.length === 1) {
+      minutos = "0" + minutos;
+    }
+    
+    // Si el tiempo es decimal menor a 1 (ej: .2), formatear como 00:20
+    if (minutos === '0' || minutos === '' || !minutos) {
+      minutos = "00";
+    }
+    
+    // Devolver el tiempo formateado
+    return `${minutos}:${segundos}`;
+  }
 
   useEffect(() => {
     if(isEdit) {
@@ -276,6 +319,10 @@ export const RutinaEjerciciosItems = ({
       return 'bg-success-subtle'; // Si está checkeado, siempre verde
     }
     
+    if (ejercicio.esTiempo) {
+      return 'bg-secondary bg-secondary-subtle'; // Para elementos de tipo tiempo
+    }
+    
     if (ejercicio.precalentamiento) {
       return 'bg-warning bg-warning2 fs-6'; // Para precalentamiento
     }
@@ -287,289 +334,381 @@ export const RutinaEjerciciosItems = ({
     return isOpen ? '' : 'collapsed bg-primary-subtle'; // Para ejercicios normales
   }
 
+  // Obtener el contenido principal para mostrar en el botón
+  const getButtonContent = () => {
+    if (ejercicio.esTiempo) {
+      return (
+        <>
+          <div className="pe-2">
+            <Stopwatch/>
+          </div>
+          <span>TIEMPO: {formatTiempo(ejercicio.tiempo)} min</span>
+        </>
+      )
+    }
+    
+    if (ejercicio.precalentamiento) {
+      return (
+        <>
+          <div className="pe-2">
+            <Fire/>
+          </div>
+          <span>{getEjercicioName()}</span>
+        </>
+      )
+    }
+    
+    return (
+      <>
+        <div className="form-check">
+          <input 
+            checked={ejerciciosCheckeado ? true : false} 
+            className="form-check-input" 
+            type="checkbox" 
+            value="" 
+            id="flexCheckDefault" 
+            onChange={(e) => {
+              const nombreEjercicio = ejercicio.biserie 
+                ? `${ejercicio.ejercicio1 || ""} + ${ejercicio.ejercicio2 || ""}` 
+                : ejercicio.ejercicio;
+              handleEjercicioRealizado(e, index, nombreEjercicio)
+              setEjerciciosCheckeado(!ejerciciosCheckeado)
+              setIsEdit(false)
+            }} 
+          />
+        </div>
+        <span>{getEjercicioName()}</span>
+      </>
+    )
+  }
+
   return (
     <div key={index} className="accordion-item mb-2 rounded">
               
             <h2 className="accordion-header">
 
-            <button
-              className={`accordion-button p-3 rounded fs-5 ${'boton-ejercicio-' + index} ${getButtonStyle()}`}
-              type="button"
-              aria-expanded={isOpen ? "true" : "false"}
-              aria-controls={"panelsStayOpen-collapseOne" + index}
-              onClick={(e) => {
-                if (!e.target.classList.contains("form-check-input")) {
-                  setIsOpen(!isOpen);
-                }
-                handleAbrirCollapse(e, index);
-              }}
-            >
-              {
-                !ejercicio.precalentamiento ?
-                <div className="form-check">
-                  <input checked={ejerciciosCheckeado ? true : false} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" onChange={(e) => {
-                        // Para biseries, usar un nombre compuesto o el nombre del ejercicio directamente
-                        const nombreEjercicio = ejercicio.biserie 
-                          ? `${ejercicio.ejercicio1 || ""} + ${ejercicio.ejercicio2 || ""}` 
-                          : ejercicio.ejercicio;
-                        handleEjercicioRealizado(e, index, nombreEjercicio)
-                        setEjerciciosCheckeado(!ejerciciosCheckeado)
-                        setIsEdit(false)
-                      }
-                      } />                      
+            {ejercicio.esTiempo ? (
+              // Para ejercicios de tiempo, mostrar un botón no desplegable con la información
+              <div className="p-3 rounded fs-5 bg-secondary bg-secondary-subtle d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center">
+                  <div className="pe-2">
+                    <Stopwatch/>
+                  </div>
+                  <span>TIEMPO: {formatTiempo(ejercicio.tiempo)} min</span>
                 </div>
-                : 
-                <div className="pe-2">
-                  <Fire/>
+                <div className="d-flex flex-column flex-md-row align-items-center">
+                  <div className="d-flex align-items-center">
+                    <span className="fw-medium text-secondary me-1">
+                      {ejercicio.metodo && <small className="text-muted me-2">MÉTODO: {ejercicio.metodo}</small>}
+                    </span>
+                    <button 
+                      className="btn btn-sm btn-secondary p-0 d-flex align-items-center" 
+                      onClick={() => handleIniciarTiempo(ejercicio.tiempo)}
+                      title="Iniciar tiempo"
+                    >
+                      <Play />
+                    </button>
+                  </div>
+                  <div>
+                    {ejercicio.observaciones && <small className="text-muted">{handleLinkObs(ejercicio.observaciones)}</small>}
+                  </div>
                 </div>
-              }
-
-                {/* Nombre del ejercicio */}
-              {getEjercicioName()}
-            </button>
-          </h2>
-          <motion.div
-            initial="closed"
-            animate={isOpen ? "open" : "closed"}
-            variants={accordionVariants}
-            id={"panelsStayOpen-collapseOne" + index}
-            className={`accordion-collapse border ${
-              ejercicio.precalentamiento 
-                ? "border-warning-subtle" 
-                : ejercicio.biserie && !ejerciciosCheckeado
-                  ? "border-info-subtle" 
-                  : "border-primary-subtle"
-            }  collapse-${index}`}
-          >
-
-            <div className="accordion-body px-2">
-            <ul className="list-group">
-              {ejercicio.biserie ? (
-                <>
-                  {/* Ejercicio 1 */}
-                  <li className="list-group-item d-flex align-items-center gap-2 fw-bold text-info">EJERCICIO 1: {ejercicio.ejercicio1 || ""}</li>
-                  <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIES: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.series1?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
-                  <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.reps1?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
-                  <li className="list-group-item d-flex align-items-center gap-1">
-                    <div className="items-ejercicio-small text-start">
-                      <span className="fw-semibold text-start">KILOS: </span>
-                    </div>  
-                    <div className="text-start d-flex align-items-center justify-content-between">
-                      {
-                        isEdit ? 
-                        <>
-                          <span className="d-flex gap-1 mx-1" > 
-                            <input type="number" onChange={(e) => handleOnChangeKilos1(e, 0)} value={kilosState1[0]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                            <input type="number" onChange={(e) => handleOnChangeKilos1(e, 1)} value={kilosState1[1]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                            <input type="number" onChange={(e) => handleOnChangeKilos1(e, 2)} value={kilosState1[2]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                            <input type="number" onChange={(e) => handleOnChangeKilos1(e, 3)} value={kilosState1[3]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                            <input type="number" onChange={(e) => handleOnChangeKilos1(e, 4)} value={kilosState1[4]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                          </span> 
-                        </>
-                        :
-                        <>
-                          {kilosState1.map((serie, index) => <span key={index} className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}
-                        </>
-                      }
-                      {
-                        !ejercicio.precalentamiento && !ejerciciosCheckeado && (
-                          <>
-                            {
-                              state.loading ? <Loader/> 
-                              :
-                              <>
-                                {
-                                  isEdit && !errorFetch && 
-                                  <span onClick={() => handleEditarkilos()} className="text-success d-flex align-items-center">
-                                    <ArrowCloud/>
-                                  </span>
-                                }
-                                {
-                                  !isEdit && !errorFetch && 
-                                  <span onClick={() => setIsEdit(!isEdit)} className="text-primary d-flex align-items-center">
-                                    <Edit/>
-                                  </span> 
-                                }
-                                {
-                                  errorFetch && 
-                                  <span onClick={() => handleCleanError()} className="text-danger d-flex align-items-center">
-                                    <XCircle/>
-                                  </span> 
-                                }
-                              </>
-                            }
-                          </>
-                        )
-                      }
-                    </div>
-                  </li>
-                  {!ejercicio.precalentamiento && (
-                    <li className="list-group-item d-flex align-items-center gap-1">
-                      <div className="items-ejercicio-small text-start">
-                        <span className="fw-semibold text-start">{ejercicio?.tipoMedicion || "R.I.R"}: </span>
-                      </div>  
-                      <div className="text-start d-flex w-100 gap-1">
-                        {ejercicio.rir1?.filter(serie => serie !== "").map((serie, index) => (
-                          <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >
-                            {ejercicio.tipoMedicion === "1RM" ? "%" : ""}  {serie}
-                          </span>
-                        ))}
-                      </div>
-                    </li>
-                  )}
-
-                  {/* Ejercicio 2 */}
-                  <li className="list-group-item d-flex align-items-center gap-2 fw-bold text-info mt-3">EJERCICIO 2: {ejercicio.ejercicio2 || ""}</li>
-                  <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIES: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.series2?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
-                  <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.reps2?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
-                  <li className="list-group-item d-flex align-items-center gap-1">
-                    <div className="items-ejercicio-small text-start">
-                      <span className="fw-semibold text-start">KILOS: </span>
-                    </div>  
-                    <div className="text-start d-flex align-items-center justify-content-between">
-                      {
-                        isEdit ? 
-                        <>
-                          <span className="d-flex gap-1 mx-1" > 
-                            <input type="number" onChange={(e) => handleOnChangeKilos2(e, 0)} value={kilosState2[0]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                            <input type="number" onChange={(e) => handleOnChangeKilos2(e, 1)} value={kilosState2[1]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                            <input type="number" onChange={(e) => handleOnChangeKilos2(e, 2)} value={kilosState2[2]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                            <input type="number" onChange={(e) => handleOnChangeKilos2(e, 3)} value={kilosState2[3]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                            <input type="number" onChange={(e) => handleOnChangeKilos2(e, 4)} value={kilosState2[4]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                          </span> 
-                        </>
-                        :
-                        <>
-                          {kilosState2.map((serie, index) => <span key={index} className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}
-                        </>
-                      }
-                      {
-                        !ejercicio.precalentamiento && !ejerciciosCheckeado && (
-                          <>
-                            {
-                              state.loading ? <Loader/> 
-                              :
-                              <>
-                                {
-                                  isEdit && !errorFetch && 
-                                  <span onClick={() => handleEditarkilos()} className="text-success d-flex align-items-center">
-                                    <ArrowCloud/>
-                                  </span>
-                                }
-                                {
-                                  !isEdit && !errorFetch && 
-                                  <span onClick={() => setIsEdit(!isEdit)} className="text-primary d-flex align-items-center">
-                                    <Edit/>
-                                  </span> 
-                                }
-                                {
-                                  errorFetch && 
-                                  <span onClick={() => handleCleanError()} className="text-danger d-flex align-items-center">
-                                    <XCircle/>
-                                  </span> 
-                                }
-                              </>
-                            }
-                          </>
-                        )
-                      }
-                    </div>
-                  </li>
-                  {!ejercicio.precalentamiento && (
-                    <li className="list-group-item d-flex align-items-center gap-1">
-                      <div className="items-ejercicio-small text-start">
-                        <span className="fw-semibold text-start">{ejercicio?.tipoMedicion2 || "R.I.R"}: </span>
-                      </div>  
-                      <div className="text-start d-flex w-100 gap-1">
-                        {ejercicio.rir2?.filter(serie => serie !== "").map((serie, index) => (
-                          <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >
-                            {ejercicio.tipoMedicion2 === "1RM" ? "%" : ""}  {serie}
-                          </span>
-                        ))}
-                      </div>
-                    </li>
-                  )}
-                </>
-              ) : (
-                <>
-                  <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIE: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.series.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
-                  <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.reps.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
-                  <li className="list-group-item d-flex align-items-center gap-1">
-                    <div className="items-ejercicio-small text-start">
-                      <span className="fw-semibold text-start">KILOS: </span>
-                    </div>  
-                    <div className="text-start d-flex align-items-center justify-content-between">
-                        {
-                            isEdit ? 
-                            <>
-                                <span className="d-flex gap-1 mx-1" > 
-                                    <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 0) } value={kilosState[0]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                                    <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 1) } value={kilosState[1]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                                    <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 2) } value={kilosState[2]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                                    <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 3) } value={kilosState[3]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                                    <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 4) } value={kilosState[4]} className="form-control px-2" aria-describedby="basic-addon1"/> 
-                                </span> 
-                            </>
-                            :
-                            <>
-                                {kilosState.map((serie, index) => <span key={index} className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}
-                            </>
-                        }
-                        < >
-                          {
-                            state.loading ? <Loader/> 
-                            :
-                            <>
-                              {
-                                isEdit && !ejerciciosCheckeado && !errorFetch && 
-                                <span onClick={() => handleEditarkilos()} className="text-success d-flex align-items-center">
-                                  <ArrowCloud/>
-                                </span>
-                              }
-                              {
-                                !isEdit && !ejerciciosCheckeado && !errorFetch && 
-                                <span  onClick={() => setIsEdit(!isEdit)} className="text-primary d-flex align-items-center">
-                                  <Edit/>
-                                </span> 
-                              }
-                              {
-                                errorFetch && 
-                                <span onClick={() => handleCleanError()} className="text-danger d-flex align-items-center">
-                                  <XCircle/>
-                                </span> 
-                              }
-                            </>
-                          }
-                        </>
-                    </div>
-                  </li>
-
-                  {
-                    ejercicio.precalentamiento ?
-                  <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">TIEMPO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
-                  :
-                  <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">{ejercicio?.tipoMedicion || "R.I.R"}: </span></div>  <div className="text-start d-flex w-100 gap-1">{ejercicio.rir?.filter(serie => serie !== "").map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {ejercicio.tipoMedicion === "1RM" ? "%" : ""}  {serie} </span>)}</div></li>
+              </div>
+            ) : (
+              <button
+                className={`accordion-button p-3 rounded fs-5 ${'boton-ejercicio-' + index} ${getButtonStyle()}`}
+                type="button"
+                aria-expanded={isOpen ? "true" : "false"}
+                aria-controls={"panelsStayOpen-collapseOne" + index}
+                onClick={(e) => {
+                  if (!e.target.classList.contains("form-check-input")) {
+                    setIsOpen(!isOpen);
                   }
-                </>
-              )}
+                  handleAbrirCollapse(e, index);
+                }}
+              >
+                {getButtonContent()}
+              </button>
+            )}
+          </h2>
+          {!ejercicio.esTiempo && (
+            <motion.div
+              initial="closed"
+              animate={isOpen ? "open" : "closed"}
+              variants={accordionVariants}
+              id={"panelsStayOpen-collapseOne" + index}
+              className={`accordion-collapse border ${
+                ejercicio.precalentamiento 
+                  ? "border-warning-subtle" 
+                  : ejercicio.esTiempo
+                    ? "border-secondary-subtle"
+                    : ejercicio.biserie && !ejerciciosCheckeado
+                      ? "border-info-subtle" 
+                      : "border-primary-subtle"
+              }  collapse-${index}`}
+            >
 
-              <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">METODO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.metodo}</span></div></li>
-              <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">OBS: </span></div>  <div className="observaciones-input"><span className="fw-medium text-info-emphasis">{handleLinkObs(ejercicio.observaciones)}</span></div></li>
+              <div className="accordion-body px-2">
+              <ul className="list-group">
+                {ejercicio.biserie ? (
+                  <>
+                    {/* Ejercicio 1 */}
+                    <li className="list-group-item d-flex align-items-center gap-2 fw-bold text-info">EJERCICIO 1: {ejercicio.ejercicio1 || ""}</li>
+                    <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIES: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.series1?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
+                    <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.reps1?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
+                    <li className="list-group-item d-flex align-items-center gap-1">
+                      <div className="items-ejercicio-small text-start">
+                        <span className="fw-semibold text-start">KILOS: </span>
+                      </div>  
+                      <div className="text-start d-flex align-items-center justify-content-between">
+                        {
+                          isEdit ? 
+                          <>
+                            <span className="d-flex gap-1 mx-1" > 
+                              <input type="number" onChange={(e) => handleOnChangeKilos1(e, 0)} value={kilosState1[0]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                              <input type="number" onChange={(e) => handleOnChangeKilos1(e, 1)} value={kilosState1[1]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                              <input type="number" onChange={(e) => handleOnChangeKilos1(e, 2)} value={kilosState1[2]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                              <input type="number" onChange={(e) => handleOnChangeKilos1(e, 3)} value={kilosState1[3]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                              <input type="number" onChange={(e) => handleOnChangeKilos1(e, 4)} value={kilosState1[4]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                            </span> 
+                          </>
+                          :
+                          <>
+                            {kilosState1.map((serie, index) => <span key={index} className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}
+                          </>
+                        }
+                        {
+                          !ejercicio.precalentamiento && !ejerciciosCheckeado && (
+                            <>
+                              {
+                                state.loading ? <Loader/> 
+                                :
+                                <>
+                                  {
+                                    isEdit && !errorFetch && 
+                                    <span onClick={() => handleEditarkilos()} className="text-success d-flex align-items-center">
+                                      <ArrowCloud/>
+                                    </span>
+                                  }
+                                  {
+                                    !isEdit && !errorFetch && 
+                                    <span onClick={() => setIsEdit(!isEdit)} className="text-primary d-flex align-items-center">
+                                      <Edit/>
+                                    </span> 
+                                  }
+                                  {
+                                    errorFetch && 
+                                    <span onClick={() => handleCleanError()} className="text-danger d-flex align-items-center">
+                                      <XCircle/>
+                                    </span> 
+                                  }
+                                </>
+                              }
+                            </>
+                          )
+                        }
+                      </div>
+                    </li>
+                    {!ejercicio.precalentamiento && (
+                      <li className="list-group-item d-flex align-items-center gap-1">
+                        <div className="items-ejercicio-small text-start">
+                          <span className="fw-semibold text-start">{ejercicio?.tipoMedicion || "R.I.R"}: </span>
+                        </div>  
+                        <div className="text-start d-flex w-100 gap-1">
+                          {ejercicio.rir1?.filter(serie => serie !== "").map((serie, index) => (
+                            <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >
+                              {ejercicio.tipoMedicion === "1RM" ? "%" : ""}  {serie}
+                            </span>
+                          ))}
+                        </div>
+                      </li>
+                    )}
+
+                    {/* Ejercicio 2 */}
+                    <li className="list-group-item d-flex align-items-center gap-2 fw-bold text-info mt-3">EJERCICIO 2: {ejercicio.ejercicio2 || ""}</li>
+                    <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIES: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.series2?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
+                    <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.reps2?.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
+                    <li className="list-group-item d-flex align-items-center gap-1">
+                      <div className="items-ejercicio-small text-start">
+                        <span className="fw-semibold text-start">KILOS: </span>
+                      </div>  
+                      <div className="text-start d-flex align-items-center justify-content-between">
+                        {
+                          isEdit ? 
+                          <>
+                            <span className="d-flex gap-1 mx-1" > 
+                              <input type="number" onChange={(e) => handleOnChangeKilos2(e, 0)} value={kilosState2[0]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                              <input type="number" onChange={(e) => handleOnChangeKilos2(e, 1)} value={kilosState2[1]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                              <input type="number" onChange={(e) => handleOnChangeKilos2(e, 2)} value={kilosState2[2]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                              <input type="number" onChange={(e) => handleOnChangeKilos2(e, 3)} value={kilosState2[3]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                              <input type="number" onChange={(e) => handleOnChangeKilos2(e, 4)} value={kilosState2[4]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                            </span> 
+                          </>
+                          :
+                          <>
+                            {kilosState2.map((serie, index) => <span key={index} className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}
+                          </>
+                        }
+                        {
+                          !ejercicio.precalentamiento && !ejerciciosCheckeado && (
+                            <>
+                              {
+                                state.loading ? <Loader/> 
+                                :
+                                <>
+                                  {
+                                    isEdit && !errorFetch && 
+                                    <span onClick={() => handleEditarkilos()} className="text-success d-flex align-items-center">
+                                      <ArrowCloud/>
+                                    </span>
+                                  }
+                                  {
+                                    !isEdit && !errorFetch && 
+                                    <span onClick={() => setIsEdit(!isEdit)} className="text-primary d-flex align-items-center">
+                                      <Edit/>
+                                    </span> 
+                                  }
+                                  {
+                                    errorFetch && 
+                                    <span onClick={() => handleCleanError()} className="text-danger d-flex align-items-center">
+                                      <XCircle/>
+                                    </span> 
+                                  }
+                                </>
+                              }
+                            </>
+                          )
+                        }
+                      </div>
+                    </li>
+                    {!ejercicio.precalentamiento && (
+                      <li className="list-group-item d-flex align-items-center gap-1">
+                        <div className="items-ejercicio-small text-start">
+                          <span className="fw-semibold text-start">{ejercicio?.tipoMedicion2 || "R.I.R"}: </span>
+                        </div>  
+                        <div className="text-start d-flex w-100 gap-1">
+                          {ejercicio.rir2?.filter(serie => serie !== "").map((serie, index) => (
+                            <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >
+                              {ejercicio.tipoMedicion2 === "1RM" ? "%" : ""}  {serie}
+                            </span>
+                          ))}
+                        </div>
+                      </li>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">SERIE: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.series.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1">  {serie} </span>)}</div></li>
+                    <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">REPS: </span></div>  <div className="text-start d-flex justify-content-between">{ejercicio.reps.map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}</div></li>
+                    <li className="list-group-item d-flex align-items-center gap-1">
+                      <div className="items-ejercicio-small text-start">
+                        <span className="fw-semibold text-start">KILOS: </span>
+                      </div>  
+                      <div className="text-start d-flex align-items-center justify-content-between">
+                          {
+                              isEdit ? 
+                              <>
+                                  <span className="d-flex gap-1 mx-1" > 
+                                      <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 0) } value={kilosState[0]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                                      <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 1) } value={kilosState[1]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                                      <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 2) } value={kilosState[2]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                                      <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 3) } value={kilosState[3]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                                      <input  type="number" onChange={ (e) => handleOnChangeKilos(e, 4) } value={kilosState[4]} className="form-control px-2" aria-describedby="basic-addon1"/> 
+                                  </span> 
+                              </>
+                              :
+                              <>
+                                  {kilosState.map((serie, index) => <span key={index} className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {serie} </span>)}
+                              </>
+                          }
+                          < >
+                            {
+                              state.loading ? <Loader/> 
+                              :
+                              <>
+                                {
+                                  isEdit && !ejerciciosCheckeado && !errorFetch && 
+                                  <span onClick={() => handleEditarkilos()} className="text-success d-flex align-items-center">
+                                    <ArrowCloud/>
+                                  </span>
+                                }
+                                {
+                                  !isEdit && !ejerciciosCheckeado && !errorFetch && 
+                                  <span  onClick={() => setIsEdit(!isEdit)} className="text-primary d-flex align-items-center">
+                                    <Edit/>
+                                  </span> 
+                                }
+                                {
+                                  errorFetch && 
+                                  <span onClick={() => handleCleanError()} className="text-danger d-flex align-items-center">
+                                    <XCircle/>
+                                  </span> 
+                                }
+                              </>
+                            }
+                          </>
+                      </div>
+                    </li>
+
+                    {
+                      ejercicio.precalentamiento ?
+                    <li className="list-group-item d-flex align-items-center gap-2">
+                      <div className="items-ejercicio text-start">
+                        <span className="fw-semibold text-start">TIEMPO: </span>
+                      </div>  
+                      <div className="text-start d-flex align-items-center gap-2">
+                        <span className="fw-medium text-info-emphasis me-1">
+                          {ejercicio.descanso ? ejercicio.descanso : 0} min
+                        </span>
+                        <button 
+                          className="btn btn-sm btn-warning p-0 d-flex align-items-center" 
+                          onClick={() => handleIniciarTiempo(ejercicio.descanso)}
+                          title="Iniciar tiempo"
+                        >
+                          <Play />
+                        </button>
+                      </div>
+                    </li>
+                    :
+                    <li className="list-group-item d-flex align-items-center gap-1"><div className="items-ejercicio-small text-start"><span className="fw-semibold text-start">{ejercicio?.tipoMedicion || "R.I.R"}: </span></div>  <div className="text-start d-flex w-100 gap-1">{ejercicio.rir?.filter(serie => serie !== "").map((serie, index) => <span className="border border-secondary fw-medium text-info-emphasis px-2 py-1 mx-1" >  {ejercicio.tipoMedicion === "1RM" ? "%" : ""}  {serie} </span>)}</div></li>
+                    }
+                  </>
+                )}
+
+                <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">METODO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.metodo}</span></div></li>
+                <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">OBS: </span></div>  <div className="observaciones-input"><span className="fw-medium text-secondary">{handleLinkObs(ejercicio.observaciones)}</span></div></li>
+                {
+                  !ejercicio.precalentamiento &&
+                  <li className="list-group-item d-flex align-items-center gap-2">
+                    <div className="items-ejercicio text-start">
+                      <span className="fw-semibold text-start">DESCANSO: </span>
+                    </div>  
+                    <div className="text-start d-flex align-items-center gap-2">
+                      <span className="fw-medium text-info-emphasis me-1">
+                        {ejercicio.descanso ? ejercicio.descanso : 0} min
+                      </span>
+                      <button 
+                        className="btn btn-sm btn-warning p-0 d-flex align-items-center" 
+                        onClick={() => handleIniciarTiempo(ejercicio.descanso)}
+                        title="Iniciar descanso"
+                      >
+                        <Play />
+                      </button>
+                    </div>
+                  </li>
+                }
+                
+              {/* <Cronometro key={index} index={index} descanso={ejercicio.descanso}/> */}
+               
+              </ul>
+              </div>
               {
-                !ejercicio.precalentamiento &&
-                <li className="list-group-item d-flex align-items-center gap-2"><div className="items-ejercicio text-start"><span className="fw-semibold text-start">DESCANSO: </span></div>  <div className="text-start"><span className="fw-medium text-info-emphasis">{ejercicio.descanso ? ejercicio.descanso : 0} min</span></div></li>
+                errorFetch ? <Alert type="danger" msg={errorMsg}/> : <></>
               }
-              
-            {/* <Cronometro key={index} index={index} descanso={ejercicio.descanso}/> */}
-             
-            </ul>
-            </div>
-            {
-              errorFetch ? <Alert type="danger" msg={errorMsg}/> : <></>
-            }
 
 
-          </motion.div>
+            </motion.div>
+          )}
         </div>
   )
 }

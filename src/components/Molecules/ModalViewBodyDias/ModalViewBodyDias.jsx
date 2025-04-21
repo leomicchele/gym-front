@@ -99,6 +99,23 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
     setDatosUsuario({...datosUsuario, rutina: rutinas})
   }
 
+  const handleAddTiempo = (dia) => {
+    const rutinas = datosUsuario.rutina
+    const newTiempo = {
+      tiempo: 0,
+      metodo: "",
+      observaciones: "",
+      esTiempo: true,
+    }
+    if (rutinas[dia].length === 0) {
+      rutinas[dia].ejercicios = [newTiempo]
+      setDatosUsuario({...datosUsuario, rutina: rutinas})
+      return
+    }
+    rutinas[dia].ejercicios.push(newTiempo)
+    setDatosUsuario({...datosUsuario, rutina: rutinas})
+  }
+
   const handleRemoveEjercicio = (dia, ejercicio) => {
     // Añadimos el ejercicio a la lista de ejercicios a eliminar
     setEjerciciosToRemove([...ejerciciosToRemove, ejercicio]);
@@ -263,7 +280,8 @@ export const ModalViewBodyDias = ({datosUsuario,setDatosUsuario, rutina, indexDi
                         {droppableProvided.placeholder}
                         <button className="btn btn-outline-warning d-flex align-item p-2 gap-2 w-100 mb-2 text-orange" onClick={() => handleAddEjercicio(indexDia, true)}><Add/> Calentamiento</button>
                         <button className="btn btn-outline-success d-flex align-item p-2 gap-2 w-100 mb-2" onClick={() => handleAddEjercicio(indexDia, false)}><Add/> Ejercicio</button>
-                        <button className="btn btn-outline-info d-flex align-item p-2 gap-2 w-100" onClick={() => handleAddBiserie(indexDia)}><Add/> Biserie</button>
+                        <button className="btn btn-outline-info d-flex align-item p-2 gap-2 w-100" style={{color: "rgb(12, 174, 207)"}} onClick={() => handleAddBiserie(indexDia)}><Add/> Biserie</button>
+                        <button className="btn btn-outline-secondary d-flex align-item p-2 gap-2 w-100 mt-2" onClick={() => handleAddTiempo(indexDia)}><Add/> Tiempo/Descanso</button>
                       </div>  
                     )}
                   </Droppable>        
