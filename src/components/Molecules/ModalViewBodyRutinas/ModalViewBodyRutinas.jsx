@@ -100,6 +100,11 @@ export const ModalViewBodyRutinas = ({
       color.textColor = "text-info"
       color.backGroundColor = "bg-info-subtle"
       color.customTextColor = "rgb(12 174 207)" // Color personalizado para el texto de biserie
+    } else if (datosUsuario.esTiempo) {
+      color.listColor = "list-group-item-secondary"
+      color.borderColor = "border-secondary"
+      color.textColor = "text-secondary"
+      color.backGroundColor = "bg-secondary-subtle"
     } else {
       color.listColor = "list-group-item-success"
       color.borderColor = "border-success"
@@ -424,6 +429,35 @@ export const ModalViewBodyRutinas = ({
           </div>
         </motion.li>
       );
+    } else if (datosUsuario.esTiempo) {
+      return (
+        <motion.li variants={itemVariants} className={`${styleDisplayFlex} ${isEdit ? "bg-white" : `${colorPrecalentamiento().backGroundColor}`} borde-3 ${colorPrecalentamiento().borderColor} border-top-0 border-end-0 border-start-0 `} >
+          <div className="d-flex justify-content-between align-items-center gap-2 w-100" >
+            <div onClick={() => {if(!isEdit) setShow(false)}} className="d-flex align-items-center gap-2 w-100">
+              <span className="fw-semibold">TIEMPO: </span>
+              { !isEdit ? 
+                <span className={`${colorPrecalentamiento().textColor} fw-semibold`} onClick={() => setShow(false)}>{datosUsuario.tiempo || "0"} minutos</span> 
+                : 
+                <div className="d-flex align-items-center gap-2">
+                  <input 
+                    type="number" 
+                    step="0.01" 
+                    className="form-control p-1" 
+                    value={datosUsuario.tiempo === "0" || datosUsuario.tiempo === 0 ? "" : (datosUsuario.tiempo || "")} 
+                    onChange={(e) => handleSetDatosUsuario(dia, index, "tiempo", e.target.value || "0")}
+                  />
+                  <span>minutos</span>
+                </div>
+              }
+            </div>
+            <button type="button" className="btn btn-link px-1 d-flex aling-item-center" onClick={() => setIsEdit(!isEdit)}>
+              {
+                isEdit ? <CheckOkEdit /> : <Edit />
+              }
+            </button>
+          </div>
+        </motion.li>
+      );
     } else {
       return (
         <motion.li variants={itemVariants} className={`${styleDisplayFlex} ${isEdit ? "bg-white" : `${colorPrecalentamiento().backGroundColor}`} borde-3 ${colorPrecalentamiento().borderColor} border-top-0 border-end-0 border-start-0 `} >
@@ -457,16 +491,19 @@ export const ModalViewBodyRutinas = ({
     >
       <li className={`list-group-item-action ${colorPrecalentamiento().listColor} d-flex align-items-center ${!show ? styleDisplayFlex : styleDisplayNone} `} >
           <span className="fw-semibold col-11" onClick={() => setShow(!show)}>
-            {!datosUsuario.ejercicio && !datosUsuario.ejercicio1 ? 
+            {!datosUsuario.ejercicio && !datosUsuario.ejercicio1 && (!datosUsuario.esTiempo || !datosUsuario.tiempo || datosUsuario.tiempo === "0") ? 
               <span className="text-secondary fst-italic"><ChevronRight/> {
                 datosUsuario.precalentamiento ? "Nuevo calentamiento" 
                 : datosUsuario.biserie ? "Nuevo biserie" 
+                : datosUsuario.esTiempo ? "Nuevo tiempo"
                 : "Nuevo ejercicio"
               }</span> 
               : 
               <span className={datosUsuario.biserie ? "" : colorPrecalentamiento().textColor} style={datosUsuario.biserie ? {color: colorPrecalentamiento().customTextColor} : {}}><ChevronRight/> {
                 datosUsuario.biserie ? 
                 (datosUsuario.ejercicio1 || "Ejercicio 1") + " + " + (datosUsuario.ejercicio2 || "Ejercicio 2") 
+                : datosUsuario.esTiempo ? 
+                "Tiempo: " + (datosUsuario.tiempo || "0") + " minutos"
                 : datosUsuario.ejercicio
               }</span>
             }
@@ -497,26 +534,55 @@ export const ModalViewBodyRutinas = ({
             {datosUsuario.biserie ? 
               renderBiserieDataGroups() : 
               <>
-                {renderEjercicioData("series", "SERIES")}
-                {renderEjercicioData("reps", "REPS", "text")}
+                {/* Si no es tiempo, mostrar series y reps */}
+                {!datosUsuario.esTiempo && (
+                  <>
+                    {renderEjercicioData("series", "SERIES")}
+                    {renderEjercicioData("reps", "REPS", "text")}
+                  </>
+                )}
               </>
             }
 
-            <motion.li variants={itemVariants} className={styleDisplayFlex}>
-              <span className="fw-semibold">{datosUsuario.precalentamiento ? "TIEMPO:" : "DESCANSO:"} </span>
-              {
-                !isEdit ?
-                  <>
-                    <span>{datosUsuario.descanso}</span>
-                  </>
-                :
-                <input type="number" className="form-control p-1" id="" value={datosUsuario.descanso || ""} onChange={(e) => handleSetDatosUsuario(dia, index, "descanso", e.target.value)}/>
-              }
-              <span>min</span>
-            </motion.li>
+            {/* Si es tiempo, mostrar el campo de tiempo */}
+            {datosUsuario.esTiempo ? (
+              <motion.li variants={itemVariants} className={styleDisplayFlex}>
+                <span className="fw-semibold">DURACIÓN: </span>
+                {
+                  !isEdit ?
+                    <>
+                      <span>{datosUsuario.tiempo || "0"} minutos</span>
+                    </>
+                  :
+                  <div className="d-flex align-items-center gap-2">
+                    <input 
+                      type="number" 
+                      step="0.01" 
+                      className="form-control p-1" 
+                      value={datosUsuario.tiempo === "0" || datosUsuario.tiempo === 0 ? "" : (datosUsuario.tiempo || "")} 
+                      onChange={(e) => handleSetDatosUsuario(dia, index, "tiempo", e.target.value || "0")}
+                    />
+                    <span>minutos</span>
+                  </div>
+                }
+              </motion.li>
+            ) : (
+              <motion.li variants={itemVariants} className={styleDisplayFlex}>
+                <span className="fw-semibold">{datosUsuario.precalentamiento ? "TIEMPO:" : "DESCANSO:"} </span>
+                {
+                  !isEdit ?
+                    <>
+                      <span>{datosUsuario.descanso}</span>
+                    </>
+                  :
+                  <input type="number" className="form-control p-1" id="" value={datosUsuario.descanso || ""} onChange={(e) => handleSetDatosUsuario(dia, index, "descanso", e.target.value)}/>
+                }
+                <span>min</span>
+              </motion.li>
+            )}
 
             {/* Si NO es biserie, renderizar Kilos y RIR normales */}
-            {!datosUsuario.biserie && (
+            {!datosUsuario.biserie && !datosUsuario.esTiempo && (
               <>
                 {renderEjercicioData("kilos", "KILOS")}
                 {!datosUsuario.precalentamiento && (
