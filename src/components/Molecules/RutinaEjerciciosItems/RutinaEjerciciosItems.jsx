@@ -250,7 +250,9 @@ export const RutinaEjerciciosItems = ({
   }
 
   const handleLinkObs = (observaciones) => {
-    if (observaciones.includes("https://youtu.be")) {
+    if (observaciones.includes("https://youtube.com/shorts")) {
+      return <span onClick={() => window.open(observaciones, '_blank')} className="text-primary">Mira este video</span>
+    } else if (observaciones.includes("https://youtu.be")) {
       return <span onClick={() => handleModalVideo(observaciones)} className="text-primary">Mira este video</span>
     } else {
       return <span>{observaciones}</span>
@@ -394,7 +396,7 @@ export const RutinaEjerciciosItems = ({
                   <div className="pe-2">
                     <Stopwatch/>
                   </div>
-                  <span>TIEMPO: {formatTiempo(ejercicio.tiempo)} min</span>
+                  <span>{formatTiempo(ejercicio.tiempo)} min</span>
                 </div>
                 <div className="d-flex flex-column flex-md-row align-items-center">
                   <div className="d-flex align-items-center">
